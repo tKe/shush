@@ -1,0 +1,518 @@
+FILE fqName:test fileName:/box.kt
+  CLASS ANNOTATION_CLASS name:Recorded modality:OPEN visibility:public superTypes:[kotlin.Annotation]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:test.Recorded
+    CONSTRUCTOR visibility:public returnType:test.Recorded [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS ANNOTATION_CLASS name:Recorded modality:OPEN visibility:public superTypes:[kotlin.Annotation]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Annotation
+  CLASS CLASS name:A modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:test.A
+    PROPERTY name:calls visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:calls type:kotlin.collections.MutableList<kotlin.String> visibility:private [final]
+        EXPRESSION_BODY
+          CALL 'public final fun mutableListOf <T> (): kotlin.collections.MutableList<T of kotlin.collections.mutableListOf> declared in kotlin.collections' type=kotlin.collections.MutableList<kotlin.String> origin=null
+            TYPE_ARG T: kotlin.String
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-calls> visibility:public modality:FINAL returnType:kotlin.collections.MutableList<kotlin.String>
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.A
+        correspondingProperty: PROPERTY name:calls visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:calls type:kotlin.collections.MutableList<kotlin.String> visibility:private [final]' type=kotlin.collections.MutableList<kotlin.String> origin=null
+              receiver: GET_VAR '<this>: test.A declared in test.A.<get-calls>' type=test.A origin=null
+    CONSTRUCTOR visibility:public returnType:test.A [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:A modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:f visibility:public modality:FINAL returnType:kotlin.Int
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.A
+      BLOCK_BODY
+        CALL 'public final fun plusAssign <T> (<this>: kotlin.collections.MutableCollection<in T of kotlin.collections.plusAssign>, element: T of kotlin.collections.plusAssign): kotlin.Unit declared in kotlin.collections' type=kotlin.Unit origin=PLUSEQ
+          TYPE_ARG T: kotlin.String
+          ARG <this>: CALL 'public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A' type=kotlin.collections.MutableList<kotlin.String> origin=PLUSEQ
+            ARG <this>: GET_VAR '<this>: test.A declared in test.A.f' type=test.A origin=IMPLICIT_ARGUMENT
+          ARG element: CONST String type=kotlin.String value="f"
+        RETURN type=kotlin.Nothing from='public final fun f (): kotlin.Int declared in test.A'
+          CONST Int type=kotlin.Int value=1
+    FUN name:g visibility:public modality:FINAL returnType:kotlin.String
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.A
+      VALUE_PARAMETER kind:Regular name:x index:1 type:kotlin.Int
+      BLOCK_BODY
+        CALL 'public final fun plusAssign <T> (<this>: kotlin.collections.MutableCollection<in T of kotlin.collections.plusAssign>, element: T of kotlin.collections.plusAssign): kotlin.Unit declared in kotlin.collections' type=kotlin.Unit origin=PLUSEQ
+          TYPE_ARG T: kotlin.String
+          ARG <this>: CALL 'public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A' type=kotlin.collections.MutableList<kotlin.String> origin=PLUSEQ
+            ARG <this>: GET_VAR '<this>: test.A declared in test.A.g' type=test.A origin=IMPLICIT_ARGUMENT
+          ARG element: STRING_CONCATENATION type=kotlin.String
+            CONST String type=kotlin.String value="g"
+            GET_VAR 'x: kotlin.Int declared in test.A.g' type=kotlin.Int origin=null
+        RETURN type=kotlin.Nothing from='public final fun g (x: kotlin.Int): kotlin.String declared in test.A'
+          CALL 'public open fun toString (): kotlin.String declared in kotlin.Int' type=kotlin.String origin=null
+            ARG <this>: GET_VAR 'x: kotlin.Int declared in test.A.g' type=kotlin.Int origin=null
+    FUN name:s visibility:public modality:FINAL returnType:kotlin.Int [suspend]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.A
+      BLOCK_BODY
+        CALL 'public final fun plusAssign <T> (<this>: kotlin.collections.MutableCollection<in T of kotlin.collections.plusAssign>, element: T of kotlin.collections.plusAssign): kotlin.Unit declared in kotlin.collections' type=kotlin.Unit origin=PLUSEQ
+          TYPE_ARG T: kotlin.String
+          ARG <this>: CALL 'public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A' type=kotlin.collections.MutableList<kotlin.String> origin=PLUSEQ
+            ARG <this>: GET_VAR '<this>: test.A declared in test.A.s' type=test.A origin=IMPLICIT_ARGUMENT
+          ARG element: CONST String type=kotlin.String value="s"
+        RETURN type=kotlin.Nothing from='public final fun s (): kotlin.Int declared in test.A'
+          CONST Int type=kotlin.Int value=2
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      VAR name:a type:test.A [val]
+        CONSTRUCTOR_CALL 'public constructor <init> () declared in test.A' type=test.A origin=null
+      CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+        ARG mode: CONST String type=kotlin.String value="any"
+        ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                  ARG x: CONST Int type=kotlin.Int value=1
+      CALL 'public final fun verifySuspend (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit [suspend]
+            VALUE_PARAMETER kind:ExtensionReceiver name:$this$verifySuspend index:0 type:dev.mokkery.MokkeryTemplatingScope
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun s (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                  ARG x: CONST Int type=kotlin.Int value=2
+      VAR name:scope type:dev.mokkery.AnsweringScope<kotlin.Int> [val]
+        CALL 'public final fun every <T> (block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.every>): dev.mokkery.AnsweringScope<T of dev.mokkery.every> declared in dev.mokkery' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+          TYPE_ARG T: kotlin.Int
+          ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$every index:0 type:dev.mokkery.MokkeryTemplatingScope
+              BLOCK_BODY
+                TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                  CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                    ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                    ARG x: CONST Int type=kotlin.Int value=3
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$every: dev.mokkery.MokkeryTemplatingScope): kotlin.Int declared in test.box'
+                  CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                    ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      CALL 'public final fun returns (value: T of dev.mokkery.AnsweringScope): kotlin.Unit declared in dev.mokkery.AnsweringScope' type=kotlin.Unit origin=null
+        ARG <this>: GET_VAR 'val scope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+        ARG value: CONST Int type=kotlin.Int value=5
+      VAR name:suspendScope type:dev.mokkery.AnsweringScope<kotlin.Int> [val]
+        CALL 'public final fun everySuspend <T> (block: @[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.everySuspend>): dev.mokkery.AnsweringScope<T of dev.mokkery.everySuspend> declared in dev.mokkery' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+          TYPE_ARG T: kotlin.Int
+          ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int [suspend]
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$everySuspend index:0 type:dev.mokkery.MokkeryTemplatingScope
+              BLOCK_BODY
+                TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                  CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                    ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$everySuspend: dev.mokkery.MokkeryTemplatingScope): kotlin.Int declared in test.box'
+                  CALL 'public final fun s (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                    ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      CALL 'public final fun returns (value: T of dev.mokkery.AnsweringScope): kotlin.Unit declared in dev.mokkery.AnsweringScope' type=kotlin.Unit origin=null
+        ARG <this>: GET_VAR 'val suspendScope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+        ARG value: CONST Int type=kotlin.Int value=6
+      CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+            annotations:
+              Suppress(names = ["RETURN_VALUE_NOT_USED_COERCION"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+            BLOCK_BODY
+              CALL 'public final fun repeat (times: kotlin.Int, action: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit declared in kotlin' type=kotlin.Unit origin=null
+                ARG times: CONST Int type=kotlin.Int value=2
+                ARG action: FUN_EXPR type=kotlin.Function1<kotlin.Int, kotlin.Unit> origin=LAMBDA
+                  FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+                    VALUE_PARAMETER kind:Regular name:it index:0 type:kotlin.Int
+                    BLOCK_BODY
+                      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                        CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                          ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                          ARG x: GET_VAR 'it: kotlin.Int declared in test.box.<anonymous>.<anonymous>' type=kotlin.Int origin=null
+      CALL 'public final fun run <R> (block: kotlin.Function0<R of kotlin.run>): R of kotlin.run declared in kotlin' type=kotlin.Unit origin=null
+        TYPE_ARG R: kotlin.Unit
+        ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            BLOCK_BODY
+              CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+                ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+                  FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+                    VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+                    BLOCK_BODY
+                      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                        CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                          ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      VAR name:mapped type:kotlin.collections.List<kotlin.Unit> [val]
+        CALL 'public final fun map <T, R> (<this>: kotlin.collections.Iterable<T of kotlin.collections.map>, transform: kotlin.Function1<T of kotlin.collections.map, R of kotlin.collections.map>): kotlin.collections.List<R of kotlin.collections.map> declared in kotlin.collections' type=kotlin.collections.List<kotlin.Unit> origin=null
+          TYPE_ARG T: kotlin.Int
+          TYPE_ARG R: kotlin.Unit
+          ARG <this>: CALL 'public final fun listOf <T> (element: T of kotlin.collections.listOf): kotlin.collections.List<T of kotlin.collections.listOf> declared in kotlin.collections' type=kotlin.collections.List<kotlin.Int> origin=null
+            TYPE_ARG T: kotlin.Int
+            ARG element: CONST Int type=kotlin.Int value=4
+          ARG transform: FUN_EXPR type=kotlin.Function1<kotlin.Int, kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+              VALUE_PARAMETER kind:Regular name:it index:0 type:kotlin.Int
+              BLOCK_BODY
+                CALL 'public final fun verify (mode: kotlin.Any?, block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>): kotlin.Unit declared in dev.mokkery' type=kotlin.Unit origin=null
+                  ARG block: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=LAMBDA
+                    FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+                      VALUE_PARAMETER kind:ExtensionReceiver name:$this$verify index:0 type:dev.mokkery.MokkeryTemplatingScope
+                      BLOCK_BODY
+                        TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                          CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                            ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                            ARG x: GET_VAR 'it: kotlin.Int declared in test.box.<anonymous>' type=kotlin.Int origin=null
+      CALL 'public final fun myTemplate (block: kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in test' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                  ARG x: CONST Int type=kotlin.Int value=5
+      CALL 'public final fun record (block: kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in test' type=kotlin.Unit origin=null
+        ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+            BLOCK_BODY
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun g (x: kotlin.Int): kotlin.String declared in test.A' type=kotlin.String origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+                  ARG x: CONST Int type=kotlin.Int value=6
+              TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                CALL 'public final fun f (): kotlin.Int declared in test.A' type=kotlin.Int origin=null
+                  ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      VAR name:expected type:kotlin.collections.List<kotlin.String> [val]
+        CALL 'public final fun listOf <T> (vararg elements: T of kotlin.collections.listOf): kotlin.collections.List<T of kotlin.collections.listOf> declared in kotlin.collections' type=kotlin.collections.List<kotlin.String> origin=null
+          TYPE_ARG T: kotlin.String
+          ARG elements: VARARG type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="g1"
+            CONST String type=kotlin.String value="s"
+            CONST String type=kotlin.String value="g2"
+            CONST String type=kotlin.String value="g3"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="s"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="g0"
+            CONST String type=kotlin.String value="g1"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="g4"
+            CONST String type=kotlin.String value="f"
+            CONST String type=kotlin.String value="g5"
+            CONST String type=kotlin.String value="g6"
+            CONST String type=kotlin.String value="f"
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              ARG arg0: CALL 'public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A' type=kotlin.collections.MutableList<kotlin.String> origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+              ARG arg1: GET_VAR 'val expected: kotlin.collections.List<kotlin.String> declared in test.box' type=kotlin.collections.List<kotlin.String> origin=null
+          then: RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+            STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="Fail calls: "
+              CALL 'public final fun <get-calls> (): kotlin.collections.MutableList<kotlin.String> declared in test.A' type=kotlin.collections.MutableList<kotlin.String> origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val a: test.A declared in test.box' type=test.A origin=null
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: WHEN type=kotlin.Boolean origin=OROR
+            BRANCH
+              if: WHEN type=kotlin.Boolean origin=OROR
+                BRANCH
+                  if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+                    ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                      ARG arg0: CALL 'public abstract fun <get-size> (): kotlin.Int declared in kotlin.collections.List' type=kotlin.Int origin=GET_PROPERTY
+                        ARG <this>: GET_VAR 'val mapped: kotlin.collections.List<kotlin.Unit> declared in test.box' type=kotlin.collections.List<kotlin.Unit> origin=null
+                      ARG arg1: CONST Int type=kotlin.Int value=1
+                  then: CONST Boolean type=kotlin.Boolean value=true
+                BRANCH
+                  if: CONST Boolean type=kotlin.Boolean value=true
+                  then: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+                    ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                      ARG arg0: CALL 'public final fun <get-recorded> (): T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope' type=kotlin.Int origin=GET_PROPERTY
+                        ARG <this>: GET_VAR 'val scope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+                      ARG arg1: CONST Int type=kotlin.Int value=1
+              then: CONST Boolean type=kotlin.Boolean value=true
+            BRANCH
+              if: CONST Boolean type=kotlin.Boolean value=true
+              then: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+                ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                  ARG arg0: CALL 'public final fun <get-answer> (): T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope' type=kotlin.Int? origin=GET_PROPERTY
+                    ARG <this>: GET_VAR 'val scope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+                  ARG arg1: CONST Int type=kotlin.Int value=5
+          then: RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+            STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="Fail every: "
+              CALL 'public final fun <get-recorded> (): T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope' type=kotlin.Int origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val scope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+              CONST String type=kotlin.String value=" "
+              CALL 'public final fun <get-answer> (): T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope' type=kotlin.Int? origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val scope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: WHEN type=kotlin.Boolean origin=OROR
+            BRANCH
+              if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+                ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                  ARG arg0: CALL 'public final fun <get-recorded> (): T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope' type=kotlin.Int origin=GET_PROPERTY
+                    ARG <this>: GET_VAR 'val suspendScope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+                  ARG arg1: CONST Int type=kotlin.Int value=2
+              then: CONST Boolean type=kotlin.Boolean value=true
+            BRANCH
+              if: CONST Boolean type=kotlin.Boolean value=true
+              then: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+                ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                  ARG arg0: CALL 'public final fun <get-answer> (): T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope' type=kotlin.Int? origin=GET_PROPERTY
+                    ARG <this>: GET_VAR 'val suspendScope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+                  ARG arg1: CONST Int type=kotlin.Int value=6
+          then: RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+            STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="Fail everySuspend: "
+              CALL 'public final fun <get-recorded> (): T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope' type=kotlin.Int origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val suspendScope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+              CONST String type=kotlin.String value=" "
+              CALL 'public final fun <get-answer> (): T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope' type=kotlin.Int? origin=GET_PROPERTY
+                ARG <this>: GET_VAR 'val suspendScope: dev.mokkery.AnsweringScope<kotlin.Int> declared in test.box' type=dev.mokkery.AnsweringScope<kotlin.Int> origin=null
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+        CONST String type=kotlin.String value="OK"
+  FUN name:myTemplate visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:Regular name:block index:0 type:kotlin.Function0<kotlin.Unit>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun myTemplate (block: kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in test'
+        CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=kotlin.Unit origin=INVOKE
+          ARG <this>: GET_VAR 'block: kotlin.Function0<kotlin.Unit> declared in test.myTemplate' type=kotlin.Function0<kotlin.Unit> origin=VARIABLE_AS_FUNCTION
+  FUN name:record visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:Regular name:block index:0 type:kotlin.Function0<kotlin.Unit>
+      annotations:
+        Recorded
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun record (block: kotlin.Function0<kotlin.Unit>): kotlin.Unit declared in test'
+        CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=kotlin.Unit origin=INVOKE
+          ARG <this>: GET_VAR 'block: kotlin.Function0<kotlin.Unit> declared in test.record' type=kotlin.Function0<kotlin.Unit> origin=VARIABLE_AS_FUNCTION
+FILE fqName:dev.mokkery fileName:/mokkery.kt
+  CLASS CLASS name:AnsweringScope modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    PROPERTY name:recorded visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:recorded type:T of dev.mokkery.AnsweringScope visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'recorded: T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope.<init>' type=T of dev.mokkery.AnsweringScope origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-recorded> visibility:public modality:FINAL returnType:T of dev.mokkery.AnsweringScope
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope>
+        correspondingProperty: PROPERTY name:recorded visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-recorded> (): T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:recorded type:T of dev.mokkery.AnsweringScope visibility:private [final]' type=T of dev.mokkery.AnsweringScope origin=null
+              receiver: GET_VAR '<this>: dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> declared in dev.mokkery.AnsweringScope.<get-recorded>' type=dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> origin=null
+    PROPERTY name:answer visibility:public modality:FINAL [var]
+      FIELD PROPERTY_BACKING_FIELD name:answer type:T of dev.mokkery.AnsweringScope? visibility:private
+        EXPRESSION_BODY
+          CONST Null type=kotlin.Nothing? value=null
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-answer> visibility:public modality:FINAL returnType:T of dev.mokkery.AnsweringScope?
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope>
+        correspondingProperty: PROPERTY name:answer visibility:public modality:FINAL [var]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-answer> (): T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:answer type:T of dev.mokkery.AnsweringScope? visibility:private' type=T of dev.mokkery.AnsweringScope? origin=null
+              receiver: GET_VAR '<this>: dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> declared in dev.mokkery.AnsweringScope.<get-answer>' type=dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> origin=null
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<set-answer> visibility:public modality:FINAL returnType:kotlin.Unit
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope>
+        VALUE_PARAMETER kind:Regular name:<set-?> index:1 type:T of dev.mokkery.AnsweringScope?
+        correspondingProperty: PROPERTY name:answer visibility:public modality:FINAL [var]
+        BLOCK_BODY
+          SET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:answer type:T of dev.mokkery.AnsweringScope? visibility:private' type=kotlin.Unit origin=null
+            receiver: GET_VAR '<this>: dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> declared in dev.mokkery.AnsweringScope.<set-answer>' type=dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> origin=null
+            value: GET_VAR '<set-?>: T of dev.mokkery.AnsweringScope? declared in dev.mokkery.AnsweringScope.<set-answer>' type=T of dev.mokkery.AnsweringScope? origin=null
+    CONSTRUCTOR visibility:public returnType:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> [primary]
+      VALUE_PARAMETER kind:Regular name:recorded index:0 type:T of dev.mokkery.AnsweringScope
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:AnsweringScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:returns visibility:public modality:FINAL returnType:kotlin.Unit [infix]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope>
+      VALUE_PARAMETER kind:Regular name:value index:1 type:T of dev.mokkery.AnsweringScope
+      BLOCK_BODY
+        CALL 'public final fun <set-answer> (<set-?>: T of dev.mokkery.AnsweringScope?): kotlin.Unit declared in dev.mokkery.AnsweringScope' type=kotlin.Unit origin=EQ
+          ARG <this>: GET_VAR '<this>: dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> declared in dev.mokkery.AnsweringScope.returns' type=dev.mokkery.AnsweringScope<T of dev.mokkery.AnsweringScope> origin=IMPLICIT_ARGUMENT
+          ARG <set-?>: GET_VAR 'value: T of dev.mokkery.AnsweringScope declared in dev.mokkery.AnsweringScope.returns' type=T of dev.mokkery.AnsweringScope origin=null
+  CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.mokkery.MokkeryTemplatingScope
+    CONSTRUCTOR visibility:private returnType:dev.mokkery.MokkeryTemplatingScope [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+  FUN name:every visibility:public modality:FINAL returnType:dev.mokkery.AnsweringScope<T of dev.mokkery.every>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:block index:0 type:@[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.every>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun every <T> (block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.every>): dev.mokkery.AnsweringScope<T of dev.mokkery.every> declared in dev.mokkery'
+        CONSTRUCTOR_CALL 'public constructor <init> (recorded: T of dev.mokkery.AnsweringScope) declared in dev.mokkery.AnsweringScope' type=dev.mokkery.AnsweringScope<T of dev.mokkery.every> origin=null
+          TYPE_ARG (of class) T: T of dev.mokkery.every
+          ARG recorded: CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 declared in kotlin.Function1' type=T of dev.mokkery.every origin=INVOKE
+            ARG <this>: GET_VAR 'block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.every> declared in dev.mokkery.every' type=@[ExtensionFunctionType] @[Templating] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.every> origin=VARIABLE_AS_FUNCTION
+            ARG p1: GET_OBJECT 'CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=dev.mokkery.MokkeryTemplatingScope
+  FUN name:everySuspend visibility:public modality:FINAL returnType:dev.mokkery.AnsweringScope<T of dev.mokkery.everySuspend>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:block index:0 type:@[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.everySuspend>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun everySuspend <T> (block: @[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.everySuspend>): dev.mokkery.AnsweringScope<T of dev.mokkery.everySuspend> declared in dev.mokkery'
+        CONSTRUCTOR_CALL 'public constructor <init> (recorded: T of dev.mokkery.AnsweringScope) declared in dev.mokkery.AnsweringScope' type=dev.mokkery.AnsweringScope<T of dev.mokkery.everySuspend> origin=null
+          TYPE_ARG (of class) T: T of dev.mokkery.everySuspend
+          ARG recorded: CALL 'public final fun runSuspend <T> (block: kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend>): T of dev.mokkery.runSuspend declared in dev.mokkery' type=T of dev.mokkery.everySuspend origin=null
+            TYPE_ARG T: T of dev.mokkery.everySuspend
+            ARG block: FUN_EXPR type=kotlin.coroutines.SuspendFunction0<T of dev.mokkery.everySuspend> origin=LAMBDA
+              FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:T of dev.mokkery.everySuspend [suspend]
+                BLOCK_BODY
+                  RETURN type=kotlin.Nothing from='local final fun <anonymous> (): T of dev.mokkery.everySuspend declared in dev.mokkery.everySuspend'
+                    CALL 'public abstract fun invoke (p1: P1 of kotlin.coroutines.SuspendFunction1): R of kotlin.coroutines.SuspendFunction1 declared in kotlin.coroutines.SuspendFunction1' type=T of dev.mokkery.everySuspend origin=null
+                      ARG <this>: GET_VAR 'block: @[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.everySuspend> declared in dev.mokkery.everySuspend' type=@[ExtensionFunctionType] @[Templating] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, T of dev.mokkery.everySuspend> origin=VARIABLE_AS_FUNCTION
+                      ARG p1: GET_OBJECT 'CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=dev.mokkery.MokkeryTemplatingScope
+  FUN name:runSuspend visibility:public modality:FINAL returnType:T of dev.mokkery.runSuspend
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:block index:0 type:kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend>
+    BLOCK_BODY
+      VAR name:result type:kotlin.Result<T of dev.mokkery.runSuspend>? [var]
+        CONST Null type=kotlin.Nothing? value=null
+      CALL 'public final fun startCoroutine <T> (<this>: kotlin.coroutines.SuspendFunction0<T of kotlin.coroutines.startCoroutine>, completion: kotlin.coroutines.Continuation<T of kotlin.coroutines.startCoroutine>): kotlin.Unit declared in kotlin.coroutines' type=kotlin.Unit origin=null
+        TYPE_ARG T: T of dev.mokkery.runSuspend
+        ARG <this>: GET_VAR 'block: kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend> declared in dev.mokkery.runSuspend' type=kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend> origin=null
+        ARG completion: CALL 'public final fun Continuation <T> (context: kotlin.coroutines.CoroutineContext, resumeWith: kotlin.Function1<kotlin.Result<T of kotlin.coroutines.Continuation>, kotlin.Unit>): kotlin.coroutines.Continuation<T of kotlin.coroutines.Continuation> declared in kotlin.coroutines' type=kotlin.coroutines.Continuation<T of dev.mokkery.runSuspend> origin=null
+          TYPE_ARG T: T of dev.mokkery.runSuspend
+          ARG context: GET_OBJECT 'CLASS IR_EXTERNAL_DECLARATION_STUB OBJECT name:EmptyCoroutineContext modality:FINAL visibility:public superTypes:[kotlin.coroutines.CoroutineContext; java.io.Serializable]' type=kotlin.coroutines.EmptyCoroutineContext
+          ARG resumeWith: FUN_EXPR type=kotlin.Function1<kotlin.Result<T of dev.mokkery.runSuspend>, kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+              VALUE_PARAMETER kind:Regular name:it index:0 type:kotlin.Result<T of dev.mokkery.runSuspend>
+              BLOCK_BODY
+                SET_VAR 'var result: kotlin.Result<T of dev.mokkery.runSuspend>? declared in dev.mokkery.runSuspend' type=kotlin.Unit origin=EQ
+                  GET_VAR 'it: kotlin.Result<T of dev.mokkery.runSuspend> declared in dev.mokkery.runSuspend.<anonymous>' type=kotlin.Result<T of dev.mokkery.runSuspend> origin=null
+      RETURN type=kotlin.Nothing from='public final fun runSuspend <T> (block: kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend>): T of dev.mokkery.runSuspend declared in dev.mokkery'
+        CALL 'public final fun getOrThrow <T> (<this>: kotlin.Result<T of kotlin.getOrThrow>): T of kotlin.getOrThrow declared in kotlin' type=T of dev.mokkery.runSuspend origin=null
+          TYPE_ARG T: T of dev.mokkery.runSuspend
+          ARG <this>: CALL 'public final fun CHECK_NOT_NULL <T0> (arg0: T0 of kotlin.internal.ir.CHECK_NOT_NULL?): {T0 of kotlin.internal.ir.CHECK_NOT_NULL & Any} declared in kotlin.internal.ir' type=kotlin.Result<T of dev.mokkery.runSuspend> origin=EXCLEXCL
+            TYPE_ARG T0: kotlin.Result<T of dev.mokkery.runSuspend>
+            ARG arg0: GET_VAR 'var result: kotlin.Result<T of dev.mokkery.runSuspend>? declared in dev.mokkery.runSuspend' type=kotlin.Result<T of dev.mokkery.runSuspend>? origin=null
+  FUN name:verify visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:Regular name:mode index:0 type:kotlin.Any?
+      EXPRESSION_BODY
+        CONST Null type=kotlin.Nothing? value=null
+    VALUE_PARAMETER kind:Regular name:block index:1 type:@[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>
+    BLOCK_BODY
+      CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 declared in kotlin.Function1' type=kotlin.Unit origin=INVOKE
+        ARG <this>: GET_VAR 'block: @[Templating] @[ExtensionFunctionType] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> declared in dev.mokkery.verify' type=@[ExtensionFunctionType] @[Templating] kotlin.Function1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=VARIABLE_AS_FUNCTION
+        ARG p1: GET_OBJECT 'CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=dev.mokkery.MokkeryTemplatingScope
+  FUN name:verifySuspend visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:Regular name:mode index:0 type:kotlin.Any?
+      EXPRESSION_BODY
+        CONST Null type=kotlin.Nothing? value=null
+    VALUE_PARAMETER kind:Regular name:block index:1 type:@[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit>
+    BLOCK_BODY
+      CALL 'public final fun runSuspend <T> (block: kotlin.coroutines.SuspendFunction0<T of dev.mokkery.runSuspend>): T of dev.mokkery.runSuspend declared in dev.mokkery' type=kotlin.Unit origin=null
+        TYPE_ARG T: kotlin.Unit
+        ARG block: FUN_EXPR type=kotlin.coroutines.SuspendFunction0<kotlin.Unit> origin=LAMBDA
+          FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit [suspend]
+            BLOCK_BODY
+              CALL 'public abstract fun invoke (p1: P1 of kotlin.coroutines.SuspendFunction1): R of kotlin.coroutines.SuspendFunction1 declared in kotlin.coroutines.SuspendFunction1' type=kotlin.Unit origin=null
+                ARG <this>: GET_VAR 'block: @[Templating] @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> declared in dev.mokkery.verifySuspend' type=@[ExtensionFunctionType] @[Templating] kotlin.coroutines.SuspendFunction1<dev.mokkery.MokkeryTemplatingScope, kotlin.Unit> origin=VARIABLE_AS_FUNCTION
+                ARG p1: GET_OBJECT 'CLASS OBJECT name:MokkeryTemplatingScope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=dev.mokkery.MokkeryTemplatingScope
+FILE fqName:dev.mokkery.internal.annotations fileName:/templating.kt
+  CLASS ANNOTATION_CLASS name:Templating modality:OPEN visibility:public superTypes:[kotlin.Annotation]
+    annotations:
+      Target(allowedTargets = [AnnotationTarget.TYPE] type=kotlin.Array<out kotlin.annotation.AnnotationTarget> varargElementType=kotlin.annotation.AnnotationTarget)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:dev.mokkery.internal.annotations.Templating
+    CONSTRUCTOR visibility:public returnType:dev.mokkery.internal.annotations.Templating [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS ANNOTATION_CLASS name:Templating modality:OPEN visibility:public superTypes:[kotlin.Annotation]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Annotation

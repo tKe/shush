@@ -1,0 +1,44 @@
+FILE: lib.kt
+    package lib
+
+    public final annotation class Legacy : R|kotlin/Annotation| {
+        public constructor(): R|lib/Legacy| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/Deprecated|(message = String(old) [evaluated = String(old)]) public final fun old(): R|kotlin/Int| {
+        ^old Int(1)
+    }
+    public final fun quietly(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+        ^quietly R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|kotlin/Unit|>|()
+    }
+FILE: Gen.kt
+    @FILE:R|kotlin/Suppress|(names = vararg(String(warnings)))
+    package gen
+
+    public final fun generated(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|lib/old|()
+    }
+FILE: UserSuppress.kt
+    @FILE:R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(warnings)) [evaluated = vararg(String(DEPRECATION), String(warnings))])
+    package gen
+
+    public final fun userSuppress(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|lib/old|()
+    }
+FILE: main.kt
+    package main
+
+    public final fun notGenerated(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|lib/old|()
+    }
+    @R|lib/Legacy|() @R|kotlin/Suppress|(names = vararg(String(warnings))) public final fun legacy(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|lib/old|()
+    }
+    public final fun block(): R|kotlin/Unit| {
+        R|lib/quietly|(<L> = quietly@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(warnings)))  {
+            lval x: R|kotlin/Int| = R|lib/old|()
+        }
+        )
+    }

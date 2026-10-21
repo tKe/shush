@@ -1,0 +1,45 @@
+FILE: test.kt
+    package test
+
+    public final annotation class Unused : R|kotlin/Annotation| {
+        public constructor(): R|test/Unused| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|)]) public final annotation class Legacy : R|kotlin/Annotation| {
+        public constructor(): R|test/Legacy| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/Deprecated|(message = String(old) [evaluated = String(old)]) public final fun old(): R|kotlin/Int| {
+        ^old Int(1)
+    }
+    public final fun f(): R|kotlin/Int| {
+        ^f Int(1)
+    }
+    @R|test/Unused|() public final fun template(@R|test/Legacy|() block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun plain(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun merged(): R|kotlin/Unit| {
+        R|test/template|(<L> = template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(UNUSED_VARIABLE), String(DEPRECATION)))  {
+            lval x: R|kotlin/Int| = R|test/old|()
+            R|test/f|()
+            R|test/f|()
+        }
+        )
+        R|test/template|(<L> = @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE)) [evaluated = vararg(String(UNUSED_VARIABLE))]) template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(UNUSED_VARIABLE), String(DEPRECATION)))  {
+            lval x: R|kotlin/Int| = R|test/old|()
+            R|test/f|()
+        }
+        )
+    }
+    public final fun notMerged(): R|kotlin/Unit| {
+        R|test/plain|(<L> = plain@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            lval x: R|kotlin/Int| = R|test/old|()
+            R|test/f|()
+        }
+        )
+    }

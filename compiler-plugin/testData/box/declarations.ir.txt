@@ -1,0 +1,166 @@
+FILE fqName:test fileName:/box.kt
+  CLASS CLASS name:GeneratedClass modality:FINAL visibility:public superTypes:[kotlin.Any]
+    annotations:
+      Generated
+      Suppress(names = ["UNUSED_VARIABLE", "DEPRECATION"] type=kotlin.Array<kotlin.String> varargElementType=kotlin.String)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:test.GeneratedClass
+    PROPERTY name:value visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:value type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-value> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.GeneratedClass
+        correspondingProperty: PROPERTY name:value visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-value> (): kotlin.Int declared in test.GeneratedClass'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:value type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: test.GeneratedClass declared in test.GeneratedClass.<get-value>' type=test.GeneratedClass origin=null
+    CONSTRUCTOR visibility:public returnType:test.GeneratedClass [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:GeneratedClass modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:k visibility:public modality:FINAL returnType:kotlin.String
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:test.GeneratedClass
+      BLOCK_BODY
+        VAR name:unused type:kotlin.Int [val]
+          CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+        RETURN type=kotlin.Nothing from='public final fun k (): kotlin.String declared in test.GeneratedClass'
+          CONST String type=kotlin.String value="K"
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      FUN LOCAL_FUNCTION name:local visibility:local modality:FINAL returnType:kotlin.Int
+        annotations:
+          Generated
+          Suppress(names = ["UNUSED_VARIABLE", "DEPRECATION"] type=kotlin.Array<kotlin.String> varargElementType=kotlin.String)
+        BLOCK_BODY
+          VAR name:unused type:kotlin.Int [val]
+            CONST Int type=kotlin.Int value=0
+          RETURN type=kotlin.Nothing from='local final fun local (): kotlin.Int declared in test.box'
+            CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              ARG arg0: CALL 'public final fun plus (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=PLUS
+                ARG <this>: CALL 'public final fun plus (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=PLUS
+                  ARG <this>: CALL 'public final fun plus (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=PLUS
+                    ARG <this>: CALL 'public final fun <get-value> (): kotlin.Int declared in test.GeneratedClass' type=kotlin.Int origin=GET_PROPERTY
+                      ARG <this>: CONSTRUCTOR_CALL 'public constructor <init> () declared in test.GeneratedClass' type=test.GeneratedClass origin=null
+                    ARG other: CALL 'local final fun local (): kotlin.Int declared in test.box' type=kotlin.Int origin=null
+                  ARG other: CALL 'public final fun userSuppressed (): kotlin.Int declared in test' type=kotlin.Int origin=null
+                ARG other: CALL 'public final fun userSuppressedNamed (): kotlin.Int declared in test' type=kotlin.Int origin=null
+              ARG arg1: CONST Int type=kotlin.Int value=4
+          then: RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+            CONST String type=kotlin.String value="Fail: values"
+      VAR name:annotations type:kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> [val]
+        CALL 'public final fun toList <T> (<this>: kotlin.Array<out T of kotlin.collections.toList>): kotlin.collections.List<T of kotlin.collections.toList> declared in kotlin.collections' type=kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> origin=null
+          TYPE_ARG T: @[FlexibleNullability] kotlin.Annotation?
+          ARG <this>: TYPE_OP type=@[FlexibleArrayElementVariance] kotlin.Array<out @[FlexibleNullability] kotlin.Annotation?> origin=IMPLICIT_NOTNULL typeOperand=@[FlexibleArrayElementVariance] kotlin.Array<out @[FlexibleNullability] kotlin.Annotation?>
+            CALL 'public open fun getAnnotations (): @[FlexibleNullability] @[FlexibleArrayElementVariance] kotlin.Array<out @[FlexibleNullability] kotlin.Annotation?>? declared in java.lang.reflect.Method' type=@[FlexibleNullability] @[FlexibleArrayElementVariance] kotlin.Array<out @[FlexibleNullability] kotlin.Annotation?>? origin=GET_PROPERTY
+              ARG <this>: TYPE_OP type=java.lang.reflect.Method origin=IMPLICIT_NOTNULL typeOperand=java.lang.reflect.Method
+                CALL 'public open fun getMethod (p0: @[FlexibleNullability] kotlin.String?, vararg p1: @[FlexibleNullability] java.lang.Class<*>?): @[FlexibleNullability] java.lang.reflect.Method? declared in java.lang.Class' type=@[FlexibleNullability] java.lang.reflect.Method? origin=null
+                  ARG <this>: TYPE_OP type=java.lang.Class<*> origin=IMPLICIT_NOTNULL typeOperand=java.lang.Class<*>
+                    CALL 'public open fun forName (p0: @[FlexibleNullability] kotlin.String?): @[FlexibleNullability] java.lang.Class<*>? declared in java.lang.Class' type=@[FlexibleNullability] java.lang.Class<*>? origin=null
+                      ARG p0: CONST String type=kotlin.String value="test.BoxKt"
+                  ARG p0: CONST String type=kotlin.String value="userSuppressed"
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: TYPE_OP type=kotlin.Boolean origin=NOT_INSTANCEOF typeOperand=test.Unused
+            CALL 'public final fun singleOrNull <T> (<this>: kotlin.collections.List<T of kotlin.collections.singleOrNull>): T of kotlin.collections.singleOrNull? declared in kotlin.collections' type=kotlin.Annotation? origin=null
+              TYPE_ARG T: @[FlexibleNullability] kotlin.Annotation?
+              ARG <this>: GET_VAR 'val annotations: kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> declared in test.box' type=kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> origin=null
+          then: RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+            STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="Fail: annotations "
+              GET_VAR 'val annotations: kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> declared in test.box' type=kotlin.collections.List<@[FlexibleNullability] kotlin.Annotation?> origin=null
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in test'
+        CALL 'public final fun plus (other: kotlin.Any?): kotlin.String declared in kotlin.String' type=kotlin.String origin=PLUS
+          ARG <this>: CALL 'public final fun generated (): kotlin.String declared in test' type=kotlin.String origin=null
+          ARG other: CALL 'public final fun k (): kotlin.String declared in test.GeneratedClass' type=kotlin.String origin=null
+            ARG <this>: CONSTRUCTOR_CALL 'public constructor <init> () declared in test.GeneratedClass' type=test.GeneratedClass origin=null
+  FUN name:userSuppressed visibility:public modality:FINAL returnType:kotlin.Int
+    annotations:
+      Unused
+      Suppress(names = ["DEPRECATION", "UNUSED_VARIABLE"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+    BLOCK_BODY
+      VAR name:unused type:kotlin.Int [val]
+        CONST Int type=kotlin.Int value=2
+      RETURN type=kotlin.Nothing from='public final fun userSuppressed (): kotlin.Int declared in test'
+        CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+  FUN name:userSuppressedNamed visibility:public modality:FINAL returnType:kotlin.Int
+    annotations:
+      Unused
+      Suppress(names = ["DEPRECATION", "UNUSED_VARIABLE"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun userSuppressedNamed (): kotlin.Int declared in test'
+        CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+FILE fqName:test fileName:/generated/Gen.kt
+  annotations:
+    Suppress(names = ["REDUNDANT_VISIBILITY_MODIFIER", "UNUSED_VARIABLE", "DEPRECATION"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+    JvmName(name = "GeneratedKt")
+  FUN name:generated visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      VAR name:unused type:kotlin.Int [val]
+        CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
+      RETURN type=kotlin.Nothing from='public final fun generated (): kotlin.String declared in test'
+        CONST String type=kotlin.String value="O"
+FILE fqName:test fileName:/lib.kt
+  CLASS ANNOTATION_CLASS name:Generated modality:OPEN visibility:public superTypes:[kotlin.Annotation]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:test.Generated
+    CONSTRUCTOR visibility:public returnType:test.Generated [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS ANNOTATION_CLASS name:Generated modality:OPEN visibility:public superTypes:[kotlin.Annotation]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Annotation
+  CLASS ANNOTATION_CLASS name:Unused modality:OPEN visibility:public superTypes:[kotlin.Annotation]
+    annotations:
+      Retention(value = AnnotationRetention.RUNTIME)
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:test.Unused
+    CONSTRUCTOR visibility:public returnType:test.Unused [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS ANNOTATION_CLASS name:Unused modality:OPEN visibility:public superTypes:[kotlin.Annotation]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Annotation
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Annotation
+  FUN name:old visibility:public modality:FINAL returnType:kotlin.Int
+    annotations:
+      Deprecated(message = "old", replaceWith = <null>, level = <null>)
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun old (): kotlin.Int declared in test'
+        CONST Int type=kotlin.Int value=1

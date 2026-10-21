@@ -1,0 +1,72 @@
+FILE: lib.kt
+    package test
+
+    public final annotation class Generated : R|kotlin/Annotation| {
+        public constructor(): R|test/Generated| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/annotation/Retention|(value = Q|kotlin/annotation/AnnotationRetention|.R|kotlin/annotation/AnnotationRetention.RUNTIME| [evaluated = Q|kotlin/annotation/AnnotationRetention|.R|kotlin/annotation/AnnotationRetention.RUNTIME|]) public final annotation class Unused : R|kotlin/Annotation| {
+        public constructor(): R|test/Unused| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/Deprecated|(message = String(old) [evaluated = String(old)]) public final fun old(): R|kotlin/Int| {
+        ^old Int(1)
+    }
+FILE: Gen.kt
+    @FILE:R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER), String(UNUSED_VARIABLE), String(DEPRECATION)) [evaluated = vararg(String(REDUNDANT_VISIBILITY_MODIFIER), String(UNUSED_VARIABLE), String(DEPRECATION))])
+    @FILE:R|kotlin/jvm/JvmName|(name = String(GeneratedKt) [evaluated = String(GeneratedKt)])
+    package test
+
+    public final fun generated(): R|kotlin/String| {
+        lval unused: R|kotlin/Int| = R|test/old|()
+        ^generated String(O)
+    }
+FILE: box.kt
+    package test
+
+    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final class GeneratedClass : R|kotlin/Any| {
+        public constructor(): R|test/GeneratedClass| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val value: R|kotlin/Int| = R|test/old|()
+            public get(): R|kotlin/Int|
+
+        public final fun k(): R|kotlin/String| {
+            lval unused: R|kotlin/Int| = R|test/old|()
+            ^k String(K)
+        }
+
+    }
+    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(UNUSED_VARIABLE)) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressed(): R|kotlin/Int| {
+        lval unused: R|kotlin/Int| = Int(2)
+        ^userSuppressed R|test/old|()
+    }
+    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION), String(UNUSED_VARIABLE))) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressedNamed(): R|kotlin/Int| {
+        ^userSuppressedNamed R|test/old|()
+    }
+    public final fun box(): R|kotlin/String| {
+        @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final fun local(): R|kotlin/Int| {
+            lval unused: R|kotlin/Int| = Int(0)
+            ^local R|test/old|()
+        }
+
+        when () {
+            !=(R|test/GeneratedClass.GeneratedClass|().R|test/GeneratedClass.value|.R|kotlin/Int.plus|(R|<local>/local|()).R|kotlin/Int.plus|(R|test/userSuppressed|()).R|kotlin/Int.plus|(R|test/userSuppressedNamed|()), Int(4)) ->  {
+                ^box String(Fail: values)
+            }
+        }
+
+        lval annotations: R|kotlin/collections/List<kotlin/Annotation!>| = Q|java/lang/Class|.R|java/lang/Class.forName*s|(String(test.BoxKt)).R|SubstitutionOverride<java/lang/Class.getMethod: R|java/lang/reflect/Method!|>|(String(userSuppressed)).R|java/lang/reflect/AccessibleObject.annotations|.R|kotlin/collections/toList|<R|kotlin/Annotation!|>()
+        when () {
+            (R|<local>/annotations|.R|kotlin/collections/singleOrNull|<R|kotlin/Annotation!|>() !is R|test/Unused|) ->  {
+                ^box <strcat>(String(Fail: annotations ), R|<local>/annotations|)
+            }
+        }
+
+        ^box R|test/generated|().R|kotlin/String.plus|(R|test/GeneratedClass.GeneratedClass|().R|test/GeneratedClass.k|())
+    }

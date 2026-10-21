@@ -1,0 +1,111 @@
+package io.github.tke.shush.fir
+
+import io.github.tke.shush.ShushConfiguration
+import io.github.tke.shush.fir.Suppressions.suppress
+import org.jetbrains.kotlin.fir.FirSession
+import org.jetbrains.kotlin.fir.SessionAndScopeSessionHolder
+import org.jetbrains.kotlin.fir.declarations.FirValueParameter
+import org.jetbrains.kotlin.fir.declarations.toAnnotationClassId
+import org.jetbrains.kotlin.fir.expressions.FirAnnotation
+import org.jetbrains.kotlin.fir.expressions.FirAnonymousFunctionExpression
+import org.jetbrains.kotlin.fir.expressions.FirExpression
+import org.jetbrains.kotlin.fir.expressions.FirFunctionCall
+import org.jetbrains.kotlin.fir.expressions.FirVarargArgumentsExpression
+import org.jetbrains.kotlin.fir.expressions.resolvedArgumentMapping
+import org.jetbrains.kotlin.fir.expressions.unwrapArgument
+import org.jetbrains.kotlin.fir.extensions.FirExpressionResolutionExtension
+import org.jetbrains.kotlin.fir.references.toResolvedCallableSymbol
+import org.jetbrains.kotlin.fir.resolve.calls.ImplicitExtensionReceiverValue
+import org.jetbrains.kotlin.fir.resolve.calls.candidate.FirNamedReferenceWithCandidate
+import org.jetbrains.kotlin.fir.symbols.FirBasedSymbol
+import org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol
+import org.jetbrains.kotlin.fir.types.ConeKotlinType
+import org.jetbrains.kotlin.fir.types.arrayElementType
+import org.jetbrains.kotlin.fir.types.coneType
+import org.jetbrains.kotlin.fir.types.customAnnotations
+
+/**
+ * `calls`, `annotatedParameters` and `annotatedFunctions` targets.
+ *
+ * Hooks [FirExpressionResolutionExtension], which runs for each call right after it's resolved during body
+ * resolution, before checkers. Never adds implicit receivers.
+ *
+ * The `@Suppress` goes on the lambda's body block, which source can't annotate, so it can't clash with a user's
+ * `@Suppress` on the lambda (`REPEATED_ANNOTATION`).
+ */
+class FirLambdaSuppressor(
+    session: FirSession,
+    private val configuration: ShushConfiguration,
+) : FirExpressionResolutionExtension(session) {
+    companion object {
+        fun getFactory(configuration: ShushConfiguration): Factory =
+            Factory { session -> FirLambdaSuppressor(session, configuration) }
+    }
+
+    override fun addNewImplicitReceivers(
+        functionCall: FirFunctionCall,
+        sessionHolder: SessionAndScopeSessionHolder,
+        containingCallableSymbol: FirBasedSymbol<*>,
+    ): List<ImplicitExtensionReceiverValue> {
+        val callee = functionCall.calleeSymbol() ?: return emptyList()
+        val calleeDiagnostics = callee.selectedDiagnostics()
+
+        for ((argument, parameter) in functionCall.lambdaArguments()) {
+            val diagnostics = calleeDiagnostics + parameter?.selectedDiagnostics().orEmpty()
+            val body = argument.anonymousFunction.body ?: continue
+            body.suppress(diagnostics, session, anchor = argument.anonymousFunction.source)
+        }
+        return emptyList()
+    }
+
+    private fun FirCallableSymbol<*>.selectedDiagnostics(): Set<String> = buildSet {
+        callableId?.asSingleFqName()?.let { configuration.callDiagnostics[it]?.let(::addAll) }
+        if (configuration.annotatedFunctionDiagnostics.isNotEmpty()) {
+            for (classId in resolvedAnnotationClassIds) configuration.annotatedFunctionDiagnostics[classId]?.let(::addAll)
+        }
+    }
+
+    private fun FirValueParameter.selectedDiagnostics(): Set<String> {
+        if (configuration.annotatedParameterDiagnostics.isEmpty()) return emptySet()
+        val type = returnTypeRef.coneType
+        return buildSet {
+            annotations.forEach { addAll(it.selectedDiagnostics()) }
+            addAll(type.typeAnnotationDiagnostics())
+            // `vararg blocks: @Ann () -> Unit` is typed `Array<out @Ann () -> Unit>`
+            if (isVararg) type.arrayElementType()?.let { addAll(it.typeAnnotationDiagnostics()) }
+        }
+    }
+
+    private fun ConeKotlinType.typeAnnotationDiagnostics(): Set<String> =
+        customAnnotations.flatMapTo(mutableSetOf()) { it.selectedDiagnostics() }
+
+    private fun FirAnnotation.selectedDiagnostics(): Set<String> =
+        configuration.annotatedParameterDiagnostics[toAnnotationClassId(session)].orEmpty()
+
+    private fun FirFunctionCall.calleeSymbol(): FirCallableSymbol<*>? =
+        calleeReference.toResolvedCallableSymbol()
+            ?: (calleeReference as? FirNamedReferenceWithCandidate)?.candidateSymbol as? FirCallableSymbol<*>
+
+    /**
+     * Lambda arguments with their parameter. A call whose completion was postponed (e.g. a `verify { }` as the
+     * last statement of another lambda) has no resolved mapping yet, so the candidate's is used.
+     */
+    private fun FirFunctionCall.lambdaArguments(): List<Pair<FirAnonymousFunctionExpression, FirValueParameter?>> {
+        val mapping: Map<FirExpression, FirValueParameter>? = resolvedArgumentMapping
+            ?: (calleeReference as? FirNamedReferenceWithCandidate)?.candidate
+                ?.takeIf { it.argumentMappingInitialized }
+                ?.argumentMapping
+                ?.mapKeys { (atom, _) -> atom.expression }
+
+        return mapping?.flatMap { (argument, parameter) -> argument.lambdas().map { it to parameter } }
+            ?: argumentList.arguments.flatMap { argument -> argument.lambdas().map { it to null } }
+    }
+
+    /** Lambdas passed as [this] argument, including each lambda passed to a `vararg` parameter. */
+    private fun FirExpression.lambdas(): List<FirAnonymousFunctionExpression> =
+        when (val argument = unwrapArgument()) {
+            is FirAnonymousFunctionExpression -> listOf(argument)
+            is FirVarargArgumentsExpression -> argument.arguments.flatMap { it.lambdas() }
+            else -> emptyList()
+        }
+}
