@@ -207,6 +207,19 @@ settings:
 
 Tested with Kotlin toolchain 0.13.0 (`kotlin build`).
 
+## IDE support
+
+In K2 mode IntelliJ IDEA only runs the compiler plugins bundled with it, so the editor still shows the warnings the
+build suppresses. Install
+[Kotlin External FIR Support](https://plugins.jetbrains.com/plugin/26480-kotlin-external-fir-support) (KEFS); it
+picks up _shush_ from your build with no configuration, and reloads it when the jar changes. The jar carries the
+[Compiler Plugin DevKit](https://github.com/Kotlin/compiler-plugin-dev-kit)'s multi-release markers, which KEFS uses
+to check the IDE's compiler is supported. An IDE compiler older than 2.4.20 shows up as unsupported in the
+*KEFS Diagnostics* tool window.
+
+Alternatively, turn off the registry key `kotlin.k2.only.bundled.compiler.plugins.enabled`. That runs every compiler
+plugin your projects apply, without KEFS's exception isolation.
+
 ## Compatibility
 
 - Kotlin 2.4.20 to 2.5.x, K2 only, from a single jar. Older compilers are rejected with an error. Tested with
@@ -227,8 +240,8 @@ uses). The newest one not newer than the running compiler is picked at runtime.
   `Template` or `com.example.Template`, because their annotations aren't resolved yet on Kotlin 2.4. Import aliases
   aren't followed, and an unrelated annotation with the same simple name will match. Top-level and member
   declarations are matched exactly.
-- In K2 mode IntelliJ IDEA only runs the compiler plugins bundled with it, so the editor still shows the warnings the
-  build suppresses unless you turn off the registry key `kotlin.k2.only.bundled.compiler.plugins.enabled`.
+- The IDE runs an IntelliJ build of Kotlin (e.g. `2.4.20-ij262-52`) rather than a release, so its APIs could differ
+  slightly from the layer's. If they do, KEFS disables _shush_ in the editor; the build isn't affected.
 
 ## Building and testing
 

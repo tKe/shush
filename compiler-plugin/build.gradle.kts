@@ -46,6 +46,8 @@ idea {
     module.generatedSourceDirs.add(testGenDirectory.get().asFile)
 }
 
+val kotlinPluginId = "${rootProject.group}.${rootProject.name}"
+
 val testArtifacts: Configuration = configurations.create("testArtifact")
 
 // never pass the configurations KGP uses to run the compiler
@@ -85,20 +87,21 @@ if (kotlinTestCompilerVersion != libs.versions.kotlin.get()) {
  * would win conflict resolution, compiling main (and its inlined FIR builders) against 2.5. main only needs the
  * layers' classes to construct them.
  */
+// Layer compilation -> oldest compiler it supports. Keep in sync with ShushCompatLayers.
+val compatLayers = mapOf("compatK24" to "2.4.20", "compatK25" to "2.5.0")
+
 kotlin {
     val compatApi = target.compilations.create("compatApi")
-    target.compilations.create("compatK24") { associateWith(compatApi) }
-    target.compilations.create("compatK25") { associateWith(compatApi) }
+    compatLayers.keys.forEach { target.compilations.create(it) { associateWith(compatApi) } }
     target.compilations.getByName("main") { associateWith(compatApi) }
 }
 
 sourceSets {
     named("compatApi") { kotlin.setSrcDirs(listOf("compat/api")) }
-    named("compatK24") { kotlin.setSrcDirs(listOf("compat/k2.4.20")) }
-    named("compatK25") { kotlin.setSrcDirs(listOf("compat/k2.5.0")) }
+    compatLayers.forEach { (name, version) -> named(name) { kotlin.setSrcDirs(listOf("compat/k$version")) } }
 }
 
-val compatLayerSourceSets = listOf("compatK24", "compatK25").map { sourceSets.named(it) }
+val compatLayerSourceSets = compatLayers.keys.map { sourceSets.named(it) }
 val compatSourceSets = listOf(sourceSets.named("compatApi")) + compatLayerSourceSets
 
 dependencies {
@@ -132,7 +135,7 @@ buildConfig {
         internalVisibility = true
     }
     packageName("io.github.tke.shush")
-    buildConfigField("String", "KOTLIN_PLUGIN_ID", "\"${rootProject.group}.${rootProject.name}\"")
+    buildConfigField("String", "KOTLIN_PLUGIN_ID", "\"$kotlinPluginId\"")
 }
 
 kotlin {
@@ -172,6 +175,10 @@ tasks.test {
     inputs.property("kotlinTestCompilerVersion", kotlinTestCompilerVersion)
     // so tests can check they run on the intended compiler
     systemProperty("shush.test.compilerVersion", kotlinTestCompilerVersion)
+    // relative to workingDir to keep the task relocatable
+    val pluginJar = tasks.jar.flatMap { it.archiveFile }
+    inputs.file(pluginJar).withPropertyName("pluginJar").withNormalizer(ClasspathNormalizer::class)
+    systemProperty("shush.test.pluginJar", pluginJar.get().asFile.relativeTo(rootDir).path)
 
     // Properties required to run the internal test framework.
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib", "kotlin-stdlib")
@@ -216,8 +223,35 @@ tasks.compileTestKotlin {
     friendPaths.from(tasks.named("jar"))
 }
 
+/*
+ * Compiler Plugin DevKit multi-release markers, so IntelliJ's Kotlin External FIR Support (KEFS) loads the jar as is:
+ * a manifest attribute and a `META-INF/kotlin/plugin/<plugin id>/versions/<kotlin version>/` directory per layer.
+ * The layers stay at the jar root, since ShushCompatLayers picks one at runtime, so those directories only hold a note.
+ */
+val kefsMarkers = tasks.register("kefsMarkers") {
+    val pluginId = kotlinPluginId
+    val layers = compatLayers.mapKeys { (name, _) -> name.removePrefix("compat") }
+    val outputDir = layout.buildDirectory.dir("generated/kefs")
+    inputs.property("pluginId", pluginId)
+    inputs.property("layers", layers)
+    outputs.dir(outputDir).withPropertyName("markers")
+
+    doLast {
+        val root = outputDir.get().asFile.apply { deleteRecursively() }
+        layers.forEach { (layer, version) ->
+            root.resolve("META-INF/kotlin/plugin/$pluginId/versions/$version").apply { mkdirs() }
+                .resolve("README.txt")
+                .writeText("Kotlin $version+ uses shush's $layer compatibility layer, selected at runtime.\n")
+        }
+    }
+}
+
 tasks.jar {
     compatSourceSets.forEach { from(it.map { set -> set.output.classesDirs }) }
+    from(kefsMarkers)
+    manifest {
+        attributes("Kotlin-Compiler-Plugin-Multi-Release" to "true")
+    }
 }
 
 publishing {
