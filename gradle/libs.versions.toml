@@ -1,6 +1,6 @@
 [versions]
 # Oldest compiler supported, and the compiler each ShushCompat layer is built against.
-compilerOldestSupported = "2.4.20"
+compilerOldestSupported = "2.4.21"
 compilerLayerK24 = "2.4.20"
 compilerLayerK25 = "2.5.0-Beta2"
 kotlin = "2.4.21"
