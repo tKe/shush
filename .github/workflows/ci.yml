@@ -23,7 +23,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       # compiler plugin tests; functional tests on the oldest and current Gradle, each with this and the next Kotlin
       - run: ./gradlew check --continue
       - if: failure()
@@ -48,7 +48,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew :compiler-plugin:test -PkotlinTestCompilerVersion=${{ matrix.kotlin }}
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -67,7 +67,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       # the compiler test framework's API changes between patch releases, so cover the oldest compiler with real builds
       - run: ./gradlew :gradle-plugin:test -PfunctionalTestKotlinVersions=2.4.20
       - if: failure()
