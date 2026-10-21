@@ -1,0 +1,83 @@
+FILE: test.kt
+    package test
+
+    public final annotation class Template : R|kotlin/Annotation| {
+        public constructor(): R|test/Template| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final class Outer : R|kotlin/Any| {
+        public constructor(): R|test/Outer| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final annotation class NestedTemplate : R|kotlin/Annotation| {
+            public constructor(): R|test/Outer.NestedTemplate| {
+                super<R|kotlin/Any|>()
+            }
+
+        }
+
+    }
+    public final annotation class NotConfigured : R|kotlin/Annotation| {
+        public constructor(): R|test/NotConfigured| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final class A : R|kotlin/Any| {
+        public constructor(): R|test/A| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Int| {
+            ^f Int(1)
+        }
+
+    }
+    @R|test/Template|() public final fun template(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    @R|test/Template|() public final fun <T> templateWithReceiver(block: R|test/A.() -> T|): R|T| {
+        ^templateWithReceiver R|kotlin/TODO|()
+    }
+    @R|test/Outer.NestedTemplate|() public final fun nestedTemplate(vararg blocks: R|kotlin/Array<out () -> kotlin/Unit>|): R|kotlin/Unit| {
+    }
+    @R|test/NotConfigured|() public final fun notConfigured(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun plain(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun annotated(a: R|test/A|): R|kotlin/Unit| {
+        R|test/template|(<L> = template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+        R|test/template|(<L> = template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+        lval r: R|kotlin/Int| = R|test/templateWithReceiver|<R|kotlin/Int|>(<L> = templateWithReceiver@fun R|test/A|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            this@R|special/anonymous|.R|test/A.f|()
+            ^ this@R|special/anonymous|.R|test/A.f|()
+        }
+        )
+        R|test/nestedTemplate|(vararg(nestedTemplate@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        , nestedTemplate@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+            R|<local>/a|.R|test/A.f|()
+        }
+        ))
+    }
+    public final fun notAnnotated(a: R|test/A|): R|kotlin/Unit| {
+        R|test/notConfigured|(<L> = notConfigured@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+        R|test/plain|(<L> = plain@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+    }

@@ -1,0 +1,89 @@
+FILE: templating.kt
+    package dev.mokkery.internal.annotations
+
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|)]) public final annotation class Templating : R|kotlin/Annotation| {
+        public constructor(): R|dev/mokkery/internal/annotations/Templating| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+FILE: mokkery.kt
+    package dev.mokkery
+
+    public abstract interface MokkeryTemplatingScope : R|kotlin/Any| {
+    }
+    public final class AnsweringScope<T> : R|kotlin/Any| {
+        public constructor<T>(): R|dev/mokkery/AnsweringScope<T>| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final infix fun returns(value: R|T|): R|kotlin/Unit| {
+        }
+
+    }
+    public final fun <T> every(block: R|@R|dev/mokkery/internal/annotations/Templating|()  dev/mokkery/MokkeryTemplatingScope.() -> T|): R|dev/mokkery/AnsweringScope<T>| {
+        ^every R|kotlin/TODO|()
+    }
+    public final fun <T> everySuspend(block: R|@R|dev/mokkery/internal/annotations/Templating|()  suspend dev/mokkery/MokkeryTemplatingScope.() -> T|): R|dev/mokkery/AnsweringScope<T>| {
+        ^everySuspend R|kotlin/TODO|()
+    }
+    public final fun verify(mode: R|kotlin/Any?| = Null(null), block: R|@R|dev/mokkery/internal/annotations/Templating|()  dev/mokkery/MokkeryTemplatingScope.() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun verifySuspend(mode: R|kotlin/Any?| = Null(null), block: R|@R|dev/mokkery/internal/annotations/Templating|()  suspend dev/mokkery/MokkeryTemplatingScope.() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+FILE: test.kt
+    package test
+
+    public final class A : R|kotlin/Any| {
+        public constructor(): R|test/A| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Int| {
+            ^f Int(1)
+        }
+
+        public final fun g(x: R|kotlin/Int|): R|kotlin/String| {
+            ^g R|<local>/x|.R|kotlin/Int.toString|()
+        }
+
+    }
+    public final fun nestedLambda(a: R|test/A|): R|kotlin/Unit| {
+        R|dev/mokkery/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|kotlin/repeat|(Int(1), <L> = repeat@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+                R|<local>/a|.R|test/A.f|()
+            }
+            )
+        }
+        )
+        R|dev/mokkery/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|kotlin/repeat|(Int(2), <L> = repeat@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+                R|<local>/a|.R|test/A.f|()
+                R|<local>/a|.R|test/A.g|(R|<local>/it|)
+            }
+            )
+        }
+        )
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|kotlin/collections/listOf|<R|kotlin/Int|>(Int(1)).R|kotlin/collections/forEach|<R|kotlin/Int|>(<L> = forEach@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+                R|<local>/a|.R|test/A.g|(R|<local>/it|)
+            }
+            )
+            ^ R|<local>/a|.R|test/A.f|()
+        }
+        ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(Int(1))
+        R|dev/mokkery/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            local final fun local(): R|kotlin/Unit| {
+                R|<local>/a|.R|test/A.f|()
+            }
+
+            R|<local>/local|()
+        }
+        )
+    }
+    public final fun nestedLambdaOutsideTemplate(a: R|test/A|): R|kotlin/Unit| {
+        R|kotlin/repeat|(Int(1), <L> = repeat@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+    }

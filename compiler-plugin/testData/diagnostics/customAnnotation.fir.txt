@@ -1,0 +1,132 @@
+FILE: templating.kt
+    package dev.mokkery.internal.annotations
+
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|)]) public final annotation class Templating : R|kotlin/Annotation| {
+        public constructor(): R|dev/mokkery/internal/annotations/Templating| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+FILE: mokkery.kt
+    package dev.mokkery
+
+    public abstract interface MokkeryTemplatingScope : R|kotlin/Any| {
+    }
+    public final class AnsweringScope<T> : R|kotlin/Any| {
+        public constructor<T>(): R|dev/mokkery/AnsweringScope<T>| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final infix fun returns(value: R|T|): R|kotlin/Unit| {
+        }
+
+    }
+    public final fun <T> every(block: R|@R|dev/mokkery/internal/annotations/Templating|()  dev/mokkery/MokkeryTemplatingScope.() -> T|): R|dev/mokkery/AnsweringScope<T>| {
+        ^every R|kotlin/TODO|()
+    }
+    public final fun <T> everySuspend(block: R|@R|dev/mokkery/internal/annotations/Templating|()  suspend dev/mokkery/MokkeryTemplatingScope.() -> T|): R|dev/mokkery/AnsweringScope<T>| {
+        ^everySuspend R|kotlin/TODO|()
+    }
+    public final fun verify(mode: R|kotlin/Any?| = Null(null), block: R|@R|dev/mokkery/internal/annotations/Templating|()  dev/mokkery/MokkeryTemplatingScope.() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun verifySuspend(mode: R|kotlin/Any?| = Null(null), block: R|@R|dev/mokkery/internal/annotations/Templating|()  suspend dev/mokkery/MokkeryTemplatingScope.() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+FILE: test.kt
+    package test
+
+    public final class A : R|kotlin/Any| {
+        public constructor(): R|test/A| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Int| {
+            ^f Int(1)
+        }
+
+        public final fun g(x: R|kotlin/Int|): R|kotlin/String| {
+            ^g R|<local>/x|.R|kotlin/Int.toString|()
+        }
+
+    }
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|)]) public final annotation class Recorded : R|kotlin/Annotation| {
+        public constructor(): R|test/Recorded| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|)]) public final annotation class RecordedType : R|kotlin/Annotation| {
+        public constructor(): R|test/RecordedType| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/annotation/Target|(allowedTargets = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|, Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|) [evaluated = vararg(Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.VALUE_PARAMETER|, Q|kotlin/annotation/AnnotationTarget|.R|kotlin/annotation/AnnotationTarget.TYPE|)]) public final annotation class NotConfigured : R|kotlin/Annotation| {
+        public constructor(): R|test/NotConfigured| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final fun record(@R|test/Recorded|() block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun recordType(block: R|@R|test/RecordedType|()  () -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun <T> recordTypeWithReceiver(block: R|@R|test/RecordedType|()  test/A.() -> T|): R|T| {
+        ^recordTypeWithReceiver R|kotlin/TODO|()
+    }
+    public final fun recordAll(@R|test/Recorded|() vararg blocks: R|kotlin/Array<out () -> kotlin/Unit>|): R|kotlin/Unit| {
+    }
+    public final fun recordAllTyped(vararg blocks: R|kotlin/Array<out () -> kotlin/Unit>|): R|kotlin/Unit| {
+    }
+    public final fun notRecorded(@R|test/NotConfigured|() block: R|@R|test/NotConfigured|()  () -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public final fun valueParameterAnnotation(a: R|test/A|): R|kotlin/Unit| {
+        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+            R|<local>/a|.R|test/A.g|(Int(1))
+        }
+        )
+    }
+    public final fun typeAnnotation(a: R|test/A|): R|kotlin/Unit| {
+        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+            R|<local>/a|.R|test/A.g|(Int(1))
+        }
+        )
+        lval r: R|kotlin/Int| = R|test/recordTypeWithReceiver|<R|kotlin/Int|>(<L> = recordTypeWithReceiver@fun R|test/A|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            this@R|special/anonymous|.R|test/A.g|(Int(1))
+            ^ this@R|special/anonymous|.R|test/A.f|()
+        }
+        )
+    }
+    public final fun varargs(a: R|test/A|): R|kotlin/Unit| {
+        R|test/recordAll|(vararg(recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        , recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.g|(Int(1))
+            R|<local>/a|.R|test/A.f|()
+        }
+        ))
+        R|test/recordAllTyped|(vararg(recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        , recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/a|.R|test/A.g|(Int(1))
+            R|<local>/a|.R|test/A.f|()
+        }
+        ))
+    }
+    public final fun notAnnotated(a: R|test/A|): R|kotlin/Unit| {
+        R|test/notRecorded|(<L> = notRecorded@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            R|<local>/a|.R|test/A.f|()
+        }
+        )
+    }

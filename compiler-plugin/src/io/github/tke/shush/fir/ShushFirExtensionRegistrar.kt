@@ -1,0 +1,13 @@
+package io.github.tke.shush.fir
+
+import io.github.tke.shush.ShushConfiguration
+import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrar
+
+class ShushFirExtensionRegistrar(
+    private val configuration: ShushConfiguration,
+) : FirExtensionRegistrar() {
+    override fun ExtensionRegistrarContext.configurePlugin() {
+        if (configuration.hasLambdaTargets) +FirLambdaSuppressor.getFactory(configuration)
+        if (configuration.hasDeclarationTargets) +FirDeclarationSuppressor.getFactory(configuration)
+    }
+}

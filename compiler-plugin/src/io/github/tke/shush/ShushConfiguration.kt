@@ -1,0 +1,109 @@
+package io.github.tke.shush
+
+import org.jetbrains.kotlin.config.CompilerConfigurationKey
+import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.FqName
+import java.nio.file.FileSystems
+import java.nio.file.Path
+import java.nio.file.PathMatcher
+
+/**
+ * A named set of [diagnostics] to suppress wherever any of its targets match:
+ * - [files]: source files whose path matches a glob (relative to [ShushConfiguration.baseDir] where possible);
+ * - [calls]: lambdas passed to calls of these functions;
+ * - [annotatedParameters]: lambdas passed to a parameter annotated with (or whose type is annotated with) one of these;
+ * - [annotatedFunctions]: lambdas passed to calls of functions annotated with one of these;
+ * - [annotatedDeclarations]: declarations (and everything within them) annotated with one of these.
+ */
+data class ShushRule(
+    val name: String,
+    val diagnostics: Set<String> = emptySet(),
+    val files: Set<String> = emptySet(),
+    val calls: Set<FqName> = emptySet(),
+    val annotatedParameters: Set<ClassId> = emptySet(),
+    val annotatedFunctions: Set<ClassId> = emptySet(),
+    val annotatedDeclarations: Set<ClassId> = emptySet(),
+) {
+    val hasLambdaTargets: Boolean
+        get() = calls.isNotEmpty() || annotatedParameters.isNotEmpty() || annotatedFunctions.isNotEmpty()
+
+    val hasDeclarationTargets: Boolean
+        get() = files.isNotEmpty() || annotatedDeclarations.isNotEmpty()
+}
+
+data class ShushConfiguration(
+    val rules: List<ShushRule>,
+    val baseDir: Path? = null,
+) {
+    /** Lookup tables from each kind of target to the diagnostics its rules suppress. */
+    val callDiagnostics: Map<FqName, Set<String>> = index { it.calls }
+    val annotatedParameterDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedParameters }
+    val annotatedFunctionDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedFunctions }
+    val annotatedDeclarationDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedDeclarations }
+    val fileMatchers: List<Pair<PathMatcher, Set<String>>> = rules.flatMap { rule ->
+        rule.files.map { glob -> FileSystems.getDefault().getPathMatcher("glob:$glob") to rule.diagnostics }
+    }
+
+    val hasLambdaTargets: Boolean get() = rules.any { it.hasLambdaTargets }
+    val hasDeclarationTargets: Boolean get() = rules.any { it.hasDeclarationTargets }
+
+    /** Diagnostics to suppress in the source file at [path], tried both relative to [baseDir] and as-is. */
+    fun fileDiagnostics(path: Path): Set<String> {
+        if (fileMatchers.isEmpty()) return emptySet()
+        val candidates = listOfNotNull(
+            baseDir?.takeIf { path.startsWith(it) }?.relativize(path),
+            path,
+        )
+        return fileMatchers
+            .filter { (matcher, _) -> candidates.any(matcher::matches) }
+            .flatMapTo(mutableSetOf()) { (_, diagnostics) -> diagnostics }
+    }
+
+    private fun <K> index(targets: (ShushRule) -> Set<K>): Map<K, Set<String>> =
+        buildMap<K, MutableSet<String>> {
+            for (rule in rules) {
+                for (target in targets(rule)) getOrPut(target, ::mutableSetOf) += rule.diagnostics
+            }
+        }
+}
+
+object ShushPresets {
+    const val MOKKERY = "mokkery"
+
+    /** Mokkery's `every`/`verify` lambdas are call templates: their expressions' values are never used. */
+    val mokkery = ShushRule(
+        name = MOKKERY,
+        diagnostics = setOf("RETURN_VALUE_NOT_USED", "RETURN_VALUE_NOT_USED_COERCION"),
+        calls = setOf(
+            FqName("dev.mokkery.every"),
+            FqName("dev.mokkery.everySuspend"),
+            FqName("dev.mokkery.verify"),
+            FqName("dev.mokkery.verifySuspend"),
+        ),
+        annotatedParameters = setOf(ClassId.fromString("dev/mokkery/internal/annotations/Templating")),
+    )
+
+    val all: Map<String, ShushRule> = listOf(mokkery).associateBy { it.name }
+}
+
+/**
+ * Parses a class name given either as a [ClassId] string (`com/example/Outer.Inner`) or, for top-level classes, as a
+ * plain fully-qualified name (`com.example.Template`).
+ */
+fun parseClassId(value: String): ClassId =
+    if ('/' in value) ClassId.fromString(value) else ClassId.topLevel(FqName(value))
+
+object ShushConfigurationKeys {
+    val PRESETS: CompilerConfigurationKey<List<String>> = CompilerConfigurationKey.create("shush presets")
+    val RULE_DIAGNOSTICS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush rule diagnostics")
+    val FILES: CompilerConfigurationKey<List<Pair<String, String>>> = CompilerConfigurationKey.create("shush file globs")
+    val CALLS: CompilerConfigurationKey<List<Pair<String, String>>> = CompilerConfigurationKey.create("shush calls")
+    val ANNOTATED_PARAMETERS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush annotated parameters")
+    val ANNOTATED_FUNCTIONS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush annotated functions")
+    val ANNOTATED_DECLARATIONS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush annotated declarations")
+    val BASE_DIR: CompilerConfigurationKey<String> = CompilerConfigurationKey.create("shush base directory")
+}

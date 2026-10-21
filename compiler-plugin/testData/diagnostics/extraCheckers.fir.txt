@@ -1,0 +1,40 @@
+FILE: Gen.kt
+    @FILE:R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER)))
+    package gen
+
+    public final class Generated : R|kotlin/Any| {
+        public constructor(): R|gen/Generated| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Unit| {
+        }
+
+    }
+FILE: main.kt
+    package main
+
+    public final annotation class ExplicitApi : R|kotlin/Annotation| {
+        public constructor(): R|main/ExplicitApi| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final class NotGenerated : R|kotlin/Any| {
+        public constructor(): R|main/NotGenerated| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Unit| {
+        }
+
+    }
+    @R|main/ExplicitApi|() @R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER))) public final class Api : R|kotlin/Any| {
+        public constructor(): R|main/Api| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun f(): R|kotlin/Unit| {
+        }
+
+    }
