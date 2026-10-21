@@ -25,6 +25,13 @@ class ShushCompatTest {
         assertEquals(k25, layerFor("2.6.0"))
     }
 
+    /** IntelliJ's analysis compiler reports versions like these. */
+    @Test
+    fun `IDE compiler versions select a layer by their base version`() {
+        assertEquals(k24, layerFor("2.4.20-ij262-52"))
+        assertEquals(k25, layerFor("2.5.0-dev-9507"))
+    }
+
     @Test
     fun `compilers older than the oldest layer are rejected`() {
         for (version in listOf("2.3.0", "2.4.0", "2.4.10")) {

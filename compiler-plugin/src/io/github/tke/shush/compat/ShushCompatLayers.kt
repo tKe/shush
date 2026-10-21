@@ -12,6 +12,9 @@ object ShushCompatLayers {
         KotlinVersion(2, 4, 20) to { ShushCompatK24() },
     )
 
+    /** Oldest first. Must match the KEFS version directories in the jar (`kefsMarkers` in the build). */
+    internal val versions: List<KotlinVersion> get() = layers.map { it.first }.reversed()
+
     val current: ShushCompat by lazy { load(runningCompilerVersion()) }
 
     fun load(compilerVersion: String): ShushCompat {
