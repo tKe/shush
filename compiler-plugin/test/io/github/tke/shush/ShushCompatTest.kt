@@ -1,20 +1,24 @@
 package io.github.tke.shush
 
+import de.infix.testBalloon.framework.core.testSuite
 import io.github.tke.shush.compat.ShushCompatLayers
-import org.jetbrains.kotlin.KtSourceElement
-import org.junit.jupiter.api.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import org.jetbrains.kotlin.KtSourceElement
 
-class ShushCompatTest {
-    private val k24 = "io.github.tke.shush.compat.k2_4_20.ShushCompatImpl"
-    private val k25 = "io.github.tke.shush.compat.k2_5_0.ShushCompatImpl"
+val ShushCompatTest by testSuite {
+    val k24 = "io.github.tke.shush.compat.k2_4_20.ShushCompatImpl"
+    val k25 = "io.github.tke.shush.compat.k2_5_0.ShushCompatImpl"
 
-    private fun layerFor(version: String): String = ShushCompatLayers.load(version)::class.java.name
+    fun layerFor(version: String): String = ShushCompatLayers.load(version)::class.java.name
 
-    @Test
-    fun `the newest layer not newer than the compiler is loaded`() {
+    fun parse(version: String): KotlinVersion {
+        val (major, minor) = version.split('.', '-').map { it.toIntOrNull() ?: 0 }
+        return KotlinVersion(major, minor)
+    }
+
+    test("the newest layer not newer than the compiler is loaded") {
         assertEquals(k24, layerFor("2.4.20"))
         assertEquals(k24, layerFor("2.4.21"))
         assertEquals(k24, layerFor("2.4.255-dev-1234"))
@@ -25,15 +29,13 @@ class ShushCompatTest {
         assertEquals(k25, layerFor("2.6.0"))
     }
 
-    /** IntelliJ's analysis compiler reports versions like these. */
-    @Test
-    fun `IDE compiler versions select a layer by their base version`() {
+    // IntelliJ's analysis compiler reports versions like these.
+    test("IDE compiler versions select a layer by their base version") {
         assertEquals(k24, layerFor("2.4.20-ij262-52"))
         assertEquals(k25, layerFor("2.5.0-dev-9507"))
     }
 
-    @Test
-    fun `compilers older than the oldest layer are rejected`() {
+    test("compilers older than the oldest layer are rejected") {
         for (version in listOf("2.3.0", "2.4.0", "2.4.10")) {
             val error = assertFailsWith<IllegalStateException>(version) { ShushCompatLayers.load(version) }
             assertContains(error.message.orEmpty(), version)
@@ -41,9 +43,8 @@ class ShushCompatTest {
         }
     }
 
-    /** The build passes the compiler version the tests run on (see `-PkotlinTestCompilerVersion`). */
-    @Test
-    fun `the running compiler's layer is selected`() {
+    // The build passes the compiler version the tests run on (see `-PkotlinTestCompilerVersion`).
+    testIO("the running compiler's layer is selected") {
         val expectedVersion = System.getProperty("shush.test.compilerVersion")
             ?: error("shush.test.compilerVersion is not set")
         val runningVersion = KtSourceElement::class.java.classLoader
@@ -53,10 +54,5 @@ class ShushCompatTest {
 
         val expectedLayer = if (KotlinVersion(2, 5) <= parse(expectedVersion)) k25 else k24
         assertEquals(expectedLayer, ShushCompatLayers.current::class.java.name)
-    }
-
-    private fun parse(version: String): KotlinVersion {
-        val (major, minor) = version.split('.', '-').map { it.toIntOrNull() ?: 0 }
-        return KotlinVersion(major, minor)
     }
 }

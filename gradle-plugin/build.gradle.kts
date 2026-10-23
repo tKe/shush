@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.tapmoc)
     alias(libs.plugins.plugin.publish)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.testBalloon)
 }
 
 description = "Gradle plugin for shush, the K2 compiler plugin that suppresses chosen compiler warnings"
@@ -25,9 +26,9 @@ dependencies {
     // provided at runtime by the consumer's Kotlin Gradle plugin
     compileOnly(libs.kotlin.gradle.plugin.api)
 
+    testImplementation(libs.testBalloon.framework.core)
+    testImplementation(libs.kotlin.test)
     testImplementation(platform(libs.junit5.bom))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation(libs.kotlin.test.junit5)
     testImplementation(gradleTestKit())
     testRuntimeOnly(libs.junit.platform.launcher)
 }

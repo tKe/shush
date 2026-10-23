@@ -1,28 +1,27 @@
 package io.github.tke.shush
 
-import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
-import org.jetbrains.kotlin.compiler.plugin.CliOptionProcessingException
-import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.name.ClassId
-import org.jetbrains.kotlin.name.FqName
-import org.junit.jupiter.api.Test
+import de.infix.testBalloon.framework.core.testSuite
 import java.nio.file.Path
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
+import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
+import org.jetbrains.kotlin.compiler.plugin.CliOptionProcessingException
+import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.FqName
 
 @OptIn(CompilerConfiguration.Internals::class)
-class ShushConfigurationTest {
-    private val processor = ShushCommandLineProcessor()
+val ShushConfigurationTest by testSuite {
+    val processor = ShushCommandLineProcessor()
 
-    private fun configuration(vararg options: Pair<AbstractCliOption, String>): CompilerConfiguration =
+    fun configuration(vararg options: Pair<AbstractCliOption, String>): CompilerConfiguration =
         CompilerConfiguration().apply {
             for ((option, value) in options) processor.processOption(option, value, this)
         }
 
-    @Test
-    fun `rules collect their diagnostics and targets`() {
+    test("rules collect their diagnostics and targets") {
         val configuration = configuration(
             ShushCommandLineProcessor.RULE_OPTION to "gen=UNUSED_VARIABLE",
             ShushCommandLineProcessor.RULE_OPTION to "gen=DEPRECATION",
@@ -53,8 +52,7 @@ class ShushConfigurationTest {
         assertEquals(emptySet(), configuration.fileDiagnostics(Path.of("/project/build/c/x=y/Gen.kt")))
     }
 
-    @Test
-    fun `file globs match relative to the base directory and as absolute paths`() {
+    test("file globs match relative to the base directory and as absolute paths") {
         val configuration = configuration(
             ShushCommandLineProcessor.RULE_OPTION to "relative=UNUSED_VARIABLE",
             ShushCommandLineProcessor.FILES_OPTION to "relative=src/generated/**",
@@ -68,8 +66,7 @@ class ShushConfigurationTest {
         assertEquals(emptySet(), configuration.fileDiagnostics(Path.of("/project/src/main/Main.kt")))
     }
 
-    @Test
-    fun `options may hold semicolon-separated lists, items without a rule continuing the previous one`() {
+    test("options may hold semicolon-separated lists, items without a rule continuing the previous one") {
         // the Kotlin toolchain's `compilerPlugins[].options` map allows each option once
         val configuration = configuration(
             ShushCommandLineProcessor.PRESET_OPTION to "mokkery; mokkery",
@@ -96,8 +93,7 @@ class ShushConfigurationTest {
         )
     }
 
-    @Test
-    fun `a list item containing = always starts with a rule name`() {
+    test("a list item containing = always starts with a rule name") {
         val error = assertFailsWith<CliOptionProcessingException> {
             configuration(
                 ShushCommandLineProcessor.RULE_OPTION to "gen=UNUSED_VARIABLE",
@@ -107,8 +103,7 @@ class ShushConfigurationTest {
         assertContains(error.message.orEmpty(), "build/x")
     }
 
-    @Test
-    fun `presets are built in rules`() {
+    test("presets are built in rules") {
         val configuration = configuration(
             ShushCommandLineProcessor.PRESET_OPTION to "mokkery",
             ShushCommandLineProcessor.PRESET_OPTION to "mokkery",
@@ -122,13 +117,11 @@ class ShushConfigurationTest {
         )
     }
 
-    @Test
-    fun `no options means no rules`() {
+    test("no options means no rules") {
         assertEquals(emptyList(), CompilerConfiguration().toShushConfiguration().rules)
     }
 
-    @Test
-    fun `targets of an undeclared rule are rejected`() {
+    test("targets of an undeclared rule are rejected") {
         val configuration = configuration(
             ShushCommandLineProcessor.RULE_OPTION to "declared=UNUSED_VARIABLE",
             ShushCommandLineProcessor.CALLS_OPTION to "declared=com.example.f",
@@ -139,8 +132,7 @@ class ShushConfigurationTest {
         assertContains(error.message.orEmpty(), "rule=<name>=<DIAGNOSTIC>")
     }
 
-    @Test
-    fun `unknown presets are rejected`() {
+    test("unknown presets are rejected") {
         val error = assertFailsWith<CliOptionProcessingException> {
             configuration(ShushCommandLineProcessor.PRESET_OPTION to "nope")
         }
@@ -148,8 +140,7 @@ class ShushConfigurationTest {
         assertContains(error.message.orEmpty(), "mokkery")
     }
 
-    @Test
-    fun `malformed rule options are rejected`() {
+    test("malformed rule options are rejected") {
         for (value in listOf("UNUSED_VARIABLE", "=UNUSED_VARIABLE", "rule=", " =x")) {
             assertFailsWith<CliOptionProcessingException>(value) {
                 configuration(ShushCommandLineProcessor.RULE_OPTION to value)
