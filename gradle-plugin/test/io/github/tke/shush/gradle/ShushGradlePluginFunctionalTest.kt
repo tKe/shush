@@ -104,6 +104,38 @@ class ShushGradlePluginFunctionalTest {
         assertEquals(expectedWarnings(GENERATED_SOURCES + HANDWRITTEN_SOURCES), warnings(result), result.output)
     }
 
+    // backs the isolated projects compatibility declared on the Plugin Portal
+    @ParameterizedTest(name = "Gradle {0}, Kotlin {1}")
+    @MethodSource("currentGradleMatrix")
+    fun `builds with isolated projects`(gradle: String, kotlin: String) {
+        writeGeneratedCodeProject(projectDir, kotlin)
+        projectDir.resolve("settings.gradle.kts").appendText("include(\"sub\")\n")
+        projectDir.resolve("sub/build.gradle.kts").apply { parentFile.mkdirs() }.writeText(
+            """
+            plugins {
+                kotlin("jvm")
+                id("io.github.tke.shush")
+            }
+
+            // fail rather than pass without isolated projects, such as if the flag is renamed
+            abstract class Features @Inject constructor(val features: BuildFeatures)
+            check(objects.newInstance<Features>().features.isolatedProjects.active.get()) { "isolated projects is off" }
+
+            shush {
+                rule("sub") {
+                    diagnostics.add("RETURN_VALUE_NOT_USED")
+                    files.add("src/**")
+                }
+            }
+            """.trimIndent() + "\n"
+        )
+        projectDir.resolve("sub/src/main/kotlin/Sub.kt").apply { parentFile.mkdirs() }.writeText("fun sub() = 1\n")
+
+        val result = runner(gradle, projectDir, "compileKotlin", "-Dorg.gradle.unsafe.isolated-projects=true").build()
+        assertEquals(TaskOutcome.SUCCESS, result.task(":compileKotlin")?.outcome)
+        assertEquals(TaskOutcome.SUCCESS, result.task(":sub:compileKotlin")?.outcome)
+    }
+
     @ParameterizedTest(name = "Gradle {0}, Kotlin {1}")
     @MethodSource("matrix")
     fun `without rules generated sources are reported`(gradle: String, kotlin: String) {

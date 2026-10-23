@@ -1,3 +1,5 @@
+import org.gradle.plugin.compatibility.compatibility
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildconfig)
@@ -66,6 +68,13 @@ gradlePlugin {
             description = "Rules-based suppression of Kotlin compiler warnings (Mokkery templates, generated code, ...)"
             implementationClass = "io.github.tke.shush.gradle.ShushGradlePlugin"
             tags = listOf("kotlin", "compiler-plugin", "warnings", "suppress", "mokkery")
+            // shown on the Plugin Portal; both are covered by the functional tests
+            compatibility {
+                features {
+                    configurationCache = true
+                    isolatedProjects = true
+                }
+            }
         }
     }
 }
