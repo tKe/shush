@@ -1,5 +1,10 @@
 # _shush_
 
+[![CI](https://github.com/tKe/shush/actions/workflows/ci.yml/badge.svg)](https://github.com/tKe/shush/actions/workflows/ci.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.tke/shush-compiler-plugin)](https://central.sonatype.com/artifact/io.github.tke/shush-compiler-plugin)
+[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.tke.shush)](https://plugins.gradle.org/plugin/io.github.tke.shush)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 A K2 compiler plugin, with a Gradle plugin, that suppresses chosen compiler warnings in chosen places: inside
 [Mokkery](https://mokkery.dev) templates, in generated sources, in lambdas passed to particular functions, or in
 declarations with a particular annotation.
@@ -40,22 +45,15 @@ names are merged into it. Generated code and runtime behaviour don't change.
 
 ## Usage (Gradle)
 
-The plugins aren't published yet. `./gradlew publishToMavenLocal` publishes `io.github.tke:shush-compiler-plugin`,
-`io.github.tke:shush-gradle-plugin` and the marker for plugin id `io.github.tke.shush`.
+The Gradle plugin is on the Gradle Plugin Portal as `io.github.tke.shush`. The Kotlin Gradle plugin resolves the
+compiler plugin it adds, `io.github.tke:shush-compiler-plugin`, from the project repositories, so they need Maven
+Central. `<version>` below is the latest release, shown by the badges above.
 
 `settings.gradle.kts`:
 
 ```kotlin
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
 dependencyResolutionManagement {
     repositories {
-        mavenLocal() // the Kotlin Gradle plugin resolves the compiler plugin artifact from the project repositories
         mavenCentral()
     }
 }
@@ -67,7 +65,7 @@ dependencyResolutionManagement {
 plugins {
     kotlin("jvm") version "2.4.21"
     id("dev.mokkery") version "3.5.1"
-    id("io.github.tke.shush") version "0.1.0-SNAPSHOT"
+    id("io.github.tke.shush") version "<version>"
 }
 
 kotlin {
@@ -156,7 +154,7 @@ Each rule diagnostic and each target is its own option, `<option>=<rule>=<value>
 
 ```shell
 kotlinc -Xreturn-value-checker=full -Wextra \
-  -Xplugin=shush-compiler-plugin-0.1.0-SNAPSHOT.jar \
+  -Xplugin=shush-compiler-plugin-<version>.jar \
   -P plugin:io.github.tke.shush:preset=mokkery \
   -P plugin:io.github.tke.shush:baseDir=/path/to/project \
   -P plugin:io.github.tke.shush:rule=generated=REDUNDANT_VISIBILITY_MODIFIER \
@@ -192,7 +190,7 @@ settings:
     freeCompilerArgs: [ -Xreturn-value-checker=full, -Wextra ]
     compilerPlugins:
       - id: io.github.tke.shush
-        dependency: io.github.tke:shush-compiler-plugin:0.1.0
+        dependency: io.github.tke:shush-compiler-plugin:<version>
         options:
           preset: mokkery
           rule: generated=REDUNDANT_VISIBILITY_MODIFIER;RETURN_VALUE_NOT_USED;templates=RETURN_VALUE_NOT_USED
@@ -248,14 +246,24 @@ uses). The newest one not newer than the running compiler is picked at runtime.
 ```shell
 ./gradlew check                 # compiler plugin tests + Gradle plugin functional tests
 ./gradlew :gradle-plugin:test   # Gradle TestKit functional tests only
-./gradlew publishToMavenLocal
+./gradlew publishToMavenLocal   # version 0-SNAPSHOT
 ```
 
-- `-PkotlinCompilerVersion=<version>` builds and tests the compiler plugin against another compiler.
-- `-PkotlinTestCompilerVersion=<version>` runs the compiler plugin tests on a different compiler from the one it's
+To try a local build, publish it to Maven Local and use version `0-SNAPSHOT` with `mavenLocal()` in both
+`pluginManagement.repositories` (alongside `gradlePluginPortal()`, which declaring repositories there replaces) and
+`dependencyResolutionManagement.repositories`.
+
+- `-PkotlinCompilerVersion=<kotlin version>` builds and tests the compiler plugin against another compiler.
+- `-PkotlinTestCompilerVersion=<kotlin version>` runs the compiler plugin tests on a different compiler from the one it's
   built against, for example to check the published jar on Kotlin 2.5.
 - `-PfunctionalTestKotlinVersions=<a>;<b>` overrides the Kotlin Gradle plugin versions the functional tests use
   (default: the build's Kotlin version and 2.5.0-Beta2).
 
 The functional tests publish both plugins to `build/functional-repo` and build real projects against them with
 Gradle 9.3.1 and the wrapper's version.
+
+Releases are published from version tags; see [RELEASING.md](RELEASING.md).
+
+## License
+
+[MIT](LICENSE)

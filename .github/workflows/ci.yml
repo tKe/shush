@@ -18,16 +18,16 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-java@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       # compiler plugin tests; functional tests on the oldest and current Gradle, each with this and the next Kotlin
       - run: ./gradlew check --continue
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: check-reports
           path: |
@@ -43,15 +43,15 @@ jobs:
         # the jar as built, on newer compilers: binary compatibility check for shipping one jar
         kotlin: [ "2.5.0-Beta2" ]
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-java@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew :compiler-plugin:test -PkotlinTestCompilerVersion=${{ matrix.kotlin }}
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compiler-compat-${{ matrix.kotlin }}-reports
           path: |
@@ -62,16 +62,16 @@ jobs:
     name: Gradle builds on the oldest supported Kotlin
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-java@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       # the compiler test framework's API changes between patch releases, so cover the oldest compiler with real builds
       - run: ./gradlew :gradle-plugin:test -PfunctionalTestKotlinVersions=2.4.20
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: oldest-kotlin-reports
           path: |

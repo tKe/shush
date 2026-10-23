@@ -2,9 +2,11 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.tapmoc)
-    `java-gradle-plugin`
-    `maven-publish`
+    alias(libs.plugins.plugin.publish)
+    alias(libs.plugins.maven.publish)
 }
+
+description = "Gradle plugin for shush, the K2 compiler plugin that suppresses chosen compiler warnings"
 
 sourceSets {
     main {
@@ -54,25 +56,23 @@ tapmoc {
     gradle(minGradleVersion)
 }
 
-java {
-    withSourcesJar()
-}
-
 gradlePlugin {
+    website = "https://github.com/tKe/shush"
+    vcsUrl = "https://github.com/tKe/shush"
     plugins {
         create("shush") {
             id = "${rootProject.group}.${rootProject.name}"
             displayName = "shush"
             description = "Rules-based suppression of Kotlin compiler warnings (Mokkery templates, generated code, ...)"
             implementationClass = "io.github.tke.shush.gradle.ShushGradlePlugin"
+            tags = listOf("kotlin", "compiler-plugin", "warnings", "suppress", "mokkery")
         }
     }
 }
 
-publishing {
-    publications.withType<MavenPublication>().configureEach {
-        if (name == "pluginMaven") artifactId = "${rootProject.name}-gradle-plugin"
-    }
+// the plugin-publish plugin adds the sources and javadoc jars, also used for Maven Central
+mavenPublishing {
+    coordinates(artifactId = "${rootProject.name}-gradle-plugin")
 }
 
 // the functional tests' builds resolve both plugins from here
