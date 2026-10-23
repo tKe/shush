@@ -1,11 +1,16 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.tapmoc)
+    alias(libs.plugins.maven.publish)
     `java-test-fixtures`
-    `maven-publish`
     idea
 }
+
+description = "K2 compiler plugin that suppresses chosen compiler warnings in chosen places"
 
 val testDataDir = layout.projectDirectory.dir("testData")
 val testGenDirectory = layout.buildDirectory.dir("test-gen")
@@ -152,14 +157,14 @@ tapmoc {
     kotlin(libs.versions.compilerOldestSupported.get())
 }
 
-java {
-    withSourcesJar()
-}
-
 // Test fixtures are an implementation detail of the test suite; don't publish them.
 (components["java"] as AdhocComponentWithVariants).apply {
     withVariantsFromConfiguration(configurations["testFixturesApiElements"]) { skip() }
     withVariantsFromConfiguration(configurations["testFixturesRuntimeElements"]) { skip() }
+    // added by the sources jar the Maven Central configuration publishes
+    afterEvaluate {
+        withVariantsFromConfiguration(configurations["testFixturesSourcesElements"]) { skip() }
+    }
 }
 
 tasks.test {
@@ -254,13 +259,10 @@ tasks.jar {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            artifactId = "${rootProject.name}-compiler-plugin"
-            from(components["java"])
-        }
-    }
+mavenPublishing {
+    // Central requires a javadoc jar; Kotlin sources have no javadoc, so it's empty
+    configure(KotlinJvm(javadocJar = JavadocJar.Empty(), sourcesJar = true))
+    coordinates(artifactId = "${rootProject.name}-compiler-plugin")
 }
 
 fun Test.setLibraryProperty(propName: String, jarName: String) {
