@@ -6,14 +6,13 @@ plugins {
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.tapmoc)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.testBalloon)
     `java-test-fixtures`
-    idea
 }
 
 description = "K2 compiler plugin that suppresses chosen compiler warnings in chosen places"
 
 val testDataDir = layout.projectDirectory.dir("testData")
-val testGenDirectory = layout.buildDirectory.dir("test-gen")
 
 /**
  * Compiler (and test framework) version the plugin is compiled and tested against. Defaults to the KGP version;
@@ -41,14 +40,9 @@ sourceSets {
         java.setSrcDirs(listOf("test-fixtures"))
     }
     test {
-        java.setSrcDirs(listOf("test", testGenDirectory))
+        java.setSrcDirs(listOf("test"))
         resources.setSrcDirs(listOf(testDataDir))
     }
-}
-
-idea {
-    // This is needed until IDEA fixes IDEA-339729.
-    module.generatedSourceDirs.add(testGenDirectory.get().asFile)
 }
 
 val kotlinPluginId = "${rootProject.group}.${rootProject.name}"
@@ -118,11 +112,15 @@ dependencies {
     compatLayerSourceSets.forEach { compileOnly(files(it.map { set -> set.output.classesDirs })) }
     compatSourceSets.forEach { testRuntimeOnly(files(it.map { set -> set.output.classesDirs })) }
 
-    testFixturesApi(libs.kotlin.test.junit5)
     testFixturesApi(libs.kotlin.compiler.test.framework)
     testFixturesApi(libs.kotlin.compiler)
+    // The test framework declares no dependencies but uses both JUnit versions' APIs.
+    testFixturesApi(platform(libs.junit5.bom))
+    testFixturesApi(libs.junit.jupiter.api)
     testFixturesRuntimeOnly(libs.junit4)
 
+    testImplementation(libs.testBalloon.framework.core)
+    testImplementation(libs.kotlin.test)
     testImplementation(platform(libs.junit5.bom))
     testRuntimeOnly(libs.junit.platform.launcher)
 
@@ -184,6 +182,7 @@ tasks.test {
     val pluginJar = tasks.jar.flatMap { it.archiveFile }
     inputs.file(pluginJar).withPropertyName("pluginJar").withNormalizer(ClasspathNormalizer::class)
     systemProperty("shush.test.pluginJar", pluginJar.get().asFile.relativeTo(rootDir).path)
+    systemProperty("shush.test.testData", testDataDir.asFile.relativeTo(rootDir).path)
 
     // Properties required to run the internal test framework.
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-stdlib", "kotlin-stdlib")
@@ -200,29 +199,7 @@ tasks.test {
     systemProperty("idea.home.path", rootDir)
 }
 
-val generateTests = tasks.register<JavaExec>("generateTests") {
-    inputs.dir(testDataDir)
-        .withPropertyName("testData")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    outputs.dir(testGenDirectory)
-        .withPropertyName("generatedTests")
-
-    val outputDir = testGenDirectory.get().asFile
-    doFirst { outputDir.deleteRecursively() } // drop generated tests of removed test data
-
-    classpath = sourceSets.testFixtures.get().runtimeClasspath
-    mainClass.set("io.github.tke.shush.GenerateTestsKt")
-    workingDir = rootDir
-    args(
-        listOf(
-            testGenDirectory.get().asFile.absolutePath,
-            testDataDir.asFile.absolutePath,
-        )
-    )
-}
-
 tasks.compileTestKotlin {
-    dependsOn(generateTests)
     // Main is also on the test classpath as the jar (through the test fixtures' dependency on this project's
     // apiElements), which must count as a friend too for tests to see internal declarations.
     friendPaths.from(tasks.named("jar"))

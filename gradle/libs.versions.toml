@@ -11,6 +11,7 @@ junit5 = "5.13.4"
 mokkery = "3.5.1"
 mavenPublish = "0.37.0"
 pluginPublish = "2.2.1"
+testBalloon = "1.1.0"
 
 [libraries]
 kotlin-compiler-oldestSupported = { module = "org.jetbrains.kotlin:kotlin-compiler", version.ref = "compilerOldestSupported" }
@@ -26,10 +27,11 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 kotlin-script-runtime = { module = "org.jetbrains.kotlin:kotlin-script-runtime", version.ref = "kotlin" }
 kotlin-annotations-jvm = { module = "org.jetbrains.kotlin:kotlin-annotations-jvm", version.ref = "kotlin" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+testBalloon-framework-core = { module = "de.infix.testBalloon:testBalloon-framework-core", version.ref = "testBalloon" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -37,3 +39,4 @@ buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig
 tapmoc = { id = "com.gradleup.tapmoc", version.ref = "tapmoc" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 plugin-publish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
+testBalloon = { id = "de.infix.testBalloon", version.ref = "testBalloon" }

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.tapmoc) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.plugin.publish) apply false
+    alias(libs.plugins.testBalloon) apply false
 }
 
 // build-local repository for the gradle-plugin functional tests
