@@ -2,11 +2,11 @@
 // DIAGNOSTICS: +UNUSED_VARIABLE
 // RETURN_VALUE_CHECKER_MODE: full
 // SHUSH_RULE: returnValues=RETURN_VALUE_NOT_USED returnValues=RETURN_VALUE_NOT_USED_COERCION
-// SHUSH_CALLS: returnValues=test.template
+// SHUSH_CALL_LAMBDAS: returnValues=test.template
 // SHUSH_RULE: unused=UNUSED_VARIABLE
-// SHUSH_ANNOTATED_FUNCTIONS: unused=test.Unused
+// SHUSH_ANNOTATED_CALLS: unused=test.Unused
 // SHUSH_RULE: deprecated=DEPRECATION
-// SHUSH_ANNOTATED_PARAMETERS: deprecated=test.Legacy
+// SHUSH_ANNOTATED_PARAMETER_LAMBDAS: deprecated=test.Legacy
 // FILE: test.kt
 package test
 
@@ -20,7 +20,8 @@ fun old(): Int = 1
 
 fun f(): Int = 1
 
-// Each rule targets the same lambda in a different way: their diagnostics are merged into one @Suppress.
+// callLambdas and annotatedParameterLambdas both target the lambda: their diagnostics are merged into one @Suppress.
+// annotatedCalls puts its own on the call around it.
 @Unused
 fun template(@Legacy block: () -> Unit) {}
 

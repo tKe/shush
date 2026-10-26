@@ -35,8 +35,10 @@ FIR has no diagnostic suppressor extension point, but its checkers report throug
 covered by a `@Suppress` on an enclosing file, declaration, lambda or block. _shush_ adds that `@Suppress` before
 the checkers run:
 
-- for `calls`, `annotatedParameters`, `annotatedFunctions` and the Mokkery preset, a
-  `FirExpressionResolutionExtension` puts it on the body of each matching lambda argument once the call is resolved;
+- for `calls` and `annotatedCalls`, a `FirExpressionResolutionExtension` puts it on each matching call once it's
+  resolved, as `@Suppress("...") f()` would;
+- for `callLambdas`, `annotatedParameterLambdas` and the Mokkery preset, the same extension puts it on the body of each
+  matching lambda argument;
 - for `files` and `annotatedDeclarations`, a `FirStatusTransformerExtension`, used only as a hook in the STATUS
   phase, puts `@file:Suppress` on matching files and `@Suppress` on matching declarations.
 
@@ -88,8 +90,8 @@ shush {
     rule("templates") {
         diagnostics.add("RETURN_VALUE_NOT_USED")
         diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
-        calls.add("com.example.myTemplate")
-        annotatedFunctions.add("com.example.Template")
+        callLambdas.add("com.example.myTemplate")
+        annotatedCalls.add("com.example.Template")
     }
     rule { // anonymous
         diagnostics.add("REDUNDANT_VISIBILITY_MODIFIER")
@@ -120,14 +122,33 @@ several places, such as a convention plugin and a build script. Named rules can'
 Each rule (`ShushRuleSpec`) has these `SetProperty<String>`s, and suppresses its `diagnostics` wherever any of its
 targets match:
 
-| Property                | Values                  | Suppresses within                                                                         |
-|-------------------------|-------------------------|-------------------------------------------------------------------------------------------|
-| `diagnostics`           | diagnostic names        | what to suppress; required if the rule has targets                                        |
-| `files`                 | globs                   | source files matching the glob, relative to the project directory (`build/generated/**`)  |
-| `calls`                 | `fq.function.name`      | lambdas passed to calls of the function                                                   |
-| `annotatedParameters`   | `fq.AnnotationName`     | lambdas passed to parameters annotated with it, or whose type is annotated with it         |
-| `annotatedFunctions`    | `fq.AnnotationName`     | lambdas passed to calls of functions annotated with it                                    |
-| `annotatedDeclarations` | `fq.AnnotationName`     | declarations annotated with it, including everything inside them                          |
+| Property                    | Values              | Suppresses within                                                                        |
+|-----------------------------|---------------------|------------------------------------------------------------------------------------------|
+| `diagnostics`               | diagnostic names    | what to suppress; required if the rule has targets                                       |
+| `files`                     | globs               | source files matching the glob, relative to the project directory (`build/generated/**`) |
+| `calls`                     | `fq.function.name`  | calls of the function, including their receiver and arguments                            |
+| `annotatedCalls`            | `fq.AnnotationName` | calls of functions annotated with it, including their receiver and arguments             |
+| `callLambdas`               | `fq.function.name`  | lambdas passed to calls of the function                                                  |
+| `annotatedParameterLambdas` | `fq.AnnotationName` | lambdas passed to parameters annotated with it, or whose type is annotated with it       |
+| `annotatedDeclarations`     | `fq.AnnotationName` | declarations annotated with it, including everything inside them                         |
+
+`calls` and `annotatedCalls` cover the whole call, lambdas included. `callLambdas` and `annotatedParameterLambdas`
+cover only the lambdas (including ones passed as Java or `fun` interfaces), so the call's own result and its other
+arguments are still checked.
+
+`calls` suits generated code you can't annotate. A gRPC method returning `com.google.protobuf.Empty` can't be marked
+`@IgnorableReturnValue`, but its calls can be exempted:
+
+```kotlin
+rule("empty-responses") {
+    diagnostics.add("RETURN_VALUE_NOT_USED")
+    diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
+    calls.add("com.example.FooServiceGrpcKt.FooServiceCoroutineStub.ping")
+}
+```
+
+Members are named by their class's fully-qualified name, so a nested class is `com.example.Outer.Inner.method`. All
+overloads of the function match.
 
 The diagnostic name `warnings` (lowercase) is the compiler's own catch-all, as in `@Suppress("warnings")`, and
 suppresses every warning but no errors:
@@ -146,7 +167,7 @@ because the compiler splits plugin options on them, so use two globs rather than
 
 | Preset    | Diagnostics                                                | Targets                                                                                                                       |
 |-----------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `mokkery` | `RETURN_VALUE_NOT_USED`, `RETURN_VALUE_NOT_USED_COERCION`  | calls of `dev.mokkery.every`, `everySuspend`, `verify`, `verifySuspend`; parameters annotated with Mokkery's internal `@Templating` |
+| `mokkery` | `RETURN_VALUE_NOT_USED`, `RETURN_VALUE_NOT_USED_COERCION`  | lambdas passed to `dev.mokkery.every`, `everySuspend`, `verify`, `verifySuspend`; parameters annotated with Mokkery's internal `@Templating` |
 
 ## Raw compiler usage
 
@@ -160,20 +181,21 @@ kotlinc -Xreturn-value-checker=full -Wextra \
   -P plugin:io.github.tke.shush:rule=generated=REDUNDANT_VISIBILITY_MODIFIER \
   -P plugin:io.github.tke.shush:rule=generated=RETURN_VALUE_NOT_USED \
   -P plugin:io.github.tke.shush:files=generated=build/generated/** \
-  -P plugin:io.github.tke.shush:calls=templates=com.example.myTemplate \
+  -P plugin:io.github.tke.shush:callLambdas=templates=com.example.myTemplate \
   ...
 ```
 
-| Option                                    | Repeatable | Meaning                                                                 |
-|-------------------------------------------|------------|-------------------------------------------------------------------------|
-| `preset=<name>`                           | yes        | Enable a preset (`mokkery`)                                             |
-| `baseDir=<path>`                          | no         | Directory relative `files` globs are matched against                    |
-| `rule=<rule>=<DIAGNOSTIC>`                | yes        | A diagnostic suppressed by `<rule>`: one option per diagnostic          |
-| `files=<rule>=<glob>`                     | yes        | See the DSL reference                                                   |
-| `calls=<rule>=<fq.function>`              | yes        |                                                                         |
-| `annotatedParameters=<rule>=<fq.Annotation>`   | yes   |                                                                         |
-| `annotatedFunctions=<rule>=<fq.Annotation>`    | yes   |                                                                         |
-| `annotatedDeclarations=<rule>=<fq.Annotation>` | yes   |                                                                         |
+| Option                                             | Repeatable | Meaning                                                        |
+|----------------------------------------------------|------------|----------------------------------------------------------------|
+| `preset=<name>`                                    | yes        | Enable a preset (`mokkery`)                                    |
+| `baseDir=<path>`                                   | no         | Directory relative `files` globs are matched against           |
+| `rule=<rule>=<DIAGNOSTIC>`                         | yes        | A diagnostic suppressed by `<rule>`: one option per diagnostic |
+| `files=<rule>=<glob>`                              | yes        | See the DSL reference                                          |
+| `calls=<rule>=<fq.function>`                       | yes        |                                                                |
+| `annotatedCalls=<rule>=<fq.Annotation>`            | yes        |                                                                |
+| `callLambdas=<rule>=<fq.function>`                 | yes        |                                                                |
+| `annotatedParameterLambdas=<rule>=<fq.Annotation>` | yes        |                                                                |
+| `annotatedDeclarations=<rule>=<fq.Annotation>`     | yes        |                                                                |
 
 The Gradle plugin passes `baseDir` as an `InternalSubpluginOption`, which isn't a task input, so compile tasks stay
 relocatable in the build cache.

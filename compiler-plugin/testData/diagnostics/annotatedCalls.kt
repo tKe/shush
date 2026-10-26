@@ -1,6 +1,6 @@
 // RETURN_VALUE_CHECKER_MODE: full
 // SHUSH_RULE: templates=RETURN_VALUE_NOT_USED templates=RETURN_VALUE_NOT_USED_COERCION
-// SHUSH_ANNOTATED_FUNCTIONS: templates=test.Template templates=test/Outer.NestedTemplate
+// SHUSH_ANNOTATED_CALLS: templates=test.Template templates=test/Outer.NestedTemplate
 // FILE: test.kt
 package test
 

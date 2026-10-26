@@ -10,9 +10,11 @@ import java.nio.file.PathMatcher
 /**
  * A named set of [diagnostics] to suppress wherever any of its targets match:
  * - [files]: source files whose path matches a glob (relative to [ShushConfiguration.baseDir] where possible);
- * - [calls]: lambdas passed to calls of these functions;
- * - [annotatedParameters]: lambdas passed to a parameter annotated with (or whose type is annotated with) one of these;
- * - [annotatedFunctions]: lambdas passed to calls of functions annotated with one of these;
+ * - [calls]: calls of these functions, including their receivers and arguments;
+ * - [annotatedCalls]: calls of functions annotated with one of these, including their receivers and arguments;
+ * - [callLambdas]: lambdas passed to calls of these functions;
+ * - [annotatedParameterLambdas]: lambdas passed to a parameter annotated with (or whose type is annotated with) one of
+ *   these;
  * - [annotatedDeclarations]: declarations (and everything within them) annotated with one of these.
  */
 data class ShushRule(
@@ -20,12 +22,14 @@ data class ShushRule(
     val diagnostics: Set<String> = emptySet(),
     val files: Set<String> = emptySet(),
     val calls: Set<FqName> = emptySet(),
-    val annotatedParameters: Set<ClassId> = emptySet(),
-    val annotatedFunctions: Set<ClassId> = emptySet(),
+    val annotatedCalls: Set<ClassId> = emptySet(),
+    val callLambdas: Set<FqName> = emptySet(),
+    val annotatedParameterLambdas: Set<ClassId> = emptySet(),
     val annotatedDeclarations: Set<ClassId> = emptySet(),
 ) {
-    val hasLambdaTargets: Boolean
-        get() = calls.isNotEmpty() || annotatedParameters.isNotEmpty() || annotatedFunctions.isNotEmpty()
+    val hasCallTargets: Boolean
+        get() = calls.isNotEmpty() || annotatedCalls.isNotEmpty() || callLambdas.isNotEmpty() ||
+            annotatedParameterLambdas.isNotEmpty()
 
     val hasDeclarationTargets: Boolean
         get() = files.isNotEmpty() || annotatedDeclarations.isNotEmpty()
@@ -37,14 +41,15 @@ data class ShushConfiguration(
 ) {
     /** Lookup tables from each kind of target to the diagnostics its rules suppress. */
     val callDiagnostics: Map<FqName, Set<String>> = index { it.calls }
-    val annotatedParameterDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedParameters }
-    val annotatedFunctionDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedFunctions }
+    val annotatedCallDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedCalls }
+    val callLambdaDiagnostics: Map<FqName, Set<String>> = index { it.callLambdas }
+    val annotatedParameterLambdaDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedParameterLambdas }
     val annotatedDeclarationDiagnostics: Map<ClassId, Set<String>> = index { it.annotatedDeclarations }
     val fileMatchers: List<Pair<PathMatcher, Set<String>>> = rules.flatMap { rule ->
         rule.files.map { glob -> FileSystems.getDefault().getPathMatcher("glob:$glob") to rule.diagnostics }
     }
 
-    val hasLambdaTargets: Boolean get() = rules.any { it.hasLambdaTargets }
+    val hasCallTargets: Boolean get() = rules.any { it.hasCallTargets }
     val hasDeclarationTargets: Boolean get() = rules.any { it.hasDeclarationTargets }
 
     /** Diagnostics to suppress in the source file at [path], tried both relative to [baseDir] and as-is. */
@@ -74,13 +79,13 @@ object ShushPresets {
     val mokkery = ShushRule(
         name = MOKKERY,
         diagnostics = setOf("RETURN_VALUE_NOT_USED", "RETURN_VALUE_NOT_USED_COERCION"),
-        calls = setOf(
+        callLambdas = setOf(
             FqName("dev.mokkery.every"),
             FqName("dev.mokkery.everySuspend"),
             FqName("dev.mokkery.verify"),
             FqName("dev.mokkery.verifySuspend"),
         ),
-        annotatedParameters = setOf(ClassId.fromString("dev/mokkery/internal/annotations/Templating")),
+        annotatedParameterLambdas = setOf(ClassId.fromString("dev/mokkery/internal/annotations/Templating")),
     )
 
     val all: Map<String, ShushRule> = listOf(mokkery).associateBy { it.name }
@@ -99,10 +104,11 @@ object ShushConfigurationKeys {
         CompilerConfigurationKey.create("shush rule diagnostics")
     val FILES: CompilerConfigurationKey<List<Pair<String, String>>> = CompilerConfigurationKey.create("shush file globs")
     val CALLS: CompilerConfigurationKey<List<Pair<String, String>>> = CompilerConfigurationKey.create("shush calls")
-    val ANNOTATED_PARAMETERS: CompilerConfigurationKey<List<Pair<String, String>>> =
-        CompilerConfigurationKey.create("shush annotated parameters")
-    val ANNOTATED_FUNCTIONS: CompilerConfigurationKey<List<Pair<String, String>>> =
-        CompilerConfigurationKey.create("shush annotated functions")
+    val ANNOTATED_CALLS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush annotated calls")
+    val CALL_LAMBDAS: CompilerConfigurationKey<List<Pair<String, String>>> = CompilerConfigurationKey.create("shush call lambdas")
+    val ANNOTATED_PARAMETER_LAMBDAS: CompilerConfigurationKey<List<Pair<String, String>>> =
+        CompilerConfigurationKey.create("shush annotated parameter lambdas")
     val ANNOTATED_DECLARATIONS: CompilerConfigurationKey<List<Pair<String, String>>> =
         CompilerConfigurationKey.create("shush annotated declarations")
     val BASE_DIR: CompilerConfigurationKey<String> = CompilerConfigurationKey.create("shush base directory")

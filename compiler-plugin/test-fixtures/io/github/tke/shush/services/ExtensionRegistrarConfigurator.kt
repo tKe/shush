@@ -31,8 +31,9 @@ private class ExtensionRegistrarConfigurator(testServices: TestServices) : Envir
             ShushDirectives.SHUSH_RULE to RULE_OPTION,
             ShushDirectives.SHUSH_FILES to FILES_OPTION,
             ShushDirectives.SHUSH_CALLS to CALLS_OPTION,
-            ShushDirectives.SHUSH_ANNOTATED_PARAMETERS to ANNOTATED_PARAMETERS_OPTION,
-            ShushDirectives.SHUSH_ANNOTATED_FUNCTIONS to ANNOTATED_FUNCTIONS_OPTION,
+            ShushDirectives.SHUSH_ANNOTATED_CALLS to ANNOTATED_CALLS_OPTION,
+            ShushDirectives.SHUSH_CALL_LAMBDAS to CALL_LAMBDAS_OPTION,
+            ShushDirectives.SHUSH_ANNOTATED_PARAMETER_LAMBDAS to ANNOTATED_PARAMETER_LAMBDAS_OPTION,
             ShushDirectives.SHUSH_ANNOTATED_DECLARATIONS to ANNOTATED_DECLARATIONS_OPTION,
         )
     }

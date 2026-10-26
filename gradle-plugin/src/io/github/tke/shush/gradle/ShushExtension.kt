@@ -19,7 +19,7 @@ import javax.inject.Inject
  *     }
  *     rule {                                 // anonymous: named after a hash of its contents
  *         diagnostics.add("RETURN_VALUE_NOT_USED")
- *         annotatedFunctions.add("com.example.Template")
+ *         annotatedCalls.add("com.example.Template")
  *     }
  * }
  * ```

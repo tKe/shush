@@ -64,8 +64,9 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
                 val targets = listOf(
                     FILES_OPTION to spec.files.get(),
                     CALLS_OPTION to spec.calls.get(),
-                    ANNOTATED_PARAMETERS_OPTION to spec.annotatedParameters.get(),
-                    ANNOTATED_FUNCTIONS_OPTION to spec.annotatedFunctions.get(),
+                    ANNOTATED_CALLS_OPTION to spec.annotatedCalls.get(),
+                    CALL_LAMBDAS_OPTION to spec.callLambdas.get(),
+                    ANNOTATED_PARAMETER_LAMBDAS_OPTION to spec.annotatedParameterLambdas.get(),
                     ANNOTATED_DECLARATIONS_OPTION to spec.annotatedDeclarations.get(),
                 )
                 val name = if (spec.isAnonymous) anonymousName(diagnostics, targets) else spec.name
@@ -91,8 +92,9 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         const val RULE_OPTION = "rule"
         const val FILES_OPTION = "files"
         const val CALLS_OPTION = "calls"
-        const val ANNOTATED_PARAMETERS_OPTION = "annotatedParameters"
-        const val ANNOTATED_FUNCTIONS_OPTION = "annotatedFunctions"
+        const val ANNOTATED_CALLS_OPTION = "annotatedCalls"
+        const val CALL_LAMBDAS_OPTION = "callLambdas"
+        const val ANNOTATED_PARAMETER_LAMBDAS_OPTION = "annotatedParameterLambdas"
         const val ANNOTATED_DECLARATIONS_OPTION = "annotatedDeclarations"
 
         fun options(projectPath: String, projectDir: String, mokkery: Boolean, rules: List<RuleSnapshot>): List<SubpluginOption> {
