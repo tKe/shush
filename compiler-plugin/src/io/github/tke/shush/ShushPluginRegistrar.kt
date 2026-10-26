@@ -21,7 +21,7 @@ class ShushPluginRegistrar : CompilerPluginRegistrar() {
     @OptIn(MessageCollectorAccess::class) // a plain error message: no diagnostic factory fits
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
         val shushConfiguration = configuration.toShushConfiguration()
-        if (shushConfiguration.rules.isEmpty()) return
+        if (shushConfiguration.isEmpty) return
         // fail early on unsupported compilers, before FIR code links against APIs they lack
         try {
             ShushCompatLayers.current
@@ -73,5 +73,6 @@ internal fun CompilerConfiguration.toShushConfiguration(): ShushConfiguration {
     return ShushConfiguration(
         rules = presets + custom,
         baseDir = get(ShushConfigurationKeys.BASE_DIR)?.let { Path.of(it).toAbsolutePath().normalize() },
+        ignorableReturnTypes = getList(ShushConfigurationKeys.IGNORABLE_RETURN_TYPES).mapTo(mutableSetOf(), ::parseClassId),
     )
 }

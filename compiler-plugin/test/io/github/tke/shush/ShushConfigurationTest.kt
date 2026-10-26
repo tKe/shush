@@ -119,8 +119,28 @@ val ShushConfigurationTest by testSuite {
         )
     }
 
+    test("ignorable return types need no rule") {
+        val configuration = configuration(
+            ShushCommandLineProcessor.IGNORABLE_RETURN_TYPES_OPTION to "com.google.protobuf.Empty",
+            ShushCommandLineProcessor.IGNORABLE_RETURN_TYPES_OPTION to "com/example/Responses.Done;com.example.Ack",
+        ).toShushConfiguration()
+
+        assertEquals(emptyList(), configuration.rules)
+        assertEquals(
+            setOf(
+                ClassId.fromString("com/google/protobuf/Empty"),
+                ClassId.fromString("com/example/Responses.Done"),
+                ClassId.fromString("com/example/Ack"),
+            ),
+            configuration.ignorableReturnTypes,
+        )
+        assertTrue(!configuration.isEmpty)
+    }
+
     test("no options means no rules") {
-        assertEquals(emptyList(), CompilerConfiguration().toShushConfiguration().rules)
+        val configuration = CompilerConfiguration().toShushConfiguration()
+        assertEquals(emptyList(), configuration.rules)
+        assertTrue(configuration.isEmpty)
     }
 
     test("targets of an undeclared rule are rejected") {

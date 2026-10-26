@@ -5,6 +5,7 @@ import org.gradle.api.DomainObjectSet
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.SetProperty
 import javax.inject.Inject
 
 /**
@@ -21,6 +22,7 @@ import javax.inject.Inject
  *         diagnostics.add("RETURN_VALUE_NOT_USED")
  *         annotatedCalls.add("com.example.Template")
  *     }
+ *     ignorableReturnTypes.add("com.google.protobuf.Empty")
  * }
  * ```
  */
@@ -31,6 +33,13 @@ abstract class ShushExtension @Inject constructor(objects: ObjectFactory) {
      * applied, `false` otherwise.
      */
     abstract val mokkery: Property<Boolean>
+
+    /**
+     * Fully-qualified classes: Kotlin functions in this project declared to return one of them (non-null, written out
+     * rather than inferred) are compiled as `@IgnorableReturnValue`, so leaving their result unused isn't reported,
+     * here or in projects that call them.
+     */
+    abstract val ignorableReturnTypes: SetProperty<String>
 
     /** Custom suppression rules, see [ShushRuleSpec]. */
     val rules: NamedDomainObjectContainer<ShushRuleSpec> = objects.domainObjectContainer(ShushRuleSpec::class.java)
