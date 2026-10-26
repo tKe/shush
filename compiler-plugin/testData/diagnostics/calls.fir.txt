@@ -1,0 +1,53 @@
+FILE: test.kt
+    package test
+
+    public final class Empty : R|kotlin/Any| {
+        public constructor(): R|test/Empty| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final class Stub : R|kotlin/Any| {
+        public constructor(): R|test/Stub| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun empty(): R|test/Empty| {
+            ^empty R|test/Empty.Empty|()
+        }
+
+        public final fun empty(request: R|kotlin/Int|): R|test/Empty| {
+            ^empty R|test/Empty.Empty|()
+        }
+
+        public final fun value(): R|kotlin/Int| {
+            ^value Int(1)
+        }
+
+    }
+    public final fun emptyOf(value: R|kotlin/Int|): R|test/Empty| {
+        ^emptyOf R|test/Empty.Empty|()
+    }
+    public final fun calls(stub: R|test/Stub|): R|kotlin/Unit| {
+        @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))) R|<local>/stub|.R|test/Stub.empty|()
+        @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))) R|<local>/stub|.R|test/Stub.empty|(Int(1))
+        @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))) R|test/emptyOf|(Int(1))
+        R|<local>/stub|.R|test/Stub.value|()
+    }
+    public final fun postponed(stub: R|test/Stub|, items: R|kotlin/collections/List<kotlin/Int>|): R|kotlin/Unit| {
+        R|<local>/items|.R|kotlin/collections/forEach|<R|kotlin/Int|>(<L> = forEach@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+            @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))) R|<local>/stub|.R|test/Stub.empty|(R|<local>/it|)
+        }
+        )
+        R|<local>/items|.R|kotlin/collections/forEach|<R|kotlin/Int|>(<L> = forEach@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+            R|<local>/stub|.R|test/Stub.value|()
+        }
+        )
+    }
+    public final fun safeCalls(stub: R|test/Stub?|): R|kotlin/Unit| {
+        R|<local>/stub|?.{ @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))) $subj$.R|test/Stub.empty|() }
+        R|<local>/stub|?.{ $subj$.R|test/Stub.value|() }
+    }
+    public final fun userSuppress(stub: R|test/Stub|): R|kotlin/Unit| {
+        @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION), String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION))]) R|<local>/stub|.R|test/Stub.empty|()
+    }

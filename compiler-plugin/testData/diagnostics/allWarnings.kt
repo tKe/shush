@@ -5,7 +5,7 @@
 // SHUSH_RULE: legacy=warnings
 // SHUSH_ANNOTATED_DECLARATIONS: legacy=lib.Legacy
 // SHUSH_RULE: block=warnings
-// SHUSH_CALLS: block=lib.quietly
+// SHUSH_CALL_LAMBDAS: block=lib.quietly
 // FILE: lib.kt
 package lib
 

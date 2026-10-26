@@ -191,6 +191,9 @@ tasks.test {
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-test", "kotlin-test")
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-script-runtime", "kotlin-script-runtime")
     setLibraryProperty("org.jetbrains.kotlin.test.kotlin-annotations-jvm", "kotlin-annotations-jvm")
+    // javac (for Java test sources) gets its classpath from ForTestCompileRuntime, which reads these names instead.
+    setLibraryProperty("kotlin.full.stdlib.path", "kotlin-stdlib")
+    setLibraryProperty("kotlin.reflect.jar.path", "kotlin-reflect")
 
     // `-Pkotlin.test.update.test.data=true` rewrites test data (diagnostic markers, dumps) with the actual output.
     providers.gradleProperty("kotlin.test.update.test.data").orNull?.let { systemProperty("kotlin.test.update.test.data", it) }

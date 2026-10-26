@@ -29,14 +29,17 @@ abstract class ShushRuleSpec @Inject constructor(private val ruleName: String) :
     /** Globs matched against source file paths, relative to the project directory (absolute paths also work). */
     abstract val files: SetProperty<String>
 
-    /** Fully-qualified functions: suppresses within lambdas passed to their calls. */
+    /** Fully-qualified functions: suppresses on their calls, including the receiver and arguments. */
     abstract val calls: SetProperty<String>
 
-    /** Fully-qualified annotations: suppresses within lambdas passed to parameters annotated (or typed) with them. */
-    abstract val annotatedParameters: SetProperty<String>
+    /** Fully-qualified annotations: suppresses on calls of functions annotated with them. */
+    abstract val annotatedCalls: SetProperty<String>
 
-    /** Fully-qualified annotations: suppresses within lambdas passed to calls of functions annotated with them. */
-    abstract val annotatedFunctions: SetProperty<String>
+    /** Fully-qualified functions: suppresses within lambdas passed to their calls. */
+    abstract val callLambdas: SetProperty<String>
+
+    /** Fully-qualified annotations: suppresses within lambdas passed to parameters annotated (or typed) with them. */
+    abstract val annotatedParameterLambdas: SetProperty<String>
 
     /** Fully-qualified annotations: suppresses within declarations annotated with them. */
     abstract val annotatedDeclarations: SetProperty<String>
@@ -45,8 +48,9 @@ abstract class ShushRuleSpec @Inject constructor(private val ruleName: String) :
         diagnostics.convention(emptySet())
         files.convention(emptySet())
         calls.convention(emptySet())
-        annotatedParameters.convention(emptySet())
-        annotatedFunctions.convention(emptySet())
+        annotatedCalls.convention(emptySet())
+        callLambdas.convention(emptySet())
+        annotatedParameterLambdas.convention(emptySet())
         annotatedDeclarations.convention(emptySet())
     }
 }

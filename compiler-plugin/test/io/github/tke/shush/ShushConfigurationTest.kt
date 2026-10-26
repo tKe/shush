@@ -26,9 +26,10 @@ val ShushConfigurationTest by testSuite {
             ShushCommandLineProcessor.RULE_OPTION to "gen=UNUSED_VARIABLE",
             ShushCommandLineProcessor.RULE_OPTION to "gen=DEPRECATION",
             ShushCommandLineProcessor.FILES_OPTION to "gen=build/{a,b}/x=y/**",
-            ShushCommandLineProcessor.CALLS_OPTION to "gen=com.example.template",
-            ShushCommandLineProcessor.ANNOTATED_PARAMETERS_OPTION to "gen=com.example.Param",
-            ShushCommandLineProcessor.ANNOTATED_FUNCTIONS_OPTION to "gen=com/example/Outer.Function",
+            ShushCommandLineProcessor.CALLS_OPTION to "gen=com.example.Stub.empty",
+            ShushCommandLineProcessor.ANNOTATED_CALLS_OPTION to "gen=com/example/Outer.Function",
+            ShushCommandLineProcessor.CALL_LAMBDAS_OPTION to "gen=com.example.template",
+            ShushCommandLineProcessor.ANNOTATED_PARAMETER_LAMBDAS_OPTION to "gen=com.example.Param",
             ShushCommandLineProcessor.ANNOTATED_DECLARATIONS_OPTION to "gen=com.example.Generated",
             ShushCommandLineProcessor.BASE_DIR_OPTION to "/project",
         ).toShushConfiguration()
@@ -39,9 +40,10 @@ val ShushConfigurationTest by testSuite {
                     name = "gen",
                     diagnostics = setOf("UNUSED_VARIABLE", "DEPRECATION"),
                     files = setOf("build/{a,b}/x=y/**"),
-                    calls = setOf(FqName("com.example.template")),
-                    annotatedParameters = setOf(ClassId.fromString("com/example/Param")),
-                    annotatedFunctions = setOf(ClassId.fromString("com/example/Outer.Function")),
+                    calls = setOf(FqName("com.example.Stub.empty")),
+                    annotatedCalls = setOf(ClassId.fromString("com/example/Outer.Function")),
+                    callLambdas = setOf(FqName("com.example.template")),
+                    annotatedParameterLambdas = setOf(ClassId.fromString("com/example/Param")),
                     annotatedDeclarations = setOf(ClassId.fromString("com/example/Generated")),
                 ),
             ),
@@ -110,10 +112,10 @@ val ShushConfigurationTest by testSuite {
         ).toShushConfiguration()
 
         assertEquals(listOf(ShushPresets.mokkery), configuration.rules)
-        assertTrue(configuration.hasLambdaTargets)
+        assertTrue(configuration.hasCallTargets)
         assertEquals(
             setOf("RETURN_VALUE_NOT_USED", "RETURN_VALUE_NOT_USED_COERCION"),
-            configuration.callDiagnostics[FqName("dev.mokkery.verify")],
+            configuration.callLambdaDiagnostics[FqName("dev.mokkery.verify")],
         )
     }
 
@@ -124,7 +126,7 @@ val ShushConfigurationTest by testSuite {
     test("targets of an undeclared rule are rejected") {
         val configuration = configuration(
             ShushCommandLineProcessor.RULE_OPTION to "declared=UNUSED_VARIABLE",
-            ShushCommandLineProcessor.CALLS_OPTION to "declared=com.example.f",
+            ShushCommandLineProcessor.CALL_LAMBDAS_OPTION to "declared=com.example.f",
             ShushCommandLineProcessor.FILES_OPTION to "typo=**/generated/**",
         )
         val error = assertFailsWith<CliOptionProcessingException> { configuration.toShushConfiguration() }

@@ -44,11 +44,13 @@ internal fun CompilerConfiguration.toShushConfiguration(): ShushConfiguration {
 
     val files = targets(ShushConfigurationKeys.FILES)
     val calls = targets(ShushConfigurationKeys.CALLS)
-    val annotatedParameters = targets(ShushConfigurationKeys.ANNOTATED_PARAMETERS)
-    val annotatedFunctions = targets(ShushConfigurationKeys.ANNOTATED_FUNCTIONS)
+    val annotatedCalls = targets(ShushConfigurationKeys.ANNOTATED_CALLS)
+    val callLambdas = targets(ShushConfigurationKeys.CALL_LAMBDAS)
+    val annotatedParameterLambdas = targets(ShushConfigurationKeys.ANNOTATED_PARAMETER_LAMBDAS)
     val annotatedDeclarations = targets(ShushConfigurationKeys.ANNOTATED_DECLARATIONS)
 
-    val targetedRules = files.keys + calls.keys + annotatedParameters.keys + annotatedFunctions.keys + annotatedDeclarations.keys
+    val targetedRules = files.keys + calls.keys + annotatedCalls.keys + callLambdas.keys + annotatedParameterLambdas.keys +
+        annotatedDeclarations.keys
     val undeclared = targetedRules - diagnostics.keys
     if (undeclared.isNotEmpty()) {
         throw CliOptionProcessingException("shush rules have targets but no diagnostics (missing 'rule=<name>=<DIAGNOSTIC>'): $undeclared")
@@ -60,8 +62,9 @@ internal fun CompilerConfiguration.toShushConfiguration(): ShushConfiguration {
             diagnostics = ruleDiagnostics,
             files = files[name].orEmpty().toSet(),
             calls = calls[name].orEmpty().mapTo(mutableSetOf(), ::FqName),
-            annotatedParameters = annotatedParameters[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
-            annotatedFunctions = annotatedFunctions[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
+            annotatedCalls = annotatedCalls[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
+            callLambdas = callLambdas[name].orEmpty().mapTo(mutableSetOf(), ::FqName),
+            annotatedParameterLambdas = annotatedParameterLambdas[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
             annotatedDeclarations = annotatedDeclarations[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
         )
     }

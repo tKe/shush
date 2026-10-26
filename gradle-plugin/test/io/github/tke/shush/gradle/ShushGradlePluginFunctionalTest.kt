@@ -77,7 +77,7 @@ val ShushGradlePluginFunctionalTest by testSuite(
                     rule("my-templates") {
                         diagnostics.add("RETURN_VALUE_NOT_USED")
                         diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
-                        calls.add("com.example.myTemplate")
+                        callLambdas.add("com.example.myTemplate")
                     }
                 """,
             )
@@ -146,7 +146,7 @@ val ShushGradlePluginFunctionalTest by testSuite(
         }
 
         scenario(
-            "annotatedDeclarations and annotatedFunctions rules suppress within annotated code",
+            "annotatedDeclarations and annotatedCalls rules suppress within annotated code",
         ) { gradle, kotlin ->
             writeProject(
                 projectDir,
@@ -160,7 +160,7 @@ val ShushGradlePluginFunctionalTest by testSuite(
                     rule("templates") {
                         diagnostics.add("RETURN_VALUE_NOT_USED")
                         diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
-                        annotatedFunctions.add("com.example.Template")
+                        annotatedCalls.add("com.example.Template")
                     }
                 """,
                 sources = ANNOTATED_SOURCES,
@@ -169,6 +169,25 @@ val ShushGradlePluginFunctionalTest by testSuite(
             val result = runner(gradle, projectDir, "compileKotlin", "--configuration-cache").build()
             assertEquals(TaskOutcome.SUCCESS, result.task(":compileKotlin")?.outcome)
             assertEquals(expectedWarnings(ANNOTATED_SOURCES), warnings(result), result.output)
+        }
+
+        scenario("calls rule suppresses on calls of the function") { gradle, kotlin ->
+            writeProject(
+                projectDir,
+                kotlin,
+                shush = """
+                    rule("empty-responses") {
+                        diagnostics.add("RETURN_VALUE_NOT_USED")
+                        diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
+                        calls.add("com.example.Stub.ping")
+                    }
+                """,
+                sources = CALL_SOURCES,
+            )
+
+            val result = runner(gradle, projectDir, "compileKotlin", "--configuration-cache").build()
+            assertEquals(TaskOutcome.SUCCESS, result.task(":compileKotlin")?.outcome)
+            assertEquals(expectedWarnings(CALL_SOURCES), warnings(result), result.output)
         }
 
         scenario("a rule with targets but no diagnostics fails the build", currentGradleMatrix) { gradle, kotlin ->
@@ -202,7 +221,7 @@ val ShushGradlePluginFunctionalTest by testSuite(
                     rule {
                         diagnostics.add("RETURN_VALUE_NOT_USED")
                         diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
-                        calls.add("com.example.myTemplate")
+                        callLambdas.add("com.example.myTemplate")
                     }
                     rule("unused-variables") {
                         diagnostics.add("UNUSED_VARIABLE")
@@ -234,12 +253,12 @@ val ShushGradlePluginFunctionalTest by testSuite(
                 rule {
                     diagnostics.add("RETURN_VALUE_NOT_USED")
                     diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
-                    annotatedFunctions.add("com.example.Template")
+                    annotatedCalls.add("com.example.Template")
                 }
                 """.trimIndent(),
                 """
                 rule {
-                    annotatedFunctions.add("com.example.Template")
+                    annotatedCalls.add("com.example.Template")
                     diagnostics.add("RETURN_VALUE_NOT_USED_COERCION")
                     diagnostics.add("RETURN_VALUE_NOT_USED")
                 }
@@ -565,6 +584,25 @@ private val HANDWRITTEN_SOURCES = mapOf(
             public fun use() { // WARN
                 value() // WARN
             }
+        }
+    """.trimIndent() + "\n",
+)
+
+private val CALL_SOURCES = mapOf(
+    "src/main/kotlin/com/example/Stub.kt" to """
+        package com.example
+
+        class Empty
+
+        class Stub {
+            fun ping(): Empty = Empty()
+            fun count(): Int = 1
+        }
+
+        fun use(stub: Stub, items: List<Int>) {
+            stub.ping()
+            stub.count() // WARN
+            items.forEach { stub.ping() }
         }
     """.trimIndent() + "\n",
 )

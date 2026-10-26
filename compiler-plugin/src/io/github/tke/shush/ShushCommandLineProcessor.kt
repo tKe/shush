@@ -22,14 +22,15 @@ class ShushCommandLineProcessor : CommandLineProcessor {
         val PRESET_OPTION = option("preset", "<name>", "Enable a built-in rule: ${ShushPresets.all.keys.joinToString()}")
         val RULE_OPTION = option("rule", "<rule>=<DIAGNOSTIC>", "A diagnostic suppressed by a rule (repeat for several)")
         val FILES_OPTION = option("files", "<rule>=<glob>", "Suppress in source files matching a glob")
-        val CALLS_OPTION = option("calls", "<rule>=<fq.function>", "Suppress in lambdas passed to calls of a function")
-        val ANNOTATED_PARAMETERS_OPTION = option(
-            "annotatedParameters", "<rule>=<fq.Annotation>",
-            "Suppress in lambdas passed to parameters annotated (or typed) with an annotation",
+        val CALLS_OPTION = option("calls", "<rule>=<fq.function>", "Suppress on calls of a function")
+        val ANNOTATED_CALLS_OPTION = option(
+            "annotatedCalls", "<rule>=<fq.Annotation>",
+            "Suppress on calls of functions annotated with an annotation",
         )
-        val ANNOTATED_FUNCTIONS_OPTION = option(
-            "annotatedFunctions", "<rule>=<fq.Annotation>",
-            "Suppress in lambdas passed to calls of functions annotated with an annotation",
+        val CALL_LAMBDAS_OPTION = option("callLambdas", "<rule>=<fq.function>", "Suppress in lambdas passed to calls of a function")
+        val ANNOTATED_PARAMETER_LAMBDAS_OPTION = option(
+            "annotatedParameterLambdas", "<rule>=<fq.Annotation>",
+            "Suppress in lambdas passed to parameters annotated (or typed) with an annotation",
         )
         val ANNOTATED_DECLARATIONS_OPTION = option(
             "annotatedDeclarations", "<rule>=<fq.Annotation>",
@@ -47,8 +48,9 @@ class ShushCommandLineProcessor : CommandLineProcessor {
             RULE_OPTION to ShushConfigurationKeys.RULE_DIAGNOSTICS,
             FILES_OPTION to ShushConfigurationKeys.FILES,
             CALLS_OPTION to ShushConfigurationKeys.CALLS,
-            ANNOTATED_PARAMETERS_OPTION to ShushConfigurationKeys.ANNOTATED_PARAMETERS,
-            ANNOTATED_FUNCTIONS_OPTION to ShushConfigurationKeys.ANNOTATED_FUNCTIONS,
+            ANNOTATED_CALLS_OPTION to ShushConfigurationKeys.ANNOTATED_CALLS,
+            CALL_LAMBDAS_OPTION to ShushConfigurationKeys.CALL_LAMBDAS,
+            ANNOTATED_PARAMETER_LAMBDAS_OPTION to ShushConfigurationKeys.ANNOTATED_PARAMETER_LAMBDAS,
             ANNOTATED_DECLARATIONS_OPTION to ShushConfigurationKeys.ANNOTATED_DECLARATIONS,
         )
 

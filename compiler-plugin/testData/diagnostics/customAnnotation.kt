@@ -1,7 +1,7 @@
 // RETURN_VALUE_CHECKER_MODE: full
 // SHUSH_RULE: templates=RETURN_VALUE_NOT_USED templates=RETURN_VALUE_NOT_USED_COERCION
-// SHUSH_ANNOTATED_PARAMETERS: templates=test.Recorded
-// SHUSH_ANNOTATED_PARAMETERS: templates=test.RecordedType
+// SHUSH_ANNOTATED_PARAMETER_LAMBDAS: templates=test.Recorded
+// SHUSH_ANNOTATED_PARAMETER_LAMBDAS: templates=test.RecordedType
 // SHUSH_PRESET: mokkery
 // FILE: templating.kt
 package dev.mokkery.internal.annotations

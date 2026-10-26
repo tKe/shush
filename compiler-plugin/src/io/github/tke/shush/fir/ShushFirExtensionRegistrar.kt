@@ -7,7 +7,7 @@ class ShushFirExtensionRegistrar(
     private val configuration: ShushConfiguration,
 ) : FirExtensionRegistrar() {
     override fun ExtensionRegistrarContext.configurePlugin() {
-        if (configuration.hasLambdaTargets) +FirLambdaSuppressor.getFactory(configuration)
+        if (configuration.hasCallTargets) +FirCallSuppressor.getFactory(configuration)
         if (configuration.hasDeclarationTargets) +FirDeclarationSuppressor.getFactory(configuration)
     }
 }

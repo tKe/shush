@@ -1,0 +1,54 @@
+FILE: test.kt
+    package test
+
+    public final fun signalWithStart(signals: R|io/temporal/client/BatchRequest.() -> kotlin/Unit|): R|kotlin/Unit| {
+    }
+    public abstract interface MyWorkflow : R|kotlin/Any| {
+        public abstract fun start(): R|kotlin/String|
+
+        public abstract fun startWith(arg: R|kotlin/Int|): R|kotlin/String|
+
+        public abstract fun signal(): R|kotlin/Unit|
+
+    }
+    public final fun batch(request: R|io/temporal/client/BatchRequest|, workflow: R|test/MyWorkflow|): R|kotlin/Unit| {
+        R|<local>/request|.R|io/temporal/client/BatchRequest.add|(<L> = SAM(add@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/workflow|.R|test/MyWorkflow.start|()
+        }
+        ))
+        R|<local>/request|.R|io/temporal/client/BatchRequest.add|<R|kotlin/Int!|>(SAM(add@fun <anonymous>(it: R|kotlin/Int!|): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/workflow|.R|test/MyWorkflow.startWith|(R|<local>/it|)
+        }
+        ), Int(1))
+        R|<local>/request|.R|io/temporal/client/BatchRequest.add|(SAM(R|<local>/workflow|::R|test/MyWorkflow.start|))
+        R|<local>/request|.R|io/temporal/client/BatchRequest.add|(<L> = SAM(add@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            R|<local>/workflow|.R|test/MyWorkflow.signal|()
+        }
+        ))
+    }
+    public final fun nested(request: R|io/temporal/client/BatchRequest|, workflow: R|test/MyWorkflow|, items: R|kotlin/collections/List<kotlin/Int>|): R|kotlin/Unit| {
+        R|<local>/items|.R|kotlin/collections/forEach|<R|kotlin/Int|>(<L> = forEach@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+            R|<local>/request|.R|io/temporal/client/BatchRequest.add|(<L> = SAM(add@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+                R|<local>/workflow|.R|test/MyWorkflow.startWith|(R|<local>/it|)
+            }
+            ))
+        }
+        )
+        R|test/signalWithStart|(<L> = signalWithStart@fun R|io/temporal/client/BatchRequest|.<anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            this@R|special/anonymous|.R|io/temporal/client/BatchRequest.add|(<L> = SAM(add@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+                R|<local>/workflow|.R|test/MyWorkflow.start|()
+            }
+            ))
+            this@R|special/anonymous|.R|io/temporal/client/BatchRequest.add|(<L> = SAM(add@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+                R|<local>/workflow|.R|test/MyWorkflow.startWith|(Int(1))
+            }
+            ))
+        }
+        )
+    }
+    public final fun notTargeted(workflow: R|test/MyWorkflow|): R|kotlin/Unit| {
+        R|java/lang/Runnable|(<L> = Runnable@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline>  {
+            R|<local>/workflow|.R|test/MyWorkflow.start|()
+        }
+        ).R|java/lang/Runnable.run|()
+    }
