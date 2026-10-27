@@ -255,12 +255,16 @@ Tested with Kotlin toolchain 0.13.0 (`kotlin build`).
 
 ## IDE support
 
-In K2 mode IntelliJ IDEA only runs the compiler plugins bundled with it, so the editor still shows the warnings the
-build suppresses. Install
-[Kotlin External FIR Support](https://plugins.jetbrains.com/plugin/26480-kotlin-external-fir-support) (KEFS); it
-picks up _shush_ from your build with no configuration, and reloads it when the jar changes. The jar carries the
-[Compiler Plugin DevKit](https://github.com/Kotlin/compiler-plugin-dev-kit)'s multi-release markers, which KEFS uses
-to check the IDE's compiler is supported. An IDE compiler older than 2.4.20 shows up as unsupported in the
+In K2 mode IntelliJ IDEA only runs the compiler plugins bundled with it, so without help the editor still shows the
+warnings the build suppresses. From 2026.3, IntelliJ also runs compiler plugins that declare the IDE builds they
+support; _shush_ does, so supported IntelliJ builds load it from your build with no setup.
+
+For more control, install
+[Kotlin External FIR Support](https://plugins.jetbrains.com/plugin/26480-kotlin-external-fir-support) (KEFS, 2026.2
+and later), which takes precedence when installed. It picks up _shush_ from your build with no configuration, isolates
+its exceptions so a failing plugin is disabled instead of breaking the editor, and reloads it when the jar changes.
+The jar carries the [Compiler Plugin DevKit](https://github.com/Kotlin/compiler-plugin-dev-kit)'s multi-release
+markers, which KEFS uses to check the IDE's compiler is supported; an unsupported one shows up in the
 *KEFS Diagnostics* tool window.
 
 Alternatively, turn off the registry key `kotlin.k2.only.bundled.compiler.plugins.enabled`. That runs every compiler
@@ -288,6 +292,8 @@ uses). The newest one not newer than the running compiler is picked at runtime.
   declarations are matched exactly.
 - The IDE runs an IntelliJ build of Kotlin (e.g. `2.4.20-ij262-52`) rather than a release, so its APIs could differ
   slightly from the layer's. If they do, KEFS disables _shush_ in the editor; the build isn't affected.
+- With KEFS installed, KEFS loads _shush_ first. If KEFS disables it, a supported IntelliJ build loads it anyway,
+  without KEFS's exception isolation.
 
 ## Building and testing
 

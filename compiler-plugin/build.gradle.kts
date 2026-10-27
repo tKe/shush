@@ -235,7 +235,12 @@ tasks.jar {
     compatSourceSets.forEach { from(it.map { set -> set.output.classesDirs }) }
     from(kefsMarkers)
     manifest {
-        attributes("Kotlin-Compiler-Plugin-Multi-Release" to "true")
+        attributes(
+            "Kotlin-Compiler-Plugin-Multi-Release" to "true",
+            // IntelliJ 2026.3+ loads compiler plugins whose build range matches without KEFS or the registry key
+            "Kotlin-Compiler-Plugin-Since-Build" to "263",
+            "Kotlin-Compiler-Plugin-Until-Build" to "263.*",
+        )
     }
 }
 
