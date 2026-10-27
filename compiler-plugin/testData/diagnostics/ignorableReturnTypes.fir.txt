@@ -1,0 +1,76 @@
+FILE: test.kt
+    package test
+
+    public final class Empty : R|kotlin/Any| {
+        public constructor(): R|test/Empty| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final class Responses : R|kotlin/Any| {
+        public constructor(): R|test/Responses| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final class Done : R|kotlin/Any| {
+            public constructor(): R|test/Responses.Done| {
+                super<R|kotlin/Any|>()
+            }
+
+        }
+
+    }
+    public final typealias Nothing2 = R|test/Empty|
+    public abstract interface Service : R|kotlin/Any| {
+        @R|kotlin/IgnorableReturnValue|() public abstract suspend fun ping(): R|test/Empty|
+
+    }
+    public final class Stub : R|test/Service| {
+        public constructor(): R|test/Stub| {
+            super<R|kotlin/Any|>()
+        }
+
+        @R|kotlin/IgnorableReturnValue|() public open override suspend fun ping(): R|test/Empty| {
+            ^ping R|test/Empty.Empty|()
+        }
+
+        @R|kotlin/IgnorableReturnValue|() public final fun done(): R|test/Responses.Done| {
+            ^done Q|test/Responses|.R|test/Responses.Done.Done|()
+        }
+
+        @R|kotlin/IgnorableReturnValue|() public final fun aliased(): R|{test/Nothing2=} test/Empty| {
+            ^aliased R|test/Empty.Empty|()
+        }
+
+        public final fun maybe(): R|test/Empty?| {
+            ^maybe Null(null)
+        }
+
+        public final fun inferred(): R|test/Empty| {
+            ^inferred R|test/Empty.Empty|()
+        }
+
+        public final fun value(): R|kotlin/Int| {
+            ^value Int(1)
+        }
+
+        @R|kotlin/IgnorableReturnValue|() public final fun annotated(): R|test/Empty| {
+            ^annotated R|test/Empty.Empty|()
+        }
+
+    }
+    @R|kotlin/IgnorableReturnValue|() public final fun empty(): R|test/Empty| {
+        ^empty R|test/Empty.Empty|()
+    }
+    public final suspend fun calls(stub: R|test/Stub|, service: R|test/Service|): R|kotlin/Unit| {
+        R|<local>/stub|.R|test/Stub.ping|()
+        R|<local>/service|.R|test/Service.ping|()
+        R|<local>/stub|.R|test/Stub.done|()
+        R|<local>/stub|.R|test/Stub.aliased|()
+        R|<local>/stub|.R|test/Stub.annotated|()
+        R|test/empty|()
+        R|<local>/stub|.R|test/Stub.maybe|()
+        R|<local>/stub|.R|test/Stub.inferred|()
+        R|<local>/stub|.R|test/Stub.value|()
+        R|test/Empty.Empty|()
+    }

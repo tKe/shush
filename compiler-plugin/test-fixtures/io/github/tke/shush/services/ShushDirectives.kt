@@ -21,5 +21,6 @@ object ShushDirectives : SimpleDirectivesContainer() {
     val SHUSH_CALL_LAMBDAS by stringDirective("Value(s) of the `callLambdas` option (<rule>=<fq.function>)")
     val SHUSH_ANNOTATED_PARAMETER_LAMBDAS by stringDirective("Value(s) of the `annotatedParameterLambdas` option (<rule>=<fq.Annotation>)")
     val SHUSH_ANNOTATED_DECLARATIONS by stringDirective("Value(s) of the `annotatedDeclarations` option (<rule>=<fq.Annotation>)")
+    val SHUSH_IGNORABLE_RETURN_TYPES by stringDirective("Value(s) of the `ignorableReturnTypes` option (<fq.Class>)")
     val SHUSH_BASE_DIR by stringDirective("Value of the `baseDir` option (<path>)")
 }

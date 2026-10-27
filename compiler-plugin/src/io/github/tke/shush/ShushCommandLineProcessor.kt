@@ -36,6 +36,10 @@ class ShushCommandLineProcessor : CommandLineProcessor {
             "annotatedDeclarations", "<rule>=<fq.Annotation>",
             "Suppress within declarations annotated with an annotation",
         )
+        val IGNORABLE_RETURN_TYPES_OPTION = option(
+            "ignorableReturnTypes", "<fq.Class>",
+            "Mark functions declared to return this type @IgnorableReturnValue",
+        )
         val BASE_DIR_OPTION = CliOption(
             optionName = "baseDir",
             valueDescription = "<path>",
@@ -66,7 +70,7 @@ class ShushCommandLineProcessor : CommandLineProcessor {
     override val pluginId: String get() = BuildConfig.KOTLIN_PLUGIN_ID
 
     override val pluginOptions: Collection<AbstractCliOption> =
-        listOf(PRESET_OPTION, BASE_DIR_OPTION) + ruleTargetOptions.keys
+        listOf(PRESET_OPTION, IGNORABLE_RETURN_TYPES_OPTION, BASE_DIR_OPTION) + ruleTargetOptions.keys
 
     override fun processOption(option: AbstractCliOption, value: String, configuration: CompilerConfiguration) {
         when (option) {
@@ -75,6 +79,9 @@ class ShushCommandLineProcessor : CommandLineProcessor {
                     throw CliOptionProcessingException("Unknown shush preset '$preset', expected one of ${ShushPresets.all.keys}")
                 }
                 configuration.appendList(ShushConfigurationKeys.PRESETS, preset)
+            }
+            IGNORABLE_RETURN_TYPES_OPTION -> for (type in value.listItems()) {
+                configuration.appendList(ShushConfigurationKeys.IGNORABLE_RETURN_TYPES, type)
             }
             BASE_DIR_OPTION -> configuration.put(ShushConfigurationKeys.BASE_DIR, value)
             else -> {

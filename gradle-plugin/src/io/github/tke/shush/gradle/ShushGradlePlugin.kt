@@ -17,7 +17,7 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         target.pluginManager.withPlugin(MOKKERY_PLUGIN_ID) { extension.mokkery.convention(true) }
     }
 
-    // only removes diagnostics, so apply it everywhere
+    // does nothing unless configured, so apply it everywhere
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean = true
 
     override fun getCompilerPluginId(): String = BuildConfig.KOTLIN_PLUGIN_ID
@@ -38,6 +38,9 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         }
         return extension.mokkery.zip(rules) { mokkery, ruleSnapshots ->
             options(projectPath, projectDir, mokkery, ruleSnapshots)
+        }.zip(extension.ignorableReturnTypes) { options, types ->
+            options + types.map(String::trim).filter(String::isNotEmpty).sorted()
+                .map { SubpluginOption(IGNORABLE_RETURN_TYPES_OPTION, it) }
         }
     }
 
@@ -96,6 +99,7 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         const val CALL_LAMBDAS_OPTION = "callLambdas"
         const val ANNOTATED_PARAMETER_LAMBDAS_OPTION = "annotatedParameterLambdas"
         const val ANNOTATED_DECLARATIONS_OPTION = "annotatedDeclarations"
+        const val IGNORABLE_RETURN_TYPES_OPTION = "ignorableReturnTypes"
 
         fun options(projectPath: String, projectDir: String, mokkery: Boolean, rules: List<RuleSnapshot>): List<SubpluginOption> {
             val options = mutableListOf<SubpluginOption>()
