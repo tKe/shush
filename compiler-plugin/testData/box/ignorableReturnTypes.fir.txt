@@ -1,0 +1,24 @@
+Module: lib
+FILE: lib.kt
+    @FILE:R|kotlin/MustUseReturnValues|()
+    package lib
+
+    public final class Empty : R|kotlin/Any| {
+        public constructor(): R|lib/Empty| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|kotlin/IgnorableReturnValue|() public final fun ping(): R|lib/Empty| {
+        ^ping R|lib/Empty.Empty|()
+    }
+    public final fun count(): R|kotlin/Int| {
+        ^count Int(1)
+    }
+Module: main
+FILE: main.kt
+    public final fun box(): R|kotlin/String| {
+        R|lib/ping|()
+        R|lib/count|()
+        ^box String(OK)
+    }

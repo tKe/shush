@@ -190,6 +190,19 @@ val ShushGradlePluginFunctionalTest by testSuite(
             assertEquals(expectedWarnings(CALL_SOURCES), warnings(result), result.output)
         }
 
+        scenario("ignorable return types mark functions returning them") { gradle, kotlin ->
+            writeProject(
+                projectDir,
+                kotlin,
+                shush = """ignorableReturnTypes.add("com.example.Empty")""",
+                sources = CALL_SOURCES,
+            )
+
+            val result = runner(gradle, projectDir, "compileKotlin", "--configuration-cache").build()
+            assertEquals(TaskOutcome.SUCCESS, result.task(":compileKotlin")?.outcome)
+            assertEquals(expectedWarnings(CALL_SOURCES), warnings(result), result.output)
+        }
+
         scenario("a rule with targets but no diagnostics fails the build", currentGradleMatrix) { gradle, kotlin ->
             writeGeneratedCodeProject(projectDir, kotlin, shush = """rule("broken") { files.add("build/generated/**") }""")
 

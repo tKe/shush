@@ -9,5 +9,6 @@ class ShushFirExtensionRegistrar(
     override fun ExtensionRegistrarContext.configurePlugin() {
         if (configuration.hasCallTargets) +FirCallSuppressor.getFactory(configuration)
         if (configuration.hasDeclarationTargets) +FirDeclarationSuppressor.getFactory(configuration)
+        if (configuration.ignorableReturnTypes.isNotEmpty()) +FirIgnorableReturnTypes.getFactory(configuration)
     }
 }

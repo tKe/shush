@@ -27,6 +27,7 @@ private class ExtensionRegistrarConfigurator(testServices: TestServices) : Envir
     private val options: List<Pair<StringDirective, AbstractCliOption>> = with(ShushCommandLineProcessor) {
         listOf(
             ShushDirectives.SHUSH_PRESET to PRESET_OPTION,
+            ShushDirectives.SHUSH_IGNORABLE_RETURN_TYPES to IGNORABLE_RETURN_TYPES_OPTION,
             ShushDirectives.SHUSH_BASE_DIR to BASE_DIR_OPTION,
             ShushDirectives.SHUSH_RULE to RULE_OPTION,
             ShushDirectives.SHUSH_FILES to FILES_OPTION,

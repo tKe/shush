@@ -45,6 +45,9 @@ the checkers run:
 `@Suppress` isn't repeatable, so if one is already there (such as a generated `@file:Suppress("UNUSED_PARAMETER")`) the
 names are merged into it. Generated code and runtime behaviour don't change.
 
+`ignorableReturnTypes` is the exception. It isn't a suppression: from the same STATUS hook, it adds
+`@IgnorableReturnValue` to matching functions, which is compiled in like a hand-written one.
+
 ## Usage (Gradle)
 
 The Gradle plugin is on the Gradle Plugin Portal as `io.github.tke.shush`. The Kotlin Gradle plugin resolves the
@@ -113,6 +116,7 @@ cache.
 | `rule(name) { ... }`    | function                               | Create or configure the rule `name`                                                       |
 | `rule { ... }`          | function                               | Create an anonymous rule                                                                  |
 | `anonymousRules`        | `DomainObjectSet<ShushRuleSpec>`       | Anonymous rules                                                                           |
+| `ignorableReturnTypes`  | `SetProperty<String>`                  | Classes whose functions' results may be ignored, see [below](#ignorable-return-types)     |
 
 An anonymous rule is named `anonymous-<hash>` after its contents, so declaration order doesn't change task inputs and
 identical rules collapse into one. Errors describe it by its first target instead, as in
@@ -137,7 +141,8 @@ cover only the lambdas (including ones passed as Java or `fun` interfaces), so t
 arguments are still checked.
 
 `calls` suits generated code you can't annotate. A gRPC method returning `com.google.protobuf.Empty` can't be marked
-`@IgnorableReturnValue`, but its calls can be exempted:
+`@IgnorableReturnValue`, but its calls can be exempted (if you compile the stubs, see also
+[`ignorableReturnTypes`](#ignorable-return-types)):
 
 ```kotlin
 rule("empty-responses") {
@@ -162,6 +167,26 @@ rule("generated") {
 
 Nested annotation classes can be given as class ids, like `com/example/Outer.Inner`. Values can't contain commas,
 because the compiler splits plugin options on them, so use two globs rather than `{a,b}`.
+
+### Ignorable return types
+
+When a type is a stand-in for `Unit`, such as `com.google.protobuf.Empty` or your own empty response messages, the
+functions returning it can be marked `@IgnorableReturnValue` in the project that compiles them:
+
+```kotlin
+shush {
+    ignorableReturnTypes.add("com.google.protobuf.Empty")
+    ignorableReturnTypes.add("com.example.PingResponse")
+}
+```
+
+Kotlin functions in that project whose declared return type is one of these are compiled as if annotated. The status
+is in the class files, so projects calling them need no configuration. When a message gains fields and its result is
+worth checking again, removing it from the list is one change next to the `.proto`, rather than a rule in every
+caller.
+
+Only explicit return types match (`fun ping(): Empty`, not `fun ping() = Empty()`), and only exactly: not `Empty?`,
+subtypes or Java methods. Type aliases are followed. It does nothing unless the return value checker is enabled.
 
 ### Presets
 
@@ -189,6 +214,7 @@ kotlinc -Xreturn-value-checker=full -Wextra \
 |----------------------------------------------------|------------|----------------------------------------------------------------|
 | `preset=<name>`                                    | yes        | Enable a preset (`mokkery`)                                    |
 | `baseDir=<path>`                                   | no         | Directory relative `files` globs are matched against           |
+| `ignorableReturnTypes=<fq.Class>`                  | yes        | See [ignorable return types](#ignorable-return-types)          |
 | `rule=<rule>=<DIAGNOSTIC>`                         | yes        | A diagnostic suppressed by `<rule>`: one option per diagnostic |
 | `files=<rule>=<glob>`                              | yes        | See the DSL reference                                          |
 | `calls=<rule>=<fq.function>`                       | yes        |                                                                |

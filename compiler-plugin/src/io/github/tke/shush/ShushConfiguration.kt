@@ -35,9 +35,15 @@ data class ShushRule(
         get() = files.isNotEmpty() || annotatedDeclarations.isNotEmpty()
 }
 
+/**
+ * [ignorableReturnTypes]: Kotlin functions declared to return one of these (non-null) types are marked
+ * `@IgnorableReturnValue`, as if written in source. Unlike rules, this changes what's compiled: the status goes into
+ * metadata, so callers in other modules don't need shush.
+ */
 data class ShushConfiguration(
     val rules: List<ShushRule>,
     val baseDir: Path? = null,
+    val ignorableReturnTypes: Set<ClassId> = emptySet(),
 ) {
     /** Lookup tables from each kind of target to the diagnostics its rules suppress. */
     val callDiagnostics: Map<FqName, Set<String>> = index { it.calls }
@@ -51,6 +57,7 @@ data class ShushConfiguration(
 
     val hasCallTargets: Boolean get() = rules.any { it.hasCallTargets }
     val hasDeclarationTargets: Boolean get() = rules.any { it.hasDeclarationTargets }
+    val isEmpty: Boolean get() = rules.isEmpty() && ignorableReturnTypes.isEmpty()
 
     /** Diagnostics to suppress in the source file at [path], tried both relative to [baseDir] and as-is. */
     fun fileDiagnostics(path: Path): Set<String> {
@@ -111,5 +118,7 @@ object ShushConfigurationKeys {
         CompilerConfigurationKey.create("shush annotated parameter lambdas")
     val ANNOTATED_DECLARATIONS: CompilerConfigurationKey<List<Pair<String, String>>> =
         CompilerConfigurationKey.create("shush annotated declarations")
+    val IGNORABLE_RETURN_TYPES: CompilerConfigurationKey<List<String>> =
+        CompilerConfigurationKey.create("shush ignorable return types")
     val BASE_DIR: CompilerConfigurationKey<String> = CompilerConfigurationKey.create("shush base directory")
 }
