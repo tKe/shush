@@ -30,4 +30,12 @@ val KefsJarTest by testSuite {
             )
         }
     }
+
+    testIO("the jar declares the IDE builds IntelliJ loads it on without KEFS") {
+        JarFile(jar).use { jarFile ->
+            val attributes = jarFile.manifest?.mainAttributes
+            assertEquals("263", attributes?.getValue("Kotlin-Compiler-Plugin-Since-Build"))
+            assertEquals("263.*", attributes?.getValue("Kotlin-Compiler-Plugin-Until-Build"))
+        }
+    }
 }
