@@ -7,8 +7,10 @@ import org.jetbrains.kotlin.descriptors.annotations.AnnotationUseSiteTarget
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirDeclaration
 import org.jetbrains.kotlin.fir.declarations.FirFile
+import org.jetbrains.kotlin.fir.declarations.FirResolvePhase
 import org.jetbrains.kotlin.fir.extensions.FirStatusTransformerExtension
 import org.jetbrains.kotlin.fir.resolve.providers.firProvider
+import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
 import org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol
 import java.nio.file.Path
@@ -45,10 +47,16 @@ class FirDeclarationSuppressor(
         return false
     }
 
+    /**
+     * The IDE resolves a file's annotations lazily, so it may not be at TYPES yet; the compiler resolves it in a member's
+     * STATUS too, looking for must-use annotations among a callable's containers.
+     */
     private fun suppressInFile(file: FirFile) {
         if (!visitedFiles.add(file)) return
         val path = file.sourceFile?.path ?: return
         val diagnostics = configuration.fileDiagnostics(Path.of(path).toAbsolutePath().normalize())
+        if (diagnostics.isEmpty()) return
+        file.lazyResolveToPhase(FirResolvePhase.TYPES)
         file.suppress(diagnostics, session, anchor = file.source, useSiteTarget = AnnotationUseSiteTarget.FILE)
     }
 
