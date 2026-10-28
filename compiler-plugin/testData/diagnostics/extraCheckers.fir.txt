@@ -1,5 +1,5 @@
 FILE: Gen.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER)))
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER)))
     package gen
 
     public final class Generated : R|kotlin/Any| {
@@ -29,7 +29,7 @@ FILE: main.kt
         }
 
     }
-    @R|main/ExplicitApi|() @R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER))) public final class Api : R|kotlin/Any| {
+    @R|main/ExplicitApi|() @R|kotlin/Suppress?|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER))) public final class Api : R|kotlin/Any| {
         public constructor(): R|main/Api| {
             super<R|kotlin/Any|>()
         }

@@ -86,7 +86,7 @@ fun localDeclarations() {
     notAnnotatedLocal()
 }
 
-// Suppressions merge into an existing @Suppress (`@Suppress` isn't repeatable), and the user's own still apply.
+// Ours sits beside an existing @Suppress without repeating it, and the user's own still apply.
 @Annotations.Unused
 @Suppress("DEPRECATION")
 fun userSuppressPositional() {

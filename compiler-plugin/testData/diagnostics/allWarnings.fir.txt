@@ -14,14 +14,15 @@ FILE: lib.kt
         ^quietly R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|kotlin/Unit|>|()
     }
 FILE: Gen.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(warnings)))
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(warnings)))
     package gen
 
     public final fun generated(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
 FILE: UserSuppress.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(warnings)) [evaluated = vararg(String(DEPRECATION), String(warnings))])
+    @FILE:R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))])
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(warnings)))
     package gen
 
     public final fun userSuppress(): R|kotlin/Unit| {
@@ -33,11 +34,11 @@ FILE: main.kt
     public final fun notGenerated(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
-    @R|lib/Legacy|() @R|kotlin/Suppress|(names = vararg(String(warnings))) public final fun legacy(): R|kotlin/Unit| {
+    @R|lib/Legacy|() @R|kotlin/Suppress?|(names = vararg(String(warnings))) public final fun legacy(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
     public final fun block(): R|kotlin/Unit| {
-        R|lib/quietly|(<L> = quietly@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(warnings)))  {
+        R|lib/quietly|(<L> = quietly@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(warnings)))  {
             lval x: R|kotlin/Int| = R|lib/old|()
         }
         )

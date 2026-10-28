@@ -80,45 +80,45 @@ FILE: test.kt
     public final fun notRecorded(@R|test/NotConfigured|() block: R|@R|test/NotConfigured|()  () -> kotlin/Unit|): R|kotlin/Unit| {
     }
     public final fun valueParameterAnnotation(a: R|test/A|): R|kotlin/Unit| {
-        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
         }
         )
-        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/record|(<L> = record@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             R|<local>/a|.R|test/A.g|(Int(1))
         }
         )
     }
     public final fun typeAnnotation(a: R|test/A|): R|kotlin/Unit| {
-        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
         }
         )
-        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/recordType|(<L> = recordType@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             R|<local>/a|.R|test/A.g|(Int(1))
         }
         )
-        lval r: R|kotlin/Int| = R|test/recordTypeWithReceiver|<R|kotlin/Int|>(<L> = recordTypeWithReceiver@fun R|test/A|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        lval r: R|kotlin/Int| = R|test/recordTypeWithReceiver|<R|kotlin/Int|>(<L> = recordTypeWithReceiver@fun R|test/A|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             this@R|special/anonymous|.R|test/A.g|(Int(1))
             ^ this@R|special/anonymous|.R|test/A.f|()
         }
         )
     }
     public final fun varargs(a: R|test/A|): R|kotlin/Unit| {
-        R|test/recordAll|(vararg(recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/recordAll|(vararg(recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
         }
-        , recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        , recordAll@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             R|<local>/a|.R|test/A.f|()
         }
         ))
-        R|test/recordAllTyped|(vararg(recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|test/recordAllTyped|(vararg(recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
         }
-        , recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        , recordAllTyped@fun <anonymous>(): R|kotlin/Unit| <inline=Unknown> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             R|<local>/a|.R|test/A.f|()
         }

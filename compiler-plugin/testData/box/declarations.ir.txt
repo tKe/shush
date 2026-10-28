@@ -94,7 +94,8 @@ FILE fqName:test fileName:/box.kt
   FUN name:userSuppressed visibility:public modality:FINAL returnType:kotlin.Int
     annotations:
       Unused
-      Suppress(names = ["DEPRECATION", "UNUSED_VARIABLE"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+      Suppress(names = ["DEPRECATION"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+      Suppress(names = ["UNUSED_VARIABLE"] type=kotlin.Array<kotlin.String> varargElementType=kotlin.String)
     BLOCK_BODY
       VAR name:unused type:kotlin.Int [val]
         CONST Int type=kotlin.Int value=2
@@ -103,14 +104,16 @@ FILE fqName:test fileName:/box.kt
   FUN name:userSuppressedNamed visibility:public modality:FINAL returnType:kotlin.Int
     annotations:
       Unused
-      Suppress(names = ["DEPRECATION", "UNUSED_VARIABLE"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+      Suppress(names = ["DEPRECATION"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+      Suppress(names = ["UNUSED_VARIABLE"] type=kotlin.Array<kotlin.String> varargElementType=kotlin.String)
     BLOCK_BODY
       RETURN type=kotlin.Nothing from='public final fun userSuppressedNamed (): kotlin.Int declared in test'
         CALL 'public final fun old (): kotlin.Int declared in test' type=kotlin.Int origin=null
 FILE fqName:test fileName:/generated/Gen.kt
   annotations:
-    Suppress(names = ["REDUNDANT_VISIBILITY_MODIFIER", "UNUSED_VARIABLE", "DEPRECATION"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
+    Suppress(names = ["REDUNDANT_VISIBILITY_MODIFIER"] type=kotlin.Array<out kotlin.String> varargElementType=kotlin.String)
     JvmName(name = "GeneratedKt")
+    Suppress(names = ["UNUSED_VARIABLE", "DEPRECATION"] type=kotlin.Array<kotlin.String> varargElementType=kotlin.String)
   FUN name:generated visibility:public modality:FINAL returnType:kotlin.String
     BLOCK_BODY
       VAR name:unused type:kotlin.Int [val]

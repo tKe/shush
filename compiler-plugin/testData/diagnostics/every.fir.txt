@@ -49,27 +49,27 @@ FILE: test.kt
 
     }
     public final fun singleStatement(a: R|test/A|): R|kotlin/Unit| {
-        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             ^ R|<local>/a|.R|test/A.f|()
         }
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(Int(1))
-        R|dev/mokkery/everySuspend|<R|kotlin/String|>(<L> = everySuspend@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/String| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/everySuspend|<R|kotlin/String|>(<L> = everySuspend@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/String| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             ^ R|<local>/a|.R|test/A.g|(Int(1))
         }
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(String(1))
     }
     public final fun multiStatement(a: R|test/A|): R|kotlin/Unit| {
-        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             ^ R|<local>/a|.R|test/A.f|()
         }
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(Int(1))
-        R|dev/mokkery/everySuspend|<R|kotlin/String|>(<L> = everySuspend@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/String| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/everySuspend|<R|kotlin/String|>(<L> = everySuspend@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/String| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             ^ R|<local>/a|.R|test/A.g|(Int(2))
         }
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(String(2))
-        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             R|<local>/a|.R|test/A.g|(Int(3))
             ^ R|<local>/a|.R|test/A.f|()
@@ -77,7 +77,7 @@ FILE: test.kt
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(Int(3))
     }
     public final fun outsideTemplate(a: R|test/A|): R|kotlin/Unit| {
-        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             ^ R|<local>/a|.R|test/A.f|()
         }

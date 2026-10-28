@@ -17,8 +17,9 @@ FILE: lib.kt
         ^old Int(1)
     }
 FILE: Gen.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER), String(UNUSED_VARIABLE), String(DEPRECATION)) [evaluated = vararg(String(REDUNDANT_VISIBILITY_MODIFIER), String(UNUSED_VARIABLE), String(DEPRECATION))])
+    @FILE:R|kotlin/Suppress|(names = vararg(String(REDUNDANT_VISIBILITY_MODIFIER)) [evaluated = vararg(String(REDUNDANT_VISIBILITY_MODIFIER))])
     @FILE:R|kotlin/jvm/JvmName|(name = String(GeneratedKt) [evaluated = String(GeneratedKt)])
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION)))
     package test
 
     public final fun generated(): R|kotlin/String| {
@@ -28,7 +29,7 @@ FILE: Gen.kt
 FILE: box.kt
     package test
 
-    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final class GeneratedClass : R|kotlin/Any| {
+    @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final class GeneratedClass : R|kotlin/Any| {
         public constructor(): R|test/GeneratedClass| {
             super<R|kotlin/Any|>()
         }
@@ -42,15 +43,15 @@ FILE: box.kt
         }
 
     }
-    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(UNUSED_VARIABLE)) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressed(): R|kotlin/Int| {
+    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun userSuppressed(): R|kotlin/Int| {
         lval unused: R|kotlin/Int| = Int(2)
         ^userSuppressed R|test/old|()
     }
-    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION), String(UNUSED_VARIABLE))) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressedNamed(): R|kotlin/Int| {
+    @R|test/Unused|() @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION))) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun userSuppressedNamed(): R|kotlin/Int| {
         ^userSuppressedNamed R|test/old|()
     }
     public final fun box(): R|kotlin/String| {
-        @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final fun local(): R|kotlin/Int| {
+        @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final fun local(): R|kotlin/Int| {
             lval unused: R|kotlin/Int| = Int(0)
             ^local R|test/old|()
         }
