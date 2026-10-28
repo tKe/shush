@@ -52,14 +52,20 @@ class FirDeclarationSuppressor(
     /**
      * The IDE resolves a file's annotations lazily, so it may not be at TYPES yet; the compiler resolves it in a member's
      * STATUS too, looking for must-use annotations among a callable's containers.
+     *
+     * Marked visited only once suppressed: the IDE cancels resolution, and a concurrent member mustn't go on without it.
+     * Resolved before locking, so the lock is never held across the IDE's own.
      */
     private fun suppressInFile(file: FirFile) {
-        if (!visitedFiles.add(file)) return
+        if (file in visitedFiles) return
         val path = file.sourceFile?.path ?: return
         val diagnostics = configuration.fileDiagnostics(Path.of(path).toAbsolutePath().normalize())
-        if (diagnostics.isEmpty()) return
-        file.lazyResolveToPhase(FirResolvePhase.TYPES)
-        file.suppress(diagnostics, anchor = file.source, useSiteTarget = AnnotationUseSiteTarget.FILE)
+        if (diagnostics.isNotEmpty()) file.lazyResolveToPhase(FirResolvePhase.TYPES)
+        synchronized(file) {
+            if (file in visitedFiles) return
+            file.suppress(diagnostics, anchor = file.source, useSiteTarget = AnnotationUseSiteTarget.FILE)
+            visitedFiles += file
+        }
     }
 
     private fun FirDeclaration.containingFile(): FirFile? = when (val symbol = symbol) {
