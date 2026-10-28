@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.config.MessageCollectorAccess
 import org.jetbrains.kotlin.compiler.plugin.CliOptionProcessingException
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.config.CompilerConfigurationKey
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 import org.jetbrains.kotlin.name.FqName
 import java.nio.file.Path
@@ -21,7 +22,7 @@ class ShushPluginRegistrar : CompilerPluginRegistrar() {
     @OptIn(MessageCollectorAccess::class) // a plain error message: no diagnostic factory fits
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
         val shushConfiguration = configuration.toShushConfiguration()
-        if (shushConfiguration.isEmpty) return
+        if (shushConfiguration.isEmpty || configuration.isKaptStubGeneration()) return
         // fail early on unsupported compilers, before FIR code links against APIs they lack
         try {
             ShushCompatLayers.current
@@ -33,6 +34,18 @@ class ShushPluginRegistrar : CompilerPluginRegistrar() {
         FirExtensionRegistrarAdapter.registerExtension(ShushFirExtensionRegistrar(shushConfiguration))
     }
 }
+
+/**
+ * kapt generates stubs by running the frontend and backend, discarding all diagnostics, so there's nothing to suppress.
+ * Our annotations would reach the stubs, where javac rejects a second `@Suppress` on a declaration.
+ */
+private fun CompilerConfiguration.isKaptStubGeneration(): Boolean = runCatching {
+    val kaptOptions = Class.forName("org.jetbrains.kotlin.kapt.KaptPluginKt", false, ShushPluginRegistrar::class.java.classLoader)
+        .getMethod("getKAPT_OPTIONS")
+        .invoke(null)
+    @Suppress("UNCHECKED_CAST")
+    get(kaptOptions as CompilerConfigurationKey<Any>) != null
+}.getOrDefault(false)
 
 internal fun CompilerConfiguration.toShushConfiguration(): ShushConfiguration {
     val diagnostics = getList(ShushConfigurationKeys.RULE_DIAGNOSTICS)

@@ -222,6 +222,59 @@ val ShushGradlePluginFunctionalTest by testSuite(
             val reused = runner(gradle, second, "compileKotlin", "--build-cache").build()
             assertEquals(TaskOutcome.FROM_CACHE, reused.task(":compileKotlin")?.outcome, reused.output)
         }
+
+        // javac rejects a second, non-repeatable @Suppress in the stubs
+        scenario("kapt stubs keep only the user's @Suppress") { gradle, kotlin ->
+            writeProject(
+                projectDir,
+                kotlin,
+                buildScript = """
+                    apply(plugin = "org.jetbrains.kotlin.kapt")
+                    dependencies { "kapt"(project(":processor")) }
+                """,
+                shush = """
+                    rule("suppressed") {
+                        diagnostics.add("warnings")
+                        annotatedDeclarations.add("kotlin.Suppress")
+                    }
+                """,
+                sources = mapOf(
+                    "src/main/kotlin/Main.kt" to """
+                        @Deprecated("old")
+                        fun old(): Int = 1
+
+                        @Suppress("DEPRECATION")
+                        fun annotated() {
+                            val x = old()
+                        }
+                    """.trimIndent() + "\n",
+                ),
+            )
+            projectDir.resolve("settings.gradle.kts").appendText("include(\"processor\")\n")
+            projectDir.resolve("processor/build.gradle.kts").apply { parentFile.mkdirs() }.writeText("plugins { java }\n")
+            projectDir.resolve("processor/src/main/java/NoopProcessor.java").apply { parentFile.mkdirs() }.writeText(
+                """
+                import java.util.Set;
+                import javax.annotation.processing.*;
+                import javax.lang.model.SourceVersion;
+                import javax.lang.model.element.TypeElement;
+
+                @SupportedAnnotationTypes("*")
+                public class NoopProcessor extends AbstractProcessor {
+                    @Override public SourceVersion getSupportedSourceVersion() { return SourceVersion.latestSupported(); }
+                    @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) { return false; }
+                }
+                """.trimIndent() + "\n"
+            )
+            projectDir.resolve("processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor")
+                .apply { parentFile.mkdirs() }.writeText("NoopProcessor\n")
+
+            val result = runner(gradle, projectDir, "compileKotlin").build()
+            assertEquals(TaskOutcome.SUCCESS, result.task(":kaptKotlin")?.outcome, result.output)
+            assertEquals(emptyMap<String, Set<Int>>(), warnings(result), result.output)
+            val stub = projectDir.resolve("build/tmp/kapt3/stubs/main/MainKt.java").readText()
+            assertEquals(listOf("@kotlin.Suppress(names = {\"DEPRECATION\"})"), stub.lines().map { it.trim() }.filter { "Suppress" in it }, stub)
+        }
     }
 
     // Gradle plugin logic only: the compiler sees ordinary named rules, so one Kotlin version suffices
