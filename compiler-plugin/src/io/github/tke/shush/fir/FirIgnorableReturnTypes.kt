@@ -48,7 +48,7 @@ class FirIgnorableReturnTypes(
         if (!enabled || declaration !is FirNamedFunction || declaration.origin != FirDeclarationOrigin.Source) return false
         val returnType = (declaration.returnTypeRef as? FirResolvedTypeRef)?.coneType ?: return false
         if (returnType.isMarkedNullable || returnType.classId !in configuration.ignorableReturnTypes) return false
-        if (declaration.annotations.any { it.isAnnotation(StandardClassIds.Annotations.IgnorableReturnValue, session) }) {
+        if (declaration.annotations.any { context(session) { it.isAnnotation(StandardClassIds.Annotations.IgnorableReturnValue) } }) {
             return false
         }
 

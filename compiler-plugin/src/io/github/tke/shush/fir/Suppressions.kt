@@ -66,7 +66,8 @@ internal object Suppressions {
      * Local declarations' annotations aren't resolved yet when their status is, so those are compared by the name as
      * written, qualified or package-relative. Imports and aliases are ignored.
      */
-    fun FirAnnotation.isAnnotation(classId: ClassId, session: FirSession): Boolean =
+    context(session: FirSession)
+    fun FirAnnotation.isAnnotation(classId: ClassId): Boolean =
         when (val typeRef = annotationTypeRef) {
             is FirResolvedTypeRef -> toAnnotationClassId(session) == classId
             is FirUserTypeRef -> typeRef.qualifier.joinToString(".") { it.name.asString() }.let { written ->

@@ -35,18 +35,18 @@ class FirDeclarationSuppressor(
     /** Weak: the IDE can rebuild a file's FIR within a session. */
     private val visitedFiles: MutableSet<FirFile> = Collections.synchronizedSet(Collections.newSetFromMap(WeakHashMap()))
 
-    override fun needTransformStatus(declaration: FirDeclaration): Boolean {
+    override fun needTransformStatus(declaration: FirDeclaration): Boolean = context(session) {
         if (configuration.fileMatchers.isNotEmpty()) {
             declaration.containingFile()?.let(::suppressInFile)
         }
         val diagnostics = mutableSetOf<String>()
         for ((classId, classDiagnostics) in configuration.annotatedDeclarationDiagnostics) {
             for (annotation in declaration.annotations) {
-                if (annotation.isAnnotation(classId, session)) diagnostics += classDiagnostics
+                if (annotation.isAnnotation(classId)) diagnostics += classDiagnostics
             }
         }
         declaration.suppress(diagnostics, anchor = declaration.source)
-        return false
+        false
     }
 
     /**
