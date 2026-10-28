@@ -44,11 +44,11 @@ class FirIgnorableReturnTypes(
     private val enabled =
         session.languageVersionSettings.getFlag(AnalysisFlags.returnValueCheckerMode) != ReturnValueCheckerMode.DISABLED
 
-    override fun needTransformStatus(declaration: FirDeclaration): Boolean {
+    override fun needTransformStatus(declaration: FirDeclaration): Boolean = context(session) {
         if (!enabled || declaration !is FirNamedFunction || declaration.origin != FirDeclarationOrigin.Source) return false
         val returnType = (declaration.returnTypeRef as? FirResolvedTypeRef)?.coneType ?: return false
         if (returnType.isMarkedNullable || returnType.classId !in configuration.ignorableReturnTypes) return false
-        if (declaration.annotations.any { context(session) { it.isAnnotation(StandardClassIds.Annotations.IgnorableReturnValue) } }) {
+        if (declaration.annotations.any { it.isAnnotation(StandardClassIds.Annotations.IgnorableReturnValue) }) {
             return false
         }
 
@@ -60,6 +60,6 @@ class FirIgnorableReturnTypes(
             }
             argumentMapping = FirEmptyAnnotationArgumentMapping
         })
-        return false
+        false
     }
 }
