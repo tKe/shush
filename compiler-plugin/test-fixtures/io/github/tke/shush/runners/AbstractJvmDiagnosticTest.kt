@@ -1,8 +1,10 @@
 package io.github.tke.shush.runners
 
+import io.github.tke.shush.services.IdeLazyResolveHandler
 import io.github.tke.shush.services.configurePlugin
 import org.jetbrains.kotlin.test.FirParser
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
+import org.jetbrains.kotlin.test.builders.configureFirHandlersStep
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives
 import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives
 import org.jetbrains.kotlin.test.directives.JvmEnvironmentConfigurationDirectives
@@ -44,5 +46,6 @@ open class AbstractJvmDiagnosticTest : AbstractFirPhasedDiagnosticTest(FirParser
         }
 
         configurePlugin()
+        configureFirHandlersStep { useHandlers(::IdeLazyResolveHandler) }
     }
 }
