@@ -14,7 +14,8 @@ import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
 import org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol
 import java.nio.file.Path
-import java.util.concurrent.ConcurrentHashMap
+import java.util.Collections
+import java.util.WeakHashMap
 
 /**
  * `files` and `annotatedDeclarations` targets.
@@ -31,7 +32,8 @@ class FirDeclarationSuppressor(
             Factory { session -> FirDeclarationSuppressor(session, configuration) }
     }
 
-    private val visitedFiles: MutableSet<FirFile> = ConcurrentHashMap.newKeySet()
+    /** Weak: the IDE can rebuild a file's FIR within a session. */
+    private val visitedFiles: MutableSet<FirFile> = Collections.synchronizedSet(Collections.newSetFromMap(WeakHashMap()))
 
     override fun needTransformStatus(declaration: FirDeclaration): Boolean {
         if (configuration.fileMatchers.isNotEmpty()) {
