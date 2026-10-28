@@ -50,12 +50,12 @@ FILE: test.kt
 
     }
     public final fun checkMode(a: R|test/A|): R|kotlin/Unit| {
-        R|dev/mokkery/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             R|<local>/a|.R|test/A.g|(Int(1))
         }
         )
-        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|dev/mokkery/every|<R|kotlin/Int|>(<L> = every@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(Int(1)).R|kotlin/collections/first|<R|kotlin/Int|>()
         }

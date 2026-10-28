@@ -1,0 +1,46 @@
+FILE: test.kt
+    package test
+
+    @R|kotlin/Deprecated|(message = String(old) [evaluated = String(old)]) public final fun old(): R|kotlin/Int| {
+        ^old Int(1)
+    }
+    @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun positional(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION))) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun named(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun qualified(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE)) [evaluated = vararg(String(UNUSED_VARIABLE))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun alreadyIncluded(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    @R|kotlin/Suppress|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun noNames(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    public final fun notSuppressed(): R|kotlin/Unit| {
+        lval x: R|kotlin/Int| = R|test/old|()
+    }
+    @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final class SuppressedClass : R|kotlin/Any| {
+        public constructor(): R|test/SuppressedClass| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final fun member(): R|kotlin/Unit| {
+            lval x: R|kotlin/Int| = R|test/old|()
+        }
+
+    }
+    public final fun localDeclarations(): R|kotlin/Unit| {
+        @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) local final fun local(): R|kotlin/Unit| {
+            lval x: R|kotlin/Int| = R|test/old|()
+        }
+
+        R|<local>/local|()
+        local final fun notSuppressedLocal(): R|kotlin/Unit| {
+            lval x: R|kotlin/Int| = R|test/old|()
+        }
+
+        R|<local>/notSuppressedLocal|()
+    }

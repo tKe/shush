@@ -51,14 +51,14 @@ class FirCallSuppressor(
         containingCallableSymbol: FirBasedSymbol<*>,
     ): List<ImplicitExtensionReceiverValue> {
         val callee = functionCall.calleeSymbol() ?: return emptyList()
-        functionCall.suppress(callee.callDiagnostics(), session, anchor = functionCall.source)
+        functionCall.suppress(callee.callDiagnostics(), anchor = functionCall.source)
 
         val calleeLambdaDiagnostics = callee.callableId?.asSingleFqName()
             ?.let { configuration.callLambdaDiagnostics[it] }.orEmpty()
         for ((argument, parameter) in functionCall.lambdaArguments()) {
             val diagnostics = calleeLambdaDiagnostics + parameter?.selectedDiagnostics().orEmpty()
             val body = argument.anonymousFunction.body ?: continue
-            body.suppress(diagnostics, session, anchor = argument.anonymousFunction.source)
+            body.suppress(diagnostics, anchor = argument.anonymousFunction.source)
         }
         return emptyList()
     }

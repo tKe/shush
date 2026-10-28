@@ -11,7 +11,7 @@ FILE: lib.kt
         ^old Int(1)
     }
 FILE: Gen.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE)))
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE)))
     package gen
 
     public final fun generated(): R|kotlin/Unit| {
@@ -27,25 +27,27 @@ FILE: Gen.kt
         }
 
     }
-    @R|lib/Legacy|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION))) public final fun legacy(): R|kotlin/Unit| {
+    @R|lib/Legacy|() @R|kotlin/Suppress?|(names = vararg(String(DEPRECATION))) public final fun legacy(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
 FILE: Both.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION)))
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION)))
     package gen
 
     public final fun both(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
 FILE: UserSuppressPositional.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(UNUSED_VARIABLE)) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))])
+    @FILE:R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))])
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE)))
     package gen
 
     public final fun userSuppressPositional(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
 FILE: UserSuppressNamed.kt
-    @FILE:R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION), String(UNUSED_VARIABLE))) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))])
+    @FILE:R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION))) [evaluated = vararg(String(DEPRECATION))])
+    @FILE:R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE)))
     package gen
 
     public final fun userSuppressNamed(): R|kotlin/Unit| {
@@ -57,7 +59,7 @@ FILE: main.kt
     public final fun notGenerated(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
-    @R|lib/Legacy|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION))) public final fun legacy(): R|kotlin/Unit| {
+    @R|lib/Legacy|() @R|kotlin/Suppress?|(names = vararg(String(DEPRECATION))) public final fun legacy(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|lib/old|()
     }
 FILE: UserSuppressNotGenerated.kt

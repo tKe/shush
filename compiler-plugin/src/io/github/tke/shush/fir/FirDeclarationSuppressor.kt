@@ -43,7 +43,7 @@ class FirDeclarationSuppressor(
                 if (annotation.isAnnotation(classId, session)) diagnostics += classDiagnostics
             }
         }
-        declaration.suppress(diagnostics, session, anchor = declaration.source)
+        declaration.suppress(diagnostics, anchor = declaration.source)
         return false
     }
 
@@ -57,7 +57,7 @@ class FirDeclarationSuppressor(
         val diagnostics = configuration.fileDiagnostics(Path.of(path).toAbsolutePath().normalize())
         if (diagnostics.isEmpty()) return
         file.lazyResolveToPhase(FirResolvePhase.TYPES)
-        file.suppress(diagnostics, session, anchor = file.source, useSiteTarget = AnnotationUseSiteTarget.FILE)
+        file.suppress(diagnostics, anchor = file.source, useSiteTarget = AnnotationUseSiteTarget.FILE)
     }
 
     private fun FirDeclaration.containingFile(): FirFile? = when (val symbol = symbol) {

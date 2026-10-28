@@ -24,13 +24,13 @@ FILE: test.kt
     public final fun plain(block: R|() -> kotlin/Unit|): R|kotlin/Unit| {
     }
     public final fun merged(): R|kotlin/Unit| {
-        @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE))) R|test/template|(<L> = template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(DEPRECATION)))  {
+        @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) R|test/template|(<L> = template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(DEPRECATION)))  {
             lval x: R|kotlin/Int| = R|test/old|()
             R|test/f|()
             R|test/f|()
         }
         )
-        @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE))) R|test/template|(<L> = @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE)) [evaluated = vararg(String(UNUSED_VARIABLE))]) template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(DEPRECATION)))  {
+        @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) R|test/template|(<L> = @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE)) [evaluated = vararg(String(UNUSED_VARIABLE))]) template@fun <anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION), String(DEPRECATION)))  {
             lval x: R|kotlin/Int| = R|test/old|()
             R|test/f|()
         }

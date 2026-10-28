@@ -72,26 +72,26 @@ FILE: test.kt
 
     }
     public final fun suiteScope(scope: R|dev/mokkery/MokkerySuiteScope|, a: R|test/A|): R|kotlin/Unit| {
-        R|<local>/scope|.R|dev/mokkery/MokkerySuiteScope.verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|<local>/scope|.R|dev/mokkery/MokkerySuiteScope.verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
         }
         )
         R|kotlin/with|<R|dev/mokkery/MokkerySuiteScope|, R|kotlin/Unit|>(R|<local>/scope|, <L> = with@fun R|dev/mokkery/MokkerySuiteScope|.<anonymous>(): R|kotlin/Unit| <inline=Inline, kind=EXACTLY_ONCE>  {
-            this@R|special/anonymous|.R|dev/mokkery/MokkerySuiteScope.verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+            this@R|special/anonymous|.R|dev/mokkery/MokkerySuiteScope.verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
                 R|<local>/a|.R|test/A.f|()
                 R|<local>/a|.R|test/A.g|(Int(1))
             }
             )
         }
         )
-        R|<local>/scope|.R|dev/mokkery/MokkerySuiteScope.stub|<R|kotlin/Int|>(<L> = stub@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        R|<local>/scope|.R|dev/mokkery/MokkerySuiteScope.stub|<R|kotlin/Int|>(<L> = stub@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Int| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.g|(Int(1))
             ^ R|<local>/a|.R|test/A.f|()
         }
         ).R|SubstitutionOverride<dev/mokkery/AnsweringScope.returns: R|kotlin/Unit|>|(Int(1))
     }
     public final fun otherPackage(a: R|test/A|): R|kotlin/Unit| {
-        Q|other|.R|other/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
+        Q|other|.R|other/verify|(<L> = verify@fun R|dev/mokkery/MokkeryTemplatingScope|.<anonymous>(): R|kotlin/Unit| <inline=NoInline> @R|kotlin/Suppress?|(names = vararg(String(RETURN_VALUE_NOT_USED), String(RETURN_VALUE_NOT_USED_COERCION)))  {
             R|<local>/a|.R|test/A.f|()
             R|<local>/a|.R|test/A.g|(Int(1))
         }

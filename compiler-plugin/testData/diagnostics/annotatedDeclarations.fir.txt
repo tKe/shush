@@ -23,13 +23,13 @@ FILE: test.kt
     @R|kotlin/Deprecated|(message = String(old) [evaluated = String(old)]) public final fun old(): R|kotlin/Int| {
         ^old Int(1)
     }
-    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final fun topLevel(): R|kotlin/Unit| {
+    @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final fun topLevel(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
     public final fun notAnnotated(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
-    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final class GeneratedClass : R|kotlin/Any| {
+    @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final class GeneratedClass : R|kotlin/Any| {
         public constructor(): R|test/GeneratedClass| {
             super<R|kotlin/Any|>()
         }
@@ -69,22 +69,22 @@ FILE: test.kt
         }
 
     }
-    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final val property: R|kotlin/Int|
+    @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final val property: R|kotlin/Int|
         public get(): R|kotlin/Int| {
             lval x: R|kotlin/Int| = Int(1)
             ^ R|test/old|()
         }
-    @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final val initializedProperty: R|kotlin/Int| = R|test/old|()
+    @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final val initializedProperty: R|kotlin/Int| = R|test/old|()
         public get(): R|kotlin/Int|
     public final val notAnnotatedProperty: R|kotlin/Int| = R|test/old|()
         public get(): R|kotlin/Int|
     public final fun localDeclarations(): R|kotlin/Unit| {
-        @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final fun local(): R|kotlin/Unit| {
+        @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final fun local(): R|kotlin/Unit| {
             lval x: R|kotlin/Int| = R|test/old|()
         }
 
         R|<local>/local|()
-        @R|test/Generated|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final class LocalClass : R|kotlin/Any| {
+        @R|test/Generated|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) local final class LocalClass : R|kotlin/Any| {
             public constructor(): R|<local>/LocalClass| {
                 super<R|kotlin/Any|>()
             }
@@ -102,21 +102,21 @@ FILE: test.kt
 
         R|<local>/notAnnotatedLocal|()
     }
-    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION), String(UNUSED_VARIABLE)) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressPositional(): R|kotlin/Unit| {
+    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun userSuppressPositional(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
-    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION), String(UNUSED_VARIABLE))) [evaluated = vararg(String(DEPRECATION), String(UNUSED_VARIABLE))]) public final fun userSuppressNamed(): R|kotlin/Unit| {
+    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(*<collectionLiteralCall>(String(DEPRECATION))) [evaluated = vararg(String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun userSuppressNamed(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
-    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION)) [evaluated = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))]) public final fun userSuppressAlreadyIncluded(): R|kotlin/Unit| {
+    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION)) [evaluated = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))]) @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun userSuppressAlreadyIncluded(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
-    @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE))) public final fun onlyRuleDiagnostics(): R|kotlin/Unit| {
+    @R|test/Annotations.Unused|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE))) public final fun onlyRuleDiagnostics(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
     @R|kotlin/Suppress|(names = vararg(String(DEPRECATION)) [evaluated = vararg(String(DEPRECATION))]) public final fun userSuppressNotAnnotated(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
-    @R|test/Generated|() @R|test/Annotations.Unused|() @R|kotlin/Suppress|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final fun bothRules(): R|kotlin/Unit| {
+    @R|test/Generated|() @R|test/Annotations.Unused|() @R|kotlin/Suppress?|(names = vararg(String(UNUSED_VARIABLE), String(DEPRECATION))) public final fun bothRules(): R|kotlin/Unit| {
         lval x: R|kotlin/Int| = R|test/old|()
     }
