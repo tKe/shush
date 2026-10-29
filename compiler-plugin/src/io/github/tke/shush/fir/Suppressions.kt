@@ -23,8 +23,9 @@ import org.jetbrains.kotlin.name.StandardClassIds
 import org.jetbrains.kotlin.types.ConstantValueKind
 
 /**
- * Adds names to a container's `@Suppress`. FIR has no diagnostic suppressor extension point, but the pending
- * diagnostics reporter drops anything under an enclosing `@Suppress`, so one has to be there before checkers run.
+ * Suppresses names on a container with a `@Suppress` of our own. FIR has no diagnostic suppressor extension point,
+ * but the pending diagnostics reporter drops anything under an enclosing `@Suppress`, so one has to be there before
+ * checkers run.
  *
  * Ours is a separate, already resolved, plain [FirAnnotation]: suppression reads every `@Suppress` on a container, and
  * the IDE rebuilds unresolved annotation arguments from their PSI, which would drop names added to the user's. Its
@@ -38,7 +39,8 @@ internal object Suppressions {
 
     private val sourceKind = KtFakeSourceElementKind.PluginGenerated.Custom(ShushMarker)
 
-    private val suppressType = StandardClassIds.Annotations.Suppress.constructClassLikeType(isMarkedNullable = true)
+    /** Built per use: a cone type caches its expansion and symbol per session. */
+    private fun suppressType() = StandardClassIds.Annotations.Suppress.constructClassLikeType(isMarkedNullable = true)
 
     fun FirAnnotationContainer.suppress(
         names: Collection<String>,
@@ -48,12 +50,13 @@ internal object Suppressions {
         if (names.isEmpty()) return
         val source = anchor?.let { ShushCompatLayers.current.fakeElement(it, sourceKind) }
 
-        val own = annotations.firstOrNull { (it.annotationTypeRef as? FirResolvedTypeRef)?.coneType == suppressType }
+        val type = suppressType()
+        val own = annotations.firstOrNull { (it.annotationTypeRef as? FirResolvedTypeRef)?.coneType == type }
         if (own == null) {
             replaceAnnotations(annotations + buildAnnotation {
                 this.source = source
                 this.useSiteTarget = useSiteTarget
-                annotationTypeRef = buildResolvedTypeRef { coneType = suppressType }
+                annotationTypeRef = buildResolvedTypeRef { coneType = type }
                 argumentMapping = suppressMapping(names, source)
             })
         } else {
