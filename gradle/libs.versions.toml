@@ -11,7 +11,7 @@ junit5 = "5.13.4"
 mokkery = "3.5.1"
 mavenPublish = "0.37.0"
 pluginPublish = "2.2.1"
-testBalloon = "1.1.0"
+testBalloon = "1.2.0"
 
 [libraries]
 kotlin-compiler-oldestSupported = { module = "org.jetbrains.kotlin:kotlin-compiler", version.ref = "compilerOldestSupported" }
