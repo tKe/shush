@@ -39,11 +39,16 @@ data class ShushRule(
  * [ignorableReturnTypes]: Kotlin functions declared to return one of these (non-null) types are marked
  * `@IgnorableReturnValue`, as if written in source. Unlike rules, this changes what's compiled: the status goes into
  * metadata, so callers in other modules don't need shush.
+ *
+ * [returnsResultOf]: library functions treated as if they declared `returnsResultOf` for the named lambda parameters,
+ * or, given no names (an empty set), for every lambda parameter returning the function's return type. Only this
+ * compilation's view of them changes.
  */
 data class ShushConfiguration(
     val rules: List<ShushRule>,
     val baseDir: Path? = null,
     val ignorableReturnTypes: Set<ClassId> = emptySet(),
+    val returnsResultOf: Map<FqName, Set<String>> = emptyMap(),
 ) {
     /** Lookup tables from each kind of target to the diagnostics its rules suppress. */
     val callDiagnostics: Map<FqName, Set<String>> = index { it.calls }
@@ -57,7 +62,7 @@ data class ShushConfiguration(
 
     val hasCallTargets: Boolean get() = rules.any { it.hasCallTargets }
     val hasDeclarationTargets: Boolean get() = rules.any { it.hasDeclarationTargets }
-    val isEmpty: Boolean get() = rules.isEmpty() && ignorableReturnTypes.isEmpty()
+    val isEmpty: Boolean get() = rules.isEmpty() && ignorableReturnTypes.isEmpty() && returnsResultOf.isEmpty()
 
     /** Diagnostics to suppress in the source file at [path], tried both relative to [baseDir] and as-is. */
     fun fileDiagnostics(path: Path): Set<String> {
@@ -105,6 +110,14 @@ object ShushPresets {
 fun parseClassId(value: String): ClassId =
     if ('/' in value) ClassId.fromString(value) else ClassId.topLevel(FqName(value))
 
+/**
+ * A `returnsResultOf` entry, `fq.function#parameter#...` or a bare `fq.function` (all eligible lambdas, an empty set).
+ */
+fun parseReturnsResultOf(entry: String): Pair<FqName, Set<String>> {
+    val parts = entry.split('#')
+    return FqName(parts.first()) to parts.drop(1).toSet()
+}
+
 object ShushConfigurationKeys {
     val PRESETS: CompilerConfigurationKey<List<String>> = CompilerConfigurationKey.create("shush presets")
     val RULE_DIAGNOSTICS: CompilerConfigurationKey<List<Pair<String, String>>> =
@@ -120,5 +133,6 @@ object ShushConfigurationKeys {
         CompilerConfigurationKey.create("shush annotated declarations")
     val IGNORABLE_RETURN_TYPES: CompilerConfigurationKey<List<String>> =
         CompilerConfigurationKey.create("shush ignorable return types")
+    val RETURNS_RESULT_OF: CompilerConfigurationKey<List<String>> = CompilerConfigurationKey.create("shush returnsResultOf")
     val BASE_DIR: CompilerConfigurationKey<String> = CompilerConfigurationKey.create("shush base directory")
 }

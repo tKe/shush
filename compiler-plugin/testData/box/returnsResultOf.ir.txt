@@ -1,0 +1,388 @@
+Module: lib
+FILE fqName:lib fileName:/lib.kt
+  annotations:
+    MustUseReturnValues
+  CLASS CLASS name:Box modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:lib.Box<T of lib.Box>
+    TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.Any?] reified:false
+    PROPERTY name:content visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:content type:T of lib.Box visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'content: T of lib.Box declared in lib.Box.<init>' type=T of lib.Box origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-content> visibility:public modality:FINAL returnType:T of lib.Box
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:lib.Box<T of lib.Box>
+        correspondingProperty: PROPERTY name:content visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-content> (): T of lib.Box declared in lib.Box'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:content type:T of lib.Box visibility:private [final]' type=T of lib.Box origin=null
+              receiver: GET_VAR '<this>: lib.Box<T of lib.Box> declared in lib.Box.<get-content>' type=lib.Box<T of lib.Box> origin=null
+    CONSTRUCTOR visibility:public returnType:lib.Box<T of lib.Box> [primary]
+      VALUE_PARAMETER kind:Regular name:content index:0 type:T of lib.Box
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:Box modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:fold visibility:public modality:FINAL returnType:R of lib.Box.fold [inline]
+      TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:lib.Box<T of lib.Box>
+      VALUE_PARAMETER kind:Regular name:transform index:1 type:kotlin.Function1<T of lib.Box, R of lib.Box.fold>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun fold <R> (transform: kotlin.Function1<T of lib.Box, R of lib.Box.fold>): R of lib.Box.fold declared in lib.Box'
+          CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 declared in kotlin.Function1' type=R of lib.Box.fold origin=INVOKE
+            ARG <this>: GET_VAR 'transform: kotlin.Function1<T of lib.Box, R of lib.Box.fold> declared in lib.Box.fold' type=kotlin.Function1<T of lib.Box, R of lib.Box.fold> origin=VARIABLE_AS_FUNCTION
+            ARG p1: CALL 'public final fun <get-content> (): T of lib.Box declared in lib.Box' type=T of lib.Box origin=GET_PROPERTY
+              ARG <this>: GET_VAR '<this>: lib.Box<T of lib.Box> declared in lib.Box.fold' type=lib.Box<T of lib.Box> origin=IMPLICIT_ARGUMENT
+  CLASS CLASS name:Runner modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:lib.Runner
+    CONSTRUCTOR visibility:public returnType:lib.Runner [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:Runner modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+    FUN name:attempt visibility:public modality:FINAL returnType:R of lib.Runner.attempt [inline]
+      TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:lib.Runner
+      VALUE_PARAMETER kind:Regular name:block index:1 type:kotlin.Function0<R of lib.Runner.attempt>
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun attempt <R> (block: kotlin.Function0<R of lib.Runner.attempt>): R of lib.Runner.attempt declared in lib.Runner'
+          CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.Runner.attempt origin=INVOKE
+            ARG <this>: GET_VAR 'block: kotlin.Function0<R of lib.Runner.attempt> declared in lib.Runner.attempt' type=kotlin.Function0<R of lib.Runner.attempt> origin=VARIABLE_AS_FUNCTION
+  CLASS CLASS name:Scope modality:FINAL visibility:public superTypes:[kotlin.Any]
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:lib.Scope
+    CONSTRUCTOR visibility:public returnType:lib.Scope [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:Scope modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+  FUN name:buildThing visibility:public modality:FINAL returnType:kotlin.collections.List<E of lib.buildThing> [inline]
+    TYPE_PARAMETER name:E index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:builder index:0 type:@[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<E of lib.buildThing>, kotlin.Unit>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun buildThing <E> (builder: @[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<E of lib.buildThing>, kotlin.Unit>): kotlin.collections.List<E of lib.buildThing> declared in lib'
+        CALL 'public final fun apply <T> (<this>: T of kotlin.apply, block: @[ExtensionFunctionType] kotlin.Function1<T of kotlin.apply, kotlin.Unit>): T of kotlin.apply declared in kotlin' type=kotlin.collections.MutableList<E of lib.buildThing> origin=null
+          TYPE_ARG T: kotlin.collections.MutableList<E of lib.buildThing>
+          ARG <this>: CALL 'public final fun mutableListOf <T> (): kotlin.collections.MutableList<T of kotlin.collections.mutableListOf> declared in kotlin.collections' type=kotlin.collections.MutableList<E of lib.buildThing> origin=null
+            TYPE_ARG T: E of lib.buildThing
+          ARG block: GET_VAR 'builder: @[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<E of lib.buildThing>, kotlin.Unit> declared in lib.buildThing' type=@[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<E of lib.buildThing>, kotlin.Unit> origin=null
+  FUN name:choose visibility:public modality:FINAL returnType:R of lib.choose [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:flag index:0 type:kotlin.Boolean
+    VALUE_PARAMETER kind:Regular name:a index:1 type:kotlin.Function0<R of lib.choose>
+    VALUE_PARAMETER kind:Regular name:b index:2 type:kotlin.Function0<R of lib.choose>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun choose <R> (flag: kotlin.Boolean, a: kotlin.Function0<R of lib.choose>, b: kotlin.Function0<R of lib.choose>): R of lib.choose declared in lib'
+        WHEN type=R of lib.choose origin=IF
+          BRANCH
+            if: GET_VAR 'flag: kotlin.Boolean declared in lib.choose' type=kotlin.Boolean origin=null
+            then: CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.choose origin=INVOKE
+              ARG <this>: GET_VAR 'a: kotlin.Function0<R of lib.choose> declared in lib.choose' type=kotlin.Function0<R of lib.choose> origin=VARIABLE_AS_FUNCTION
+          BRANCH
+            if: CONST Boolean type=kotlin.Boolean value=true
+            then: CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.choose origin=INVOKE
+              ARG <this>: GET_VAR 'b: kotlin.Function0<R of lib.choose> declared in lib.choose' type=kotlin.Function0<R of lib.choose> origin=VARIABLE_AS_FUNCTION
+  FUN name:defaulted visibility:public modality:FINAL returnType:R of lib.defaulted [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:flag index:0 type:kotlin.Boolean
+      EXPRESSION_BODY
+        CONST Boolean type=kotlin.Boolean value=true
+    VALUE_PARAMETER kind:Regular name:block index:1 type:kotlin.Function0<R of lib.defaulted>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun defaulted <R> (flag: kotlin.Boolean, block: kotlin.Function0<R of lib.defaulted>): R of lib.defaulted declared in lib'
+        CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.defaulted origin=INVOKE
+          ARG <this>: GET_VAR 'block: kotlin.Function0<R of lib.defaulted> declared in lib.defaulted' type=kotlin.Function0<R of lib.defaulted> origin=VARIABLE_AS_FUNCTION
+  FUN name:overloaded visibility:public modality:FINAL returnType:R of lib.overloaded [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:block index:0 type:kotlin.Function0<R of lib.overloaded>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun overloaded <R> (block: kotlin.Function0<R of lib.overloaded>): R of lib.overloaded declared in lib'
+        CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.overloaded origin=INVOKE
+          ARG <this>: GET_VAR 'block: kotlin.Function0<R of lib.overloaded> declared in lib.overloaded' type=kotlin.Function0<R of lib.overloaded> origin=VARIABLE_AS_FUNCTION
+  FUN name:overloaded visibility:public modality:FINAL returnType:R of lib.overloaded [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:flag index:0 type:kotlin.Boolean
+    VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Function0<R of lib.overloaded>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun overloaded <R> (flag: kotlin.Boolean, other: kotlin.Function0<R of lib.overloaded>): R of lib.overloaded declared in lib'
+        CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.overloaded origin=INVOKE
+          ARG <this>: GET_VAR 'other: kotlin.Function0<R of lib.overloaded> declared in lib.overloaded' type=kotlin.Function0<R of lib.overloaded> origin=VARIABLE_AS_FUNCTION
+  FUN name:resourceScope visibility:public modality:FINAL returnType:A of lib.resourceScope [suspend]
+    TYPE_PARAMETER name:A index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:action index:0 type:@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun resourceScope <A> (action: @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope>): A of lib.resourceScope declared in lib'
+        CALL 'public abstract fun invoke (p1: P1 of kotlin.coroutines.SuspendFunction1): R of kotlin.coroutines.SuspendFunction1 declared in kotlin.coroutines.SuspendFunction1' type=A of lib.resourceScope origin=null
+          ARG <this>: GET_VAR 'action: @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope> declared in lib.resourceScope' type=@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope> origin=VARIABLE_AS_FUNCTION
+          ARG p1: CONSTRUCTOR_CALL 'public constructor <init> () declared in lib.Scope' type=lib.Scope origin=null
+  FUN name:retrying visibility:public modality:FINAL returnType:R of lib.retrying [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:block index:0 type:kotlin.Function0<R of lib.retrying>
+    VALUE_PARAMETER kind:Regular name:onFailure index:1 type:kotlin.Function0<R of lib.retrying>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun retrying <R> (block: kotlin.Function0<R of lib.retrying>, onFailure: kotlin.Function0<R of lib.retrying>): R of lib.retrying declared in lib'
+        TRY type=R of lib.retrying
+          try: BLOCK type=R of lib.retrying origin=null
+            CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.retrying origin=INVOKE
+              ARG <this>: GET_VAR 'block: kotlin.Function0<R of lib.retrying> declared in lib.retrying' type=kotlin.Function0<R of lib.retrying> origin=VARIABLE_AS_FUNCTION
+          CATCH parameter=val e: java.lang.Exception declared in lib.retrying
+            VAR CATCH_PARAMETER name:e type:java.lang.Exception [val]
+            BLOCK type=R of lib.retrying origin=null
+              CALL 'public abstract fun invoke (): R of kotlin.Function0 declared in kotlin.Function0' type=R of lib.retrying origin=INVOKE
+                ARG <this>: GET_VAR 'onFailure: kotlin.Function0<R of lib.retrying> declared in lib.retrying' type=kotlin.Function0<R of lib.retrying> origin=VARIABLE_AS_FUNCTION
+  FUN name:scope visibility:public modality:FINAL returnType:R of lib.scope [inline]
+    TYPE_PARAMETER name:R index:0 variance: superTypes:[kotlin.Any?] reified:false
+    VALUE_PARAMETER kind:Regular name:action index:0 type:@[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun scope <R> (action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>): R of lib.scope declared in lib'
+        CALL 'public abstract fun invoke (p1: P1 of kotlin.Function1): R of kotlin.Function1 declared in kotlin.Function1' type=R of lib.scope origin=INVOKE
+          ARG <this>: GET_VAR 'action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope> declared in lib.scope' type=@[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope> origin=VARIABLE_AS_FUNCTION
+          ARG p1: CONSTRUCTOR_CALL 'public constructor <init> () declared in lib.Scope' type=lib.Scope origin=null
+  FUN name:value visibility:public modality:FINAL returnType:kotlin.Int
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun value (): kotlin.Int declared in lib'
+        CONST Int type=kotlin.Int value=1
+Module: main
+FILE fqName:<root> fileName:/main.kt
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun scope <R> (action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>): R of lib.scope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$scope index:0 type:lib.Scope
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$scope: lib.Scope): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun scope <R> (action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>): R of lib.scope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$scope index:0 type:lib.Scope
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$scope: lib.Scope): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun scope <R> (action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>): R of lib.scope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$scope index:0 type:lib.Scope
+              BLOCK_BODY
+                TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$scope: lib.Scope): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      VAR name:used type:kotlin.Int [val]
+        CALL 'public final fun scope <R> (action: @[ExtensionFunctionType] kotlin.Function1<lib.Scope, R of lib.scope>): R of lib.scope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$scope index:0 type:lib.Scope
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$scope: lib.Scope): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun choose <R> (flag: kotlin.Boolean, a: kotlin.Function0<R of lib.choose>, b: kotlin.Function0<R of lib.choose>): R of lib.choose declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG flag: CONST Boolean type=kotlin.Boolean value=true
+          ARG a: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+          ARG b: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun choose <R> (flag: kotlin.Boolean, a: kotlin.Function0<R of lib.choose>, b: kotlin.Function0<R of lib.choose>): R of lib.choose declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG flag: CONST Boolean type=kotlin.Boolean value=true
+          ARG a: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+          ARG b: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun retrying <R> (block: kotlin.Function0<R of lib.retrying>, onFailure: kotlin.Function0<R of lib.retrying>): R of lib.retrying declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+          ARG onFailure: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun retrying <R> (block: kotlin.Function0<R of lib.retrying>, onFailure: kotlin.Function0<R of lib.retrying>): R of lib.retrying declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+          ARG onFailure: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun retrying <R> (block: kotlin.Function0<R of lib.retrying>, onFailure: kotlin.Function0<R of lib.retrying>): R of lib.retrying declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+          ARG onFailure: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun buildThing <E> (builder: @[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<E of lib.buildThing>, kotlin.Unit>): kotlin.collections.List<E of lib.buildThing> declared in lib' type=kotlin.collections.List<kotlin.Int> origin=null
+          TYPE_ARG E: kotlin.Int
+          ARG builder: FUN_EXPR type=@[ExtensionFunctionType] kotlin.Function1<kotlin.collections.MutableList<kotlin.Int>, kotlin.Unit> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Unit
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$buildThing index:0 type:kotlin.collections.MutableList<kotlin.Int>
+              BLOCK_BODY
+                TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+                  CALL 'public abstract fun add (element: E of kotlin.collections.MutableList): kotlin.Boolean declared in kotlin.collections.MutableList' type=kotlin.Boolean origin=null
+                    ARG <this>: GET_VAR '$this$buildThing: kotlin.collections.MutableList<kotlin.Int> declared in <root>.box.<anonymous>' type=kotlin.collections.MutableList<kotlin.Int> origin=IMPLICIT_ARGUMENT
+                    ARG element: CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun overloaded <R> (block: kotlin.Function0<R of lib.overloaded>): R of lib.overloaded declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun overloaded <R> (flag: kotlin.Boolean, other: kotlin.Function0<R of lib.overloaded>): R of lib.overloaded declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG flag: CONST Boolean type=kotlin.Boolean value=true
+          ARG other: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun defaulted <R> (flag: kotlin.Boolean, block: kotlin.Function0<R of lib.defaulted>): R of lib.defaulted declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG flag: CONST Boolean type=kotlin.Boolean value=false
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun attempt <R> (block: kotlin.Function0<R of lib.Runner.attempt>): R of lib.Runner.attempt declared in lib.Runner' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG <this>: CONSTRUCTOR_CALL 'public constructor <init> () declared in lib.Runner' type=lib.Runner origin=null
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun attempt <R> (block: kotlin.Function0<R of lib.Runner.attempt>): R of lib.Runner.attempt declared in lib.Runner' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG <this>: CONSTRUCTOR_CALL 'public constructor <init> () declared in lib.Runner' type=lib.Runner origin=null
+          ARG block: FUN_EXPR type=kotlin.Function0<kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun fold <R> (transform: kotlin.Function1<T of lib.Box, R of lib.Box.fold>): R of lib.Box.fold declared in lib.Box' type=kotlin.Int origin=null
+          TYPE_ARG R: kotlin.Int
+          ARG <this>: CONSTRUCTOR_CALL 'public constructor <init> (content: T of lib.Box) declared in lib.Box' type=lib.Box<kotlin.String> origin=null
+            TYPE_ARG (of class) T: kotlin.String
+            ARG content: CONST String type=kotlin.String value="a"
+          ARG transform: FUN_EXPR type=kotlin.Function1<kotlin.String, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int
+              VALUE_PARAMETER kind:Regular name:it index:0 type:kotlin.String
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> (it: kotlin.String): kotlin.Int declared in <root>.box'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
+        WHEN type=kotlin.String origin=IF
+          BRANCH
+            if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQ
+              ARG arg0: GET_VAR 'val used: kotlin.Int declared in <root>.box' type=kotlin.Int origin=null
+              ARG arg1: CONST Int type=kotlin.Int value=1
+            then: CONST String type=kotlin.String value="OK"
+          BRANCH
+            if: CONST Boolean type=kotlin.Boolean value=true
+            then: CONST String type=kotlin.String value="Fail"
+  FUN name:plain visibility:public modality:FINAL returnType:kotlin.Int
+    BLOCK_BODY
+      RETURN type=kotlin.Nothing from='public final fun plain (): kotlin.Int declared in <root>'
+        CONST Int type=kotlin.Int value=2
+  FUN name:suspending visibility:public modality:FINAL returnType:kotlin.Unit [suspend]
+    BLOCK_BODY
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun resourceScope <A> (action: @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope>): A of lib.resourceScope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG A: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int [suspend]
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$resourceScope index:0 type:lib.Scope
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$resourceScope: lib.Scope): kotlin.Int declared in <root>.suspending'
+                  CALL 'public final fun plain (): kotlin.Int declared in <root>' type=kotlin.Int origin=null
+      TYPE_OP type=kotlin.Unit origin=IMPLICIT_COERCION_TO_UNIT typeOperand=kotlin.Unit
+        CALL 'public final fun resourceScope <A> (action: @[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, A of lib.resourceScope>): A of lib.resourceScope declared in lib' type=kotlin.Int origin=null
+          TYPE_ARG A: kotlin.Int
+          ARG action: FUN_EXPR type=@[ExtensionFunctionType] kotlin.coroutines.SuspendFunction1<lib.Scope, kotlin.Int> origin=LAMBDA
+            FUN LOCAL_FUNCTION_FOR_LAMBDA name:<anonymous> visibility:local modality:FINAL returnType:kotlin.Int [suspend]
+              VALUE_PARAMETER kind:ExtensionReceiver name:$this$resourceScope index:0 type:lib.Scope
+              BLOCK_BODY
+                RETURN type=kotlin.Nothing from='local final fun <anonymous> ($this$resourceScope: lib.Scope): kotlin.Int declared in <root>.suspending'
+                  CALL 'public final fun value (): kotlin.Int declared in lib' type=kotlin.Int origin=null

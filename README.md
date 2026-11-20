@@ -48,6 +48,9 @@ names are merged into it. Generated code and runtime behaviour don't change.
 `ignorableReturnTypes` is the exception. It isn't a suppression: from the same STATUS hook, it adds
 `@IgnorableReturnValue` to matching functions, which is compiled in like a hand-written one.
 
+`returnsResultOf` isn't one either: as each call is resolved, it gives matching library functions a `returnsResultOf`
+contract in the compiler's memory. Nothing is written to the output.
+
 ## Usage (Gradle)
 
 The Gradle plugin is on the Gradle Plugin Portal as `io.github.tke.shush`. The Kotlin Gradle plugin resolves the
@@ -117,6 +120,7 @@ cache.
 | `rule { ... }`          | function                               | Create an anonymous rule                                                                  |
 | `anonymousRules`        | `DomainObjectSet<ShushRuleSpec>`       | Anonymous rules                                                                           |
 | `ignorableReturnTypes`  | `SetProperty<String>`                  | Classes whose functions' results may be ignored, see [below](#ignorable-return-types)     |
+| `returnsResultOf(function, lambdas...)` | function               | Treat a library function as returning its lambdas' results, see [below](#returnsresultof) |
 
 An anonymous rule is named `anonymous-<hash>` after its contents, so declaration order doesn't change task inputs and
 identical rules collapse into one. Errors describe it by its first target instead, as in
@@ -188,6 +192,47 @@ caller.
 Only explicit return types match (`fun ping(): Empty`, not `fun ping() = Empty()`), and only exactly: not `Empty?`,
 subtypes or Java methods. Type aliases are followed. It does nothing unless the return value checker is enabled.
 
+### returnsResultOf
+
+A function compiled with the return value checker, such as Arrow's `resourceScope`, makes its result must-use even
+when it only passes on its lambda's result:
+
+```kotlin
+resourceScope { shouldNotThrowAny { connect() } } // RETURN_VALUE_NOT_USED on resourceScope
+```
+
+Stdlib's `run` declares a `returnsResultOf(block)` contract, so the checker looks through it to the lambda's result.
+A library can't declare that contract yet without its binaries becoming pre-release. `returnsResultOf` gives library
+functions the contract while compiling your code:
+
+```kotlin
+shush {
+    returnsResultOf("arrow.fx.coroutines.resourceScope")            // every lambda returning the call's result
+    returnsResultOf("arrow.core.Either.fold")
+    returnsResultOf("com.example.retrying", "block")                // only the lambda parameter `block`
+}
+```
+
+A call of the function then needs its result used only if one of those lambdas' last expression does. The lambdas
+themselves are still checked, so `resourceScope { repo.find(id) }` with its result unused is still reported. Unlike a
+`calls` or `callLambdas` rule, a discarded result inside the lambda isn't hidden either.
+
+- Functions are named as for `calls` (`com.example.Outer.method`). An extension is named by its package, so stdlib's
+  `Result.fold` is `kotlin.fold`. All overloads match.
+- With no lambdas named, the parameters used are those of a function type returning the function's return type. That
+  leaves out builder lambdas, such as `buildList`'s.
+- Named lambdas apply to the overloads that have a parameter of that name. Calls for one function add up, and a call
+  naming no lambdas wins.
+- Only library functions change. A function in your own sources can declare the contract itself, or use
+  `@IgnorableReturnValue`.
+- It does nothing unless the return value checker is enabled.
+- Compiler limitations apply as they would to a contract the library declares itself:
+  - On Kotlin 2.4, the checker finds each lambda by its parameter's position among the arguments as written. If an
+    earlier parameter with a default value is left out, it misses the lambda and the call is reported as before.
+  - On Kotlin 2.5.0-Beta2, a call of a generic class's member whose type arguments are inferred, like
+    `Box(1).fold { ... }`, goes through a call-site copy of the function without the contract, and is reported as
+    before.
+
 ### Presets
 
 | Preset    | Diagnostics                                                | Targets                                                                                                                       |
@@ -215,6 +260,7 @@ kotlinc -Xreturn-value-checker=full -Wextra \
 | `preset=<name>`                                    | yes        | Enable a preset (`mokkery`)                                    |
 | `baseDir=<path>`                                   | no         | Directory relative `files` globs are matched against           |
 | `ignorableReturnTypes=<fq.Class>`                  | yes        | See [ignorable return types](#ignorable-return-types)          |
+| `returnsResultOf=<fq.function>[#<lambda>...]`      | yes        | See [returnsResultOf](#returnsresultof): one per function      |
 | `rule=<rule>=<DIAGNOSTIC>`                         | yes        | A diagnostic suppressed by `<rule>`: one option per diagnostic |
 | `files=<rule>=<glob>`                              | yes        | See the DSL reference                                          |
 | `calls=<rule>=<fq.function>`                       | yes        |                                                                |

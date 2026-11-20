@@ -137,6 +137,41 @@ val ShushConfigurationTest by testSuite {
         assertTrue(!configuration.isEmpty)
     }
 
+    test("returnsResultOf entries name a function's lambdas, a bare entry meaning all of them") {
+        val configuration = configuration(
+            ShushCommandLineProcessor.RETURNS_RESULT_OF_OPTION to "kotlin.fold#onSuccess # onFailure",
+            ShushCommandLineProcessor.RETURNS_RESULT_OF_OPTION to "com.example.retrying#block; arrow.core.Either.fold ",
+        ).toShushConfiguration()
+
+        assertEquals(emptyList(), configuration.rules)
+        assertEquals(
+            mapOf(
+                FqName("kotlin.fold") to setOf("onSuccess", "onFailure"),
+                FqName("com.example.retrying") to setOf("block"),
+                FqName("arrow.core.Either.fold") to emptySet(),
+            ),
+            configuration.returnsResultOf,
+        )
+        assertTrue(!configuration.isEmpty)
+    }
+
+    test("malformed returnsResultOf options are rejected") {
+        for (value in listOf("#block", "f#", "f##b", "f # ")) {
+            assertFailsWith<CliOptionProcessingException>(value) {
+                configuration(ShushCommandLineProcessor.RETURNS_RESULT_OF_OPTION to value)
+            }
+        }
+    }
+
+    test("a function in more than one returnsResultOf entry is rejected") {
+        val configuration = configuration(
+            ShushCommandLineProcessor.RETURNS_RESULT_OF_OPTION to "kotlin.fold#onSuccess",
+            ShushCommandLineProcessor.RETURNS_RESULT_OF_OPTION to "com.example.retrying;kotlin.fold#onFailure",
+        )
+        val error = assertFailsWith<CliOptionProcessingException> { configuration.toShushConfiguration() }
+        assertContains(error.message.orEmpty(), "kotlin.fold")
+    }
+
     test("no options means no rules") {
         val configuration = CompilerConfiguration().toShushConfiguration()
         assertEquals(emptyList(), configuration.rules)

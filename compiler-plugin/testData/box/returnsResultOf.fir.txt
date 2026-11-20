@@ -1,0 +1,181 @@
+Module: lib
+FILE: lib.kt
+    @FILE:R|kotlin/MustUseReturnValues|()
+    package lib
+
+    public final class Scope : R|kotlin/Any| {
+        public constructor(): R|lib/Scope| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public final suspend fun <A> resourceScope(action: R|suspend lib/Scope.() -> A|): R|A| {
+        ^resourceScope R|<local>/action|.R|SubstitutionOverride<kotlin/coroutines/SuspendFunction1.invoke: R|A|>|(R|lib/Scope.Scope|())
+    }
+    public final inline fun <R> scope(action: R|lib/Scope.() -> R|): R|R| {
+        ^scope R|<local>/action|.R|SubstitutionOverride<kotlin/Function1.invoke: R|R|>|(R|lib/Scope.Scope|())
+    }
+    public final inline fun <R> choose(flag: R|kotlin/Boolean|, a: R|() -> R|, b: R|() -> R|): R|R| {
+        ^choose when () {
+            R|<local>/flag| ->  {
+                R|<local>/a|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+            }
+            else ->  {
+                R|<local>/b|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+            }
+        }
+
+    }
+    public final inline fun <R> retrying(block: R|() -> R|, onFailure: R|() -> R|): R|R| {
+        ^retrying try {
+            R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+        }
+        catch (e: R|{kotlin/Exception=} java/lang/Exception|) {
+            R|<local>/onFailure|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+        }
+
+    }
+    public final inline fun <E> buildThing(builder: R|kotlin/collections/MutableList<E>.() -> kotlin/Unit|): R|kotlin/collections/List<E>| {
+        ^buildThing R|kotlin/collections/mutableListOf|<R|E|>().R|kotlin/apply|<R|kotlin/collections/MutableList<E>|>(R|<local>/builder|)
+    }
+    public final inline fun <R> overloaded(block: R|() -> R|): R|R| {
+        ^overloaded R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+    }
+    public final inline fun <R> overloaded(flag: R|kotlin/Boolean|, other: R|() -> R|): R|R| {
+        ^overloaded R|<local>/other|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+    }
+    public final inline fun <R> defaulted(flag: R|kotlin/Boolean| = Boolean(true), block: R|() -> R|): R|R| {
+        ^defaulted R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+    }
+    public final class Runner : R|kotlin/Any| {
+        public constructor(): R|lib/Runner| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final inline fun <R> attempt(block: R|() -> R|): R|R| {
+            ^attempt R|<local>/block|.R|SubstitutionOverride<kotlin/Function0.invoke: R|R|>|()
+        }
+
+    }
+    public final class Box<T> : R|kotlin/Any| {
+        public constructor<T>(content: R|T|): R|lib/Box<T>| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val content: R|T| = R|<local>/content|
+            public get(): R|T|
+
+        public final inline fun <R> fold(transform: R|(T) -> R|): R|R| {
+            ^fold R|<local>/transform|.R|SubstitutionOverride<kotlin/Function1.invoke: R|R|>|(this@R|lib/Box|.R|lib/Box.content|)
+        }
+
+    }
+    public final fun value(): R|kotlin/Int| {
+        ^value Int(1)
+    }
+Module: main
+FILE: main.kt
+    public final fun plain(): R|kotlin/Int| {
+        ^plain Int(2)
+    }
+    public final suspend fun suspending(): R|kotlin/Unit| {
+        R|lib/resourceScope|<R|kotlin/Int|>(<L> = resourceScope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=NoInline>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/resourceScope|<R|kotlin/Int|>(<L> = resourceScope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=NoInline>  {
+            ^ R|lib/value|()
+        }
+        )
+    }
+    public final fun box(): R|kotlin/String| {
+        R|lib/scope|<R|kotlin/Int|>(<L> = scope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/scope|<R|kotlin/Int|>(<L> = scope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        )
+        R|lib/scope|<R|kotlin/Int|>(<L> = scope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            R|lib/value|()
+            ^ R|/plain|()
+        }
+        )
+        lval used: R|kotlin/Int| = R|lib/scope|<R|kotlin/Int|>(<L> = scope@fun R|lib/Scope|.<anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        )
+        R|lib/choose|<R|kotlin/Int|>(Boolean(true), choose@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        , choose@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/choose|<R|kotlin/Int|>(Boolean(true), choose@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        , choose@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/retrying|<R|kotlin/Int|>(retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        , retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/retrying|<R|kotlin/Int|>(retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        , retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        )
+        R|lib/retrying|<R|kotlin/Int|>(retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        , retrying@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/buildThing|<R|kotlin/Int|>(<L> = buildThing@fun R|kotlin/collections/MutableList<kotlin/Int>|.<anonymous>(): R|kotlin/Unit| <inline=Inline, kind=UNKNOWN>  {
+            this@R|special/anonymous|.R|SubstitutionOverride<kotlin/collections/MutableList.add: R|kotlin/Boolean|>|(R|/plain|())
+        }
+        )
+        R|lib/overloaded|<R|kotlin/Int|>(<L> = overloaded@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/overloaded|<R|kotlin/Int|>(Boolean(true), <L> = overloaded@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/defaulted|<R|kotlin/Int|>(Boolean(false), <L> = defaulted@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/Runner.Runner|().R|lib/Runner.attempt|<R|kotlin/Int|>(<L> = attempt@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|/plain|()
+        }
+        )
+        R|lib/Runner.Runner|().R|lib/Runner.attempt|<R|kotlin/Int|>(<L> = attempt@fun <anonymous>(): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        )
+        R|lib/Box.Box|<R|kotlin/String|>(String(a)).R|SubstitutionOverride<lib/Box.fold: R|R|>|<R|kotlin/Int|>(<L> = fold@fun <anonymous>(it: R|kotlin/String|): R|kotlin/Int| <inline=Inline, kind=UNKNOWN>  {
+            ^ R|lib/value|()
+        }
+        )
+        ^box when () {
+            ==(R|<local>/used|, Int(1)) ->  {
+                String(OK)
+            }
+            else ->  {
+                String(Fail)
+            }
+        }
+
+    }

@@ -28,6 +28,7 @@ private class ExtensionRegistrarConfigurator(testServices: TestServices) : Envir
         listOf(
             ShushDirectives.SHUSH_PRESET to PRESET_OPTION,
             ShushDirectives.SHUSH_IGNORABLE_RETURN_TYPES to IGNORABLE_RETURN_TYPES_OPTION,
+            ShushDirectives.SHUSH_RETURNS_RESULT_OF to RETURNS_RESULT_OF_OPTION,
             ShushDirectives.SHUSH_BASE_DIR to BASE_DIR_OPTION,
             ShushDirectives.SHUSH_RULE to RULE_OPTION,
             ShushDirectives.SHUSH_FILES to FILES_OPTION,

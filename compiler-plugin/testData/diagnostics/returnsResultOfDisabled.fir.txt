@@ -1,0 +1,19 @@
+FILE: test.kt
+    package test
+
+    public final fun plain(): R|kotlin/Int| {
+        ^plain Int(1)
+    }
+    public final fun calls(result: R|kotlin/Result<kotlin/Int>|, list: R|kotlin/collections/List<kotlin/Int>|): R|kotlin/Unit| {
+        R|<local>/result|.R|kotlin/fold|<R|kotlin/Int|, R|kotlin/Int|>(fold@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        , fold@fun <anonymous>(it: R|kotlin/Throwable|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        )
+        R|<local>/list|.R|kotlin/collections/getOrElse|<R|kotlin/Int|>(Int(5), <L> = getOrElse@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        )
+    }

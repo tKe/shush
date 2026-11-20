@@ -203,6 +203,23 @@ val ShushGradlePluginFunctionalTest by testSuite(
             assertEquals(expectedWarnings(CALL_SOURCES), warnings(result), result.output)
         }
 
+        scenario("returnsResultOf looks through library calls to their lambdas") { gradle, kotlin ->
+            writeProject(
+                projectDir,
+                kotlin,
+                // calls for one function are grouped into one option, which the compiler plugin requires
+                shush = """
+                    returnsResultOf("kotlin.fold", "onSuccess")
+                    returnsResultOf("kotlin.fold", "onFailure")
+                """,
+                sources = RETURNS_RESULT_OF_SOURCES,
+            )
+
+            val result = runner(gradle, projectDir, "compileKotlin", "--configuration-cache").build()
+            assertEquals(TaskOutcome.SUCCESS, result.task(":compileKotlin")?.outcome)
+            assertEquals(expectedWarnings(RETURNS_RESULT_OF_SOURCES), warnings(result), result.output)
+        }
+
         scenario("a rule with targets but no diagnostics fails the build", currentGradleMatrix) { gradle, kotlin ->
             writeGeneratedCodeProject(projectDir, kotlin, shush = """rule("broken") { files.add("build/generated/**") }""")
 
@@ -669,6 +686,23 @@ private val CALL_SOURCES = mapOf(
             stub.ping()
             stub.count() // WARN
             items.forEach { stub.ping() }
+        }
+    """.trimIndent() + "\n",
+)
+
+/** stdlib's `Result.fold` (`kotlin.fold`) has no `returnsResultOf` contract of its own. */
+private val RETURNS_RESULT_OF_SOURCES = mapOf(
+    "src/main/kotlin/com/example/Folds.kt" to """
+        package com.example
+
+        @IgnorableReturnValue
+        fun log(message: String): Int = message.length
+
+        fun count(): Int = 1
+
+        fun use(result: Result<Int>) {
+            result.fold({ log("ok") }, { log("failed") })
+            result.fold({ count() }, { log("failed") }) // WARN
         }
     """.trimIndent() + "\n",
 )
