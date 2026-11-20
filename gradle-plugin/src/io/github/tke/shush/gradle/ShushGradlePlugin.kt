@@ -41,6 +41,8 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         }.zip(extension.ignorableReturnTypes) { options, types ->
             options + types.map(String::trim).filter(String::isNotEmpty).sorted()
                 .map { SubpluginOption(IGNORABLE_RETURN_TYPES_OPTION, it) }
+        }.zip(extension.returnsResultOfEntries) { options, entries ->
+            options + returnsResultOfOptions(projectPath, entries)
         }
     }
 
@@ -100,6 +102,30 @@ class ShushGradlePlugin : KotlinCompilerPluginSupportPlugin {
         const val ANNOTATED_PARAMETER_LAMBDAS_OPTION = "annotatedParameterLambdas"
         const val ANNOTATED_DECLARATIONS_OPTION = "annotatedDeclarations"
         const val IGNORABLE_RETURN_TYPES_OPTION = "ignorableReturnTypes"
+        const val RETURNS_RESULT_OF_OPTION = "returnsResultOf"
+
+        /**
+         * One option per function, `fq.function#lambda#...`, from [entries] of `fq.function` or `fq.function#lambda`.
+         * A bare entry, meaning all eligible lambdas, wins over named ones.
+         */
+        fun returnsResultOfOptions(projectPath: String, entries: Set<String>): List<SubpluginOption> {
+            for (entry in entries) {
+                val parts = entry.split('#')
+                if (parts.size > 2 || parts.any { it.isBlank() || it.any { c -> c == ',' || c == ';' || c.isWhitespace() } }) {
+                    throw InvalidUserDataException(
+                        "shush returnsResultOf in project '$projectPath' has an invalid entry " +
+                            "'${entry.replace('#', ' ')}': function and lambda names must not be blank or contain " +
+                            "'#', ',', ';' or whitespace."
+                    )
+                }
+            }
+            return entries.groupBy({ it.substringBefore('#') }, { it.substringAfter('#', missingDelimiterValue = "") })
+                .toSortedMap()
+                .map { (function, lambdas) ->
+                    val named = if ("" in lambdas) emptyList() else lambdas.sorted()
+                    SubpluginOption(RETURNS_RESULT_OF_OPTION, (listOf(function) + named).joinToString("#"))
+                }
+        }
 
         fun options(projectPath: String, projectDir: String, mokkery: Boolean, rules: List<RuleSnapshot>): List<SubpluginOption> {
             val options = mutableListOf<SubpluginOption>()

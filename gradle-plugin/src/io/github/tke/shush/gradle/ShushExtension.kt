@@ -23,6 +23,7 @@ import javax.inject.Inject
  *         annotatedCalls.add("com.example.Template")
  *     }
  *     ignorableReturnTypes.add("com.google.protobuf.Empty")
+ *     returnsResultOf("arrow.fx.coroutines.resourceScope")
  * }
  * ```
  */
@@ -41,6 +42,12 @@ abstract class ShushExtension @Inject constructor(objects: ObjectFactory) {
      */
     abstract val ignorableReturnTypes: SetProperty<String>
 
+    /**
+     * `returnsResultOf` entries: `fq.function` (all eligible lambdas) or `fq.function#lambda`, one per lambda, grouped
+     * per function into compiler plugin options. Add them with [returnsResultOf].
+     */
+    internal val returnsResultOfEntries: SetProperty<String> = objects.setProperty(String::class.java)
+
     /** Custom suppression rules, see [ShushRuleSpec]. */
     val rules: NamedDomainObjectContainer<ShushRuleSpec> = objects.domainObjectContainer(ShushRuleSpec::class.java)
 
@@ -55,6 +62,21 @@ abstract class ShushExtension @Inject constructor(objects: ObjectFactory) {
     /** Enables the `mokkery` preset. */
     fun mokkery() {
         mokkery.set(true)
+    }
+
+    /**
+     * Treats calls of the library function [function] (fully qualified, named as for rule `calls`) as if it declared a
+     * `returnsResultOf` contract for the parameters [lambdas]: the call's result needs using only if one of those
+     * lambdas' does. With no [lambdas], every lambda parameter returning the function's own return type counts. Repeated
+     * calls for one function add up.
+     */
+    fun returnsResultOf(function: String, vararg lambdas: String) {
+        val name = function.trim()
+        if (lambdas.isEmpty()) {
+            returnsResultOfEntries.add(name)
+        } else {
+            returnsResultOfEntries.addAll(lambdas.map { "$name#${it.trim()}" })
+        }
     }
 
     /** Creates (or configures, if it already exists) the rule called [name]. */

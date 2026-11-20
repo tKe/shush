@@ -40,6 +40,10 @@ class ShushCommandLineProcessor : CommandLineProcessor {
             "ignorableReturnTypes", "<fq.Class>",
             "Mark functions declared to return this type @IgnorableReturnValue",
         )
+        val RETURNS_RESULT_OF_OPTION = option(
+            "returnsResultOf", "<fq.function>[#<parameter>...]",
+            "Treat a library function as declaring returnsResultOf for its named lambda parameters (all eligible ones if none named)",
+        )
         val BASE_DIR_OPTION = CliOption(
             optionName = "baseDir",
             valueDescription = "<path>",
@@ -70,7 +74,7 @@ class ShushCommandLineProcessor : CommandLineProcessor {
     override val pluginId: String get() = BuildConfig.KOTLIN_PLUGIN_ID
 
     override val pluginOptions: Collection<AbstractCliOption> =
-        listOf(PRESET_OPTION, IGNORABLE_RETURN_TYPES_OPTION, BASE_DIR_OPTION) + ruleTargetOptions.keys
+        listOf(PRESET_OPTION, IGNORABLE_RETURN_TYPES_OPTION, RETURNS_RESULT_OF_OPTION, BASE_DIR_OPTION) + ruleTargetOptions.keys
 
     override fun processOption(option: AbstractCliOption, value: String, configuration: CompilerConfiguration) {
         when (option) {
@@ -82,6 +86,13 @@ class ShushCommandLineProcessor : CommandLineProcessor {
             }
             IGNORABLE_RETURN_TYPES_OPTION -> for (type in value.listItems()) {
                 configuration.appendList(ShushConfigurationKeys.IGNORABLE_RETURN_TYPES, type)
+            }
+            RETURNS_RESULT_OF_OPTION -> for (entry in value.listItems()) {
+                val parts = entry.split('#').map(String::trim)
+                if (parts.any(String::isEmpty)) {
+                    throw CliOptionProcessingException("Expected ${option.optionName}=${option.valueDescription}, got '$entry'")
+                }
+                configuration.appendList(ShushConfigurationKeys.RETURNS_RESULT_OF, parts.joinToString("#"))
             }
             BASE_DIR_OPTION -> configuration.put(ShushConfigurationKeys.BASE_DIR, value)
             else -> {

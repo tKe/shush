@@ -10,5 +10,6 @@ class ShushFirExtensionRegistrar(
         if (configuration.hasCallTargets) +FirCallSuppressor.getFactory(configuration)
         if (configuration.hasDeclarationTargets) +FirDeclarationSuppressor.getFactory(configuration)
         if (configuration.ignorableReturnTypes.isNotEmpty()) +FirIgnorableReturnTypes.getFactory(configuration)
+        if (configuration.returnsResultOf.isNotEmpty()) +FirReturnsResultOfContracts.getFactory(configuration)
     }
 }

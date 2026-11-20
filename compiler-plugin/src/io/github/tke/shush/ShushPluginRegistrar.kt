@@ -81,11 +81,21 @@ internal fun CompilerConfiguration.toShushConfiguration(): ShushConfiguration {
             annotatedDeclarations = annotatedDeclarations[name].orEmpty().mapTo(mutableSetOf(), ::parseClassId),
         )
     }
+    val returnsResultOf = getList(ShushConfigurationKeys.RETURNS_RESULT_OF).map(::parseReturnsResultOf)
+    val repeated = returnsResultOf.groupingBy { it.first }.eachCount().filterValues { it > 1 }.keys
+    if (repeated.isNotEmpty()) {
+        throw CliOptionProcessingException(
+            "shush returnsResultOf lists ${repeated.joinToString()} more than once: " +
+                "give each function one entry, <fq.function>[#<parameter>...]"
+        )
+    }
+
     val presets = getList(ShushConfigurationKeys.PRESETS).distinct().map { ShushPresets.all.getValue(it) }
 
     return ShushConfiguration(
         rules = presets + custom,
         baseDir = get(ShushConfigurationKeys.BASE_DIR)?.let { Path.of(it).toAbsolutePath().normalize() },
         ignorableReturnTypes = getList(ShushConfigurationKeys.IGNORABLE_RETURN_TYPES).mapTo(mutableSetOf(), ::parseClassId),
+        returnsResultOf = returnsResultOf.toMap(),
     )
 }

@@ -1,0 +1,46 @@
+FILE: test.kt
+    package test
+
+    public final fun plain(): R|kotlin/Int| {
+        ^plain Int(1)
+    }
+    public final fun folds(result: R|kotlin/Result<kotlin/Int>|): R|kotlin/Unit| {
+        R|<local>/result|.R|kotlin/fold|<R|kotlin/Int|, R|kotlin/Int|>(fold@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        , fold@fun <anonymous>(it: R|kotlin/Throwable|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        )
+        R|<local>/result|.R|kotlin/fold|<R|kotlin/collections/List<kotlin/Int>|, R|kotlin/Int|>(fold@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/collections/List<kotlin/Int>| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(R|<local>/it|)
+        }
+        , fold@fun <anonymous>(it: R|kotlin/Throwable|): R|kotlin/collections/List<kotlin/Int>| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(Int(0))
+        }
+        )
+        R|<local>/result|.R|kotlin/fold|<R|kotlin/Any|, R|kotlin/Int|>(fold@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Any| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        , fold@fun <anonymous>(it: R|kotlin/Throwable|): R|kotlin/Any| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(Int(0))
+        }
+        )
+        lval used: R|kotlin/collections/List<kotlin/Int>| = R|<local>/result|.R|kotlin/fold|<R|kotlin/collections/List<kotlin/Int>|, R|kotlin/Int|>(fold@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/collections/List<kotlin/Int>| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(R|<local>/it|)
+        }
+        , fold@fun <anonymous>(it: R|kotlin/Throwable|): R|kotlin/collections/List<kotlin/Int>| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|kotlin/collections/listOf|<R|kotlin/Int|>(Int(0))
+        }
+        )
+    }
+    public final fun others(list: R|kotlin/collections/List<kotlin/Int>|): R|kotlin/Unit| {
+        R|<local>/list|.R|kotlin/collections/getOrElse|<R|kotlin/Int|>(Int(5), <L> = getOrElse@fun <anonymous>(it: R|kotlin/Int|): R|kotlin/Int| <inline=Inline, kind=AT_MOST_ONCE>  {
+            ^ R|test/plain|()
+        }
+        )
+        R|kotlin/collections/buildList|<R|kotlin/Int|>(<L> = buildList@fun R|kotlin/collections/MutableList<kotlin/Int>|.<anonymous>(): R|kotlin/Unit| <inline=Inline, kind=EXACTLY_ONCE>  {
+            this@R|special/anonymous|.R|SubstitutionOverride<kotlin/collections/MutableList.add: R|kotlin/Boolean|>|(R|test/plain|())
+        }
+        )
+    }
